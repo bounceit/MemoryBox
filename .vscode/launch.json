@@ -1,0 +1,28 @@
+{
+    // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+    // Наведите указатель мыши, чтобы просмотреть описания существующих атрибутов.
+    // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "audio_fairy_tales",
+            "cwd": "audio_fairy_tales",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "audio_fairy_tales (profile mode)",
+            "cwd": "audio_fairy_tales",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "audio_fairy_tales (release mode)",
+            "cwd": "audio_fairy_tales",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
