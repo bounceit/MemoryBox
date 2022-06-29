@@ -1,0 +1,4 @@
+#Wed Jun 29 12:31:16 MSK 2022
+base.0=C\:\\Users\\Flutter\\Downloads\\Flutter\\themoviedb\\audio_fairy_tales\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
