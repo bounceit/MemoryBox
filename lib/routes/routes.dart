@@ -2,13 +2,15 @@ import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
 import 'package:flutter/material.dart';
 import '../pages/auth_pages/main_register_page.dart';
 import '../pages/auth_pages/register_page.dart';
+import '../pages/auth_pages/widgets/initial_widget.dart';
 import '../pages/main_pages/all_audio.dart';
 import '../pages/main_pages/collections.dart';
 import '../pages/main_pages/profile.dart';
 import '../pages/main_pages/main_of_main.dart';
-import '../pages/main_pages/voice_page.dart';
+import '../pages/voise_pages/voice_page.dart';
 import '../pages/main_pages/home_page.dart';
 import '../pages/uncategorized/splash_screen.dart';
+import '../pages/voise_pages/model_voise_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -57,6 +59,10 @@ class AppRouter {
 
       case LastPageRegister.routeName:
         builder = (_) => LastPageRegister();
+        break;
+
+      case InitializerWidget.routeName:
+        builder = (_) => InitializerWidget();
         break;
 
       default:

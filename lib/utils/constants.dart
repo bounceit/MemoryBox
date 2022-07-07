@@ -67,7 +67,10 @@ const bodyOverlineTextStyle = TextStyle(
   decoration: TextDecoration.underline,
 );
 const linkColorText = TextStyle(
-    fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.colorTextLink);
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: AppColors.colorTextLink,
+);
 const bottombarTextStyle = TextStyle(
   fontFamily: 'TTNorms',
   fontSize: 10.0,
@@ -80,3 +83,19 @@ const borderContainer2 = BoxDecoration(
       topLeft: Radius.circular(20.0),
       topRight: Radius.circular(20.0),
     ));
+
+BoxDecoration boxDecoration = BoxDecoration(
+  boxShadow: [
+    BoxShadow(
+      offset: Offset.fromDirection(1),
+      color: Colors.grey.withOpacity(0.5),
+      spreadRadius: 2,
+      blurRadius: 5,
+    ),
+  ],
+  color: AppColors.white100,
+  borderRadius: const BorderRadius.only(
+    topLeft: Radius.circular(20),
+    topRight: Radius.circular(20),
+  ),
+);

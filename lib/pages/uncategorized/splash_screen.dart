@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../repositories/user_repositories.dart';
 import '../../utils/constants.dart';
 import '../auth_pages/main_register_page.dart';
+import '../auth_pages/widgets/initial_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   SplashScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _setInitialData() {
     Timer(const Duration(milliseconds: 5000), () {
-      _navigateToPage(MainRegisterPage.routeName);
+      _navigateToPage(InitializerWidget.routeName);
     });
   }
 

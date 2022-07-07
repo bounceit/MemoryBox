@@ -24,21 +24,23 @@ class _MainRegisterPage extends State<MainRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          const ClipPathWidget(),
-          const SizedBox(height: 25),
-          const FirstText(),
-          const SizedBox(height: 24),
-          ConstrainedBox(
-              constraints: const BoxConstraints.tightFor(width: 300),
-              child: const SecondText()),
-          const SizedBox(height: 50),
-          ElevatedButton(
-              onPressed: () => _nextPage(),
-              style: buttonRegisterStyle,
-              child: const RegisterButtonText()),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const ClipPathWidget(),
+            const SizedBox(height: 25),
+            const FirstText(),
+            const SizedBox(height: 24),
+            ConstrainedBox(
+                constraints: const BoxConstraints.tightFor(width: 300),
+                child: const SecondText()),
+            const SizedBox(height: 50),
+            ElevatedButton(
+                onPressed: () => _nextPage(),
+                style: buttonRegisterStyle,
+                child: const RegisterButtonText()),
+          ],
+        ),
       ),
     );
   }

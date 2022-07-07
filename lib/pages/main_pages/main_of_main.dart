@@ -1,5 +1,5 @@
 import 'package:audio_fairy_tales/pages/main_pages/profile.dart';
-import 'package:audio_fairy_tales/pages/main_pages/voice_page.dart';
+import 'package:audio_fairy_tales/pages/voise_pages/voice_page.dart';
 import 'package:audio_fairy_tales/pages/main_pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
