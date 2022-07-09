@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "224027369965",
+    "project_id": "memorybox-6e0aa",
+    "storage_bucket": "memorybox-6e0aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224027369965:android:11a246c4893752eea147e4",
+        "android_client_info": {
+          "package_name": "com.example.the_moviedb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224027369965-3a0phl2rhf7nvv6tlt0tlc7ou6cqqcoj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgAT8iijhyP8in6SE0XbUpSeeAtiKv7zA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224027369965-3a0phl2rhf7nvv6tlt0tlc7ou6cqqcoj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
