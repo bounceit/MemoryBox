@@ -15,7 +15,7 @@ class VoisePage extends StatefulWidget {
   static Widget create() {
     return ChangeNotifierProvider<ModelRP>(
       create: (BuildContext context) => ModelRP(),
-      child: const VoisePage(),
+      child: VoisePage(),
     );
   }
 
@@ -69,7 +69,7 @@ class _VoicePageState extends State<VoisePage> {
                               source: audioSource!,
                             ),
                           )
-                        : RecordingWidget(onStop: (path) {
+                        : AudioRecorder(onStop: (path) {
                             setState(() {
                               audioSource = ap.AudioSource.uri(Uri.parse(path));
                               isShowPlayer = true;

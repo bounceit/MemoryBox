@@ -109,11 +109,9 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
     } else {
       icon = Container(
         color: Colors.transparent,
-        child: Expanded(
-          child: Image.asset(
-            'assets/images/playR.png',
-            fit: BoxFit.fill,
-          ),
+        child: Image.asset(
+          'assets/images/playR.png',
+          fit: BoxFit.fill,
         ),
       );
     }
@@ -154,14 +152,14 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   }
 
   Widget _buildTimer() {
-    final String minutes = _formatNumber(_recordDuration ~/ 60);
-    final String seconds = _formatNumber(_recordDuration % 60);
+    final String minutes = _formatNumberTwo(_recordDuration ~/ 60);
+    final String seconds = _formatNumberTwo(_recordDuration % 60);
     return Text(
       '$minutes : $seconds',
     );
   }
 
-  String _formatNumber(int number) {
+  String _formatNumberTwo(int number) {
     String numberStr = number.toString();
     if (number < 10) {
       numberStr = '0' + numberStr;
@@ -176,13 +174,15 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _icon(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildText(),
-            Text('${Provider.of<ModelRP>(context, listen: false).getDuration}'),
-          ],
-        ),
+        Consumer<ModelRP>(builder: (context, ModelRP modelRP, child) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildText(),
+              Text(modelRP.getDuration),
+            ],
+          );
+        }),
         _buildControl(),
       ],
     );

@@ -99,3 +99,12 @@ BoxDecoration boxDecoration = BoxDecoration(
     topRight: Radius.circular(20),
   ),
 );
+
+String formatNumberTwo(int number) {
+  String numberStr = number.toString();
+  if (number < 10) {
+    numberStr = '0' + numberStr;
+  }
+
+  return numberStr;
+}

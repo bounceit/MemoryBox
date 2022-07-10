@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RegistrationPageModel>(
       create: (BuildContext context) => RegistrationPageModel(),
-      child: MaterialApp(
+      child: const MaterialApp(
         initialRoute: SplashScreen.routeName,
         onGenerateRoute: AppRouter.generateRoute,
       ),

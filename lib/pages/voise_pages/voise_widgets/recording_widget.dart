@@ -1,25 +1,40 @@
 import 'dart:async';
 
-import 'package:audio_fairy_tales/recursec/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:record/record.dart';
+
 import '../../../recursec/app_colors.dart';
+import '../../../recursec/app_icons.dart';
 import '../../../utils/constants.dart';
-import '../voice_page.dart';
 import '../model_voise_page.dart';
 
-class RecordingWidget extends StatefulWidget {
-  static const routeName = '/recording_page';
-  final void Function(String path) onStop;
-  const RecordingWidget({required this.onStop});
-
+class _BuildTimer extends StatelessWidget {
+  const _BuildTimer({Key? key, required this.recordDuration}) : super(key: key);
+  final int recordDuration;
   @override
-  State<RecordingWidget> createState() => _RecordingWidgetState();
+  Widget build(BuildContext context) {
+    final String minutes = formatNumberTwo(recordDuration ~/ 60);
+    final String seconds = formatNumberTwo(recordDuration % 60);
+    Timer(Duration(microseconds: 0), () {
+      context.read<ModelRP>().setDuration(minutes, seconds);
+    });
+    return Text(
+      '$minutes : $seconds',
+      style: const TextStyle(color: Colors.red),
+    );
+  }
 }
 
-class _RecordingWidgetState extends State<RecordingWidget> {
+class AudioRecorder extends StatefulWidget {
+  final void Function(String path) onStop;
+  const AudioRecorder({required this.onStop});
+
+  @override
+  _AudioRecorderState createState() => _AudioRecorderState();
+}
+
+class _AudioRecorderState extends State<AudioRecorder> {
   bool _isRecording = false;
   bool _isPaused = false;
   int _recordDuration = 0;
@@ -29,7 +44,6 @@ class _RecordingWidgetState extends State<RecordingWidget> {
   Timer? _timerAmplitude;
   final _audioRecorder = Record();
   Amplitude? _amplitude;
-  Record? _record;
   double _dcb = 0;
   List _listAmplitude = [];
   final ScrollController? _scrollController = ScrollController();
@@ -54,11 +68,14 @@ class _RecordingWidgetState extends State<RecordingWidget> {
       const Duration(milliseconds: 40),
       (_) async {
         _incWidth++;
-        _dcb = _amplitude!.current + 20;
+        _amplitude = await _audioRecorder.getAmplitude();
+        _dcb = _amplitude!.current + 25;
         if (_dcb < 2) {
           _dcb = 2;
         }
+
         _listAmplitude.add(_dcb);
+        // setState(() {});
       },
     );
   }
@@ -108,7 +125,7 @@ class _RecordingWidgetState extends State<RecordingWidget> {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 50),
-                height: _listAmplitude[index] * 2,
+                height: _listAmplitude[index] * 3,
                 width: 2,
                 color: Colors.black,
               ),
@@ -128,29 +145,10 @@ class _RecordingWidgetState extends State<RecordingWidget> {
 
   Widget _buildText() {
     if (_isRecording || _isPaused) {
-      return _buildTimer();
+      return _BuildTimer(recordDuration: _recordDuration);
     }
 
     return Text('00:00');
-  }
-
-  Widget _buildTimer() {
-    final String minutes = _formatNumber(_recordDuration ~/ 60);
-    final String seconds = _formatNumber(_recordDuration % 60);
-    context.read<ModelRP>().setDuration(minutes, seconds);
-    return Text(
-      '$minutes : $seconds',
-      style: const TextStyle(color: Colors.red),
-    );
-  }
-
-  String _formatNumber(int number) {
-    String numberStr = number.toString();
-    if (number < 10) {
-      numberStr = '0' + numberStr;
-    }
-
-    return numberStr;
   }
 
   Future<void> _start() async {
@@ -193,6 +191,7 @@ class _RecordingWidgetState extends State<RecordingWidget> {
     _ampTimer =
         Timer.periodic(const Duration(milliseconds: 200), (Timer t) async {
       _amplitude = await _audioRecorder.getAmplitude();
+      setState(() {});
     });
   }
 
@@ -201,19 +200,28 @@ class _RecordingWidgetState extends State<RecordingWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        SizedBox(
+          child: Column(
+            children: [],
+          ),
+        ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(16.0),
           child: Align(
             alignment: Alignment.bottomRight,
-            child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Отменить',
-                  style: twoBodyTextStyle,
-                )),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Отмена',
+                style: bodyTextStyle,
+              ),
+            ),
           ),
+        ),
+        const SizedBox(
+          height: 50,
         ),
         const Text(
           'Запись',
@@ -221,8 +229,10 @@ class _RecordingWidgetState extends State<RecordingWidget> {
         ),
         SizedBox(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const SizedBox(
+                height: 120,
+              ),
               _amplitudRecords(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -243,9 +253,13 @@ class _RecordingWidgetState extends State<RecordingWidget> {
                   _buildText(),
                 ],
               ),
-              SizedBox(height: 50),
+              const SizedBox(
+                height: 40.0,
+              ),
               _buildRecordStopControl(),
-              SizedBox(height: 75),
+              const SizedBox(
+                height: 20.0,
+              ),
             ],
           ),
         ),

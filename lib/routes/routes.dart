@@ -38,7 +38,7 @@ class AppRouter {
 
       // /first_wight_page.dart
       case VoisePage.routeName:
-        builder = (_) => const VoisePage();
+        builder = (_) => VoisePage.create();
         break;
 
       case MainRegisterPage.routeName:
