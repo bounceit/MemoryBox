@@ -1,16 +1,13 @@
 import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
 import 'package:audio_fairy_tales/pages/auth_pages/widgets/text_field_captcha.dart';
-import 'package:audio_fairy_tales/pages/uncategorized/splash_screen.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import '../../widgets/buttons/register_button.dart';
 import '../../widgets/register_pages_widgets/register_box_widget.dart';
 import '../../widgets/register_pages_widgets/register_button_widget.dart';
 import '../../widgets/register_pages_widgets/register_text_widget.dart';
-import '../../widgets/register_pages_widgets/register_textfield_widget.dart';
 import '../../widgets/uncategorized/main_register_clip_path.dart';
 import '../main_pages/main_of_main.dart';
 
@@ -20,8 +17,8 @@ enum PhoneVerificationState {
 }
 
 class RegisterPage extends StatefulWidget {
-  static const routeName = '/register_page';
   const RegisterPage({Key? key}) : super(key: key);
+  static const routeName = '/register_page';
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -39,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? verificationId;
   bool isShowLoading = false;
 
-  void _singInWithPhoneAuthCredential(
+  Future<void> _singInWithPhoneAuthCredential(
       PhoneAuthCredential phoneAuthCredential) async {
     setState(() {
       isShowLoading = true;
@@ -65,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  _getMobileFormWidget(context) {
+  Column _getMobileFormWidget(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -111,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  _getOtpFormWidget(context) {
+  Column _getOtpFormWidget(context) {
     return Column(
       children: [
         const Text(
@@ -170,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       : currentState == PhoneVerificationState.mobileFormState
                           ? _getMobileFormWidget(context)
                           : _getOtpFormWidget(context),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
                       _nextPage();

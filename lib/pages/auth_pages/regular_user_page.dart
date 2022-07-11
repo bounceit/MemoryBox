@@ -36,19 +36,13 @@ class _RegularUserSplashState extends State<RegularUserSplash> {
           backgroundColor: AppColors.white100,
           body: Column(
             children: [
-              ClipPathWidget(),
-              SizedBox(height: 40),
-              InitialBoxWidget(),
-              SizedBox(height: 30),
+              const ClipPathWidget(),
+              const SizedBox(height: 40),
+              const InitialBoxWidget(),
+              const SizedBox(height: 30),
               Image.asset(AppIcons.heart),
-              SizedBox(height: 80),
+              const SizedBox(height: 80),
               Container(
-                child: Text(
-                  'Взрослые иногда уждаются в \n сказке больше, чем дети',
-                  style: sevenTitleTextStyle.copyWith(
-                    color: AppColors.colorText80,
-                  ),
-                ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 35,
                   vertical: 20,
@@ -65,6 +59,12 @@ class _RegularUserSplashState extends State<RegularUserSplash> {
                     ),
                   ],
                 ),
+                child: Text(
+                  'Взрослые иногда уждаются в \n сказке больше, чем дети',
+                  style: sevenTitleTextStyle.copyWith(
+                    color: AppColors.colorText80,
+                  ),
+                ),
               ),
             ],
           )),
@@ -80,10 +80,6 @@ class InitialBoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        'Мы рады тебя видеть',
-        style: bodyTextStyle,
-      ),
       padding: const EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 20,
@@ -99,6 +95,10 @@ class InitialBoxWidget extends StatelessWidget {
             blurRadius: 5,
           ),
         ],
+      ),
+      child: const Text(
+        'Мы рады тебя видеть',
+        style: bodyTextStyle,
       ),
     );
   }

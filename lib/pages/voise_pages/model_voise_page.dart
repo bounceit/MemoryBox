@@ -11,7 +11,7 @@ class ModelRP with ChangeNotifier {
     notifyListeners();
   }
 
-  get getData => _path!;
+  String get getData => _path!;
 
   void changeString(String newString) {
     _path = newString;

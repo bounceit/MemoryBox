@@ -130,16 +130,15 @@ class DrawerMenu extends StatelessWidget {
 }
 
 class _DrawerItem extends StatelessWidget {
-  final int index;
-  final Widget icon;
-  final String title;
-
   const _DrawerItem({
     Key? key,
     required this.index,
     required this.icon,
     required this.title,
   }) : super(key: key);
+  final int index;
+  final Widget icon;
+  final String title;
 
   @override
   Widget build(BuildContext context) {

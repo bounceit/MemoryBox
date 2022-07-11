@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DecorationOfTextField extends StatelessWidget {
-  DecorationOfTextField({
+  const DecorationOfTextField({
     Key? key,
   }) : super(key: key);
 

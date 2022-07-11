@@ -6,11 +6,10 @@ import '../../widgets/register_pages_widgets/register_text_widget.dart';
 import '../../widgets/uncategorized/register_clip_path.dart';
 
 class MainRegisterPage extends StatefulWidget {
-  static const routeName = '/registration_page';
-
   const MainRegisterPage({
     Key? key,
   }) : super(key: key);
+  static const routeName = '/registration_page';
 
   @override
   State<MainRegisterPage> createState() => _MainRegisterPage();

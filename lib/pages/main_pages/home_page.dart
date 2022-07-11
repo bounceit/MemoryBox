@@ -1,15 +1,14 @@
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/uncategorized/main_clip_path.dart';
 import '../../widgets/main_page_widgets/audio_stack.dart';
 import '../../widgets/main_page_widgets/main_selections.dart';
+import '../../widgets/uncategorized/main_clip_path.dart';
 
 class MainPageWidget extends StatefulWidget {
-  static const routeName = '/';
-
   const MainPageWidget({
     Key? key,
   }) : super(key: key);
+  static const routeName = '/';
 
   @override
   State<MainPageWidget> createState() => _MainPageWidgetState();
@@ -101,7 +100,7 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     const Expanded(
                       flex: 1,
                       child: Padding(

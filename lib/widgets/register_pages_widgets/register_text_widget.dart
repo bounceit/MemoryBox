@@ -66,7 +66,7 @@ class TextRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "Регистрация",
+      'Регистрация',
       style: TextStyle(
         fontFamily: 'NormsBold',
         fontSize: 48,

@@ -3,7 +3,9 @@
 # Files and directories created by pub
 .dart_tool/
 .packages
+/build/
 build/
+.build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 
@@ -25,3 +27,7 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin
+build/app/intermediates/flutter/debug/flutter_build.d
+build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin
+.gitignore

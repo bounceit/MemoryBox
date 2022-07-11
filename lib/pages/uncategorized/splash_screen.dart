@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import '../../repositories/user_repositories.dart';
 import '../../utils/constants.dart';
-import '../auth_pages/main_register_page.dart';
 import '../auth_pages/widgets/initial_widget.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,6 +18,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
   void initState() {
     _setInitialData();
     super.initState();
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'MemoryBox',
                 style: twoTitleTextStyle,
               ),

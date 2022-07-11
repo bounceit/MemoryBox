@@ -1,9 +1,9 @@
 import 'package:audio_fairy_tales/pages/voise_pages/voise_widgets/play_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart' as ap;
 import 'package:provider/provider.dart';
 
 import '../../recursec/app_colors.dart';
-import 'package:just_audio/just_audio.dart' as ap;
 import '../../utils/constants.dart';
 import '../../widgets/uncategorized/main_clip_path.dart';
 import 'model_voise_page.dart';
@@ -15,7 +15,7 @@ class VoisePage extends StatefulWidget {
   static Widget create() {
     return ChangeNotifierProvider<ModelRP>(
       create: (BuildContext context) => ModelRP(),
-      child: VoisePage(),
+      child: const VoisePage(),
     );
   }
 
@@ -64,7 +64,7 @@ class _VoicePageState extends State<VoisePage> {
                     decoration: boxDecoration,
                     child: isShowPlayer
                         ? Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: AudioPlayerWidget(
                               source: audioSource!,
                             ),

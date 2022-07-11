@@ -1,5 +1,4 @@
 import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
-import 'package:audio_fairy_tales/pages/main_pages/main_of_main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,16 +9,16 @@ class RegistrationPageModel extends ChangeNotifier {
   bool _showLoading = true;
   String? _verificationId;
 
-  get getShowLoading => _showLoading;
-  get getVerificationId => _verificationId;
-  get getCurrentState => _currentState;
+  bool get getShowLoading => _showLoading;
+  String? get getVerificationId => _verificationId;
+  bool get getCurrentState => _currentState;
 
   void setCurrentState(bool currentState) {
     _currentState = currentState;
     notifyListeners();
   }
 
-  void singInWithPhoneAuthCredential(
+  Future<void> singInWithPhoneAuthCredential(
       BuildContext context, PhoneAuthCredential phoneAuthCredential) async {
     _showLoading = true;
     notifyListeners();

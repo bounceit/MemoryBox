@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../../recursec/app_colors.dart';
-import '../../widgets/navigation/bottom_navigation_bar.dart';
-import '../../widgets/navigation/driwer_bar.dart';
 import '../../widgets/uncategorized/main_clip_path.dart';
 
 class SellectionsPage extends StatefulWidget {
-  static const routeName = '/selection_page';
-
   const SellectionsPage({Key? key}) : super(key: key);
+  static const routeName = '/selection_page';
 
   @override
   State<SellectionsPage> createState() => _SellectionsPage();

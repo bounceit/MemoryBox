@@ -63,15 +63,15 @@ class BottomNavBar extends StatelessWidget {
 }
 
 class _ButtonItem extends StatelessWidget {
-  final String title;
-  final String icon;
-  final int index;
   const _ButtonItem({
     Key? key,
     required this.title,
     required this.icon,
     required this.index,
   }) : super(key: key);
+  final String title;
+  final String icon;
+  final int index;
 
   @override
   Widget build(BuildContext context) {

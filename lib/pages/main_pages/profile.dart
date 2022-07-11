@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../recursec/app_colors.dart';
-import '../../widgets/navigation/bottom_navigation_bar.dart';
 import '../../widgets/uncategorized/main_clip_path.dart';
 
 class ProfilePage extends StatefulWidget {
-  static const routeName = '/profile_page';
-
   const ProfilePage({Key? key}) : super(key: key);
+  static const routeName = '/profile_page';
 
   @override
   State<ProfilePage> createState() => _VoicePageState();

@@ -22,7 +22,7 @@ class InitializerWidget extends StatelessWidget {
             ),
           )
         : rep.user == null
-            ? MainRegisterPage()
-            : RegularUserSplash();
+            ? const MainRegisterPage()
+            : const RegularUserSplash();
   }
 }

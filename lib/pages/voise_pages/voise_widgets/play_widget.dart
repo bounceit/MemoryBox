@@ -9,10 +9,11 @@ import '../../../recursec/app_icons.dart';
 import '../model_voise_page.dart';
 
 class AudioPlayerWidget extends StatefulWidget {
-  final ap.AudioSource source;
   const AudioPlayerWidget({
+    Key? key,
     required this.source,
-  });
+  }) : super(key: key);
+  final ap.AudioSource source;
 
   @override
   State<AudioPlayerWidget> createState() => _AudioPlayerState();
@@ -33,7 +34,6 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   }
 
   Future<void> _init() async {
-    bool _isPlay = false;
     await _audioPlayer.setAudioSource(widget.source);
   }
 
@@ -59,7 +59,7 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
             ],
           ),
         ),
-        SizedBox(width: 35),
+        const SizedBox(width: 35),
         TextButton(
           onPressed: () {},
           child: const Text(
@@ -148,7 +148,7 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
       return _buildTimer();
     }
 
-    return Text('00:00');
+    return const Text('00:00');
   }
 
   Widget _buildTimer() {
@@ -162,7 +162,7 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
   String _formatNumberTwo(int number) {
     String numberStr = number.toString();
     if (number < 10) {
-      numberStr = '0' + numberStr;
+      numberStr = '0$numberStr';
     }
 
     return numberStr;

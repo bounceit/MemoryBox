@@ -35,7 +35,7 @@ class RegisterClipPath extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              "MemoryBox",
+              'MemoryBox',
               style: TextStyle(
                 fontFamily: 'NormsBold',
                 fontSize: 48,
@@ -45,7 +45,7 @@ class RegisterClipPath extends StatelessWidget {
               ),
             ),
             Text(
-              "Твой голос всегда рядом",
+              'Твой голос всегда рядом',
               style: TextStyle(
                 fontFamily: 'NormsBold',
                 fontSize: 14,

@@ -103,8 +103,7 @@ flutter:
     - family: TTNorm
       fonts:
         - asset: assets/fonts/TTNorms-Regular.ttf
-          weight: 200 
-
+          weight: 200
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

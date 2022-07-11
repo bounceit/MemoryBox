@@ -1,16 +1,16 @@
 import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
 import 'package:flutter/material.dart';
+
 import '../pages/auth_pages/main_register_page.dart';
 import '../pages/auth_pages/register_page.dart';
 import '../pages/auth_pages/widgets/initial_widget.dart';
 import '../pages/main_pages/all_audio.dart';
 import '../pages/main_pages/collections.dart';
-import '../pages/main_pages/profile.dart';
-import '../pages/main_pages/main_of_main.dart';
-import '../pages/voise_pages/voice_page.dart';
 import '../pages/main_pages/home_page.dart';
+import '../pages/main_pages/main_of_main.dart';
+import '../pages/main_pages/profile.dart';
 import '../pages/uncategorized/splash_screen.dart';
-import '../pages/voise_pages/model_voise_page.dart';
+import '../pages/voise_pages/voice_page.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -20,20 +20,20 @@ class AppRouter {
 
     switch (settings.name) {
       case CollectionsPage.routeName:
-        builder = (_) => CollectionsPage();
+        builder = (_) => const CollectionsPage();
         break;
 
       case MainPageWidget.routeName:
-        builder = (_) => MainPageWidget();
+        builder = (_) => const MainPageWidget();
         break;
 
       case SellectionsPage.routeName:
-        builder = (_) => SellectionsPage();
+        builder = (_) => const SellectionsPage();
         break;
 
       // /first_page.dart
       case ProfilePage.routeName:
-        builder = (_) => ProfilePage();
+        builder = (_) => const ProfilePage();
         break;
 
       // /first_wight_page.dart
@@ -42,11 +42,11 @@ class AppRouter {
         break;
 
       case MainRegisterPage.routeName:
-        builder = (_) => MainRegisterPage();
+        builder = (_) => const MainRegisterPage();
         break;
 
       case RegisterPage.routeName:
-        builder = (_) => RegisterPage();
+        builder = (_) => const RegisterPage();
         break;
 
       case Main.routeName:

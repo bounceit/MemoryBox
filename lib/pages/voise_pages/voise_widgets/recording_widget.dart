@@ -16,7 +16,7 @@ class _BuildTimer extends StatelessWidget {
   Widget build(BuildContext context) {
     final String minutes = formatNumberTwo(recordDuration ~/ 60);
     final String seconds = formatNumberTwo(recordDuration % 60);
-    Timer(Duration(microseconds: 0), () {
+    Timer(const Duration(microseconds: 0), () {
       context.read<ModelRP>().setDuration(minutes, seconds);
     });
     return Text(
@@ -27,7 +27,7 @@ class _BuildTimer extends StatelessWidget {
 }
 
 class AudioRecorder extends StatefulWidget {
-  const AudioRecorder({required this.onStop});
+  const AudioRecorder({Key? key, required this.onStop}) : super(key: key);
   final void Function(String path) onStop;
 
   @override
@@ -44,8 +44,8 @@ class _AudioRecorderState extends State<AudioRecorder> {
   final _audioRecorder = Record();
   Amplitude? _amplitude;
   double _dcb = 0;
-  List _listAmplitude = [];
-  final ScrollController? _scrollController = ScrollController();
+  final List _listAmplitude = [];
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -116,8 +116,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
         controller: _scrollController,
         itemCount: _listAmplitude.length,
         itemBuilder: (BuildContext context, int index) {
-          _scrollController!
-              .jumpTo(_scrollController!.position.maxScrollExtent);
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
           return Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -146,7 +145,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
       return _BuildTimer(recordDuration: _recordDuration);
     }
 
-    return Text('00:00');
+    return const Text('00:00');
   }
 
   Future<void> _start() async {
@@ -164,7 +163,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
         _getAmplituder();
       }
     } catch (e) {
-      print(e);
+      return;
     }
   }
 
@@ -200,7 +199,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
       children: [
         SizedBox(
           child: Column(
-            children: [],
+            children: const [],
           ),
         ),
         Padding(

@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import '../../recursec/app_colors.dart';
 
 class Audio {
-  final String audioName;
-  final String time;
-
   Audio({
     required this.audioName,
     required this.time,
   });
+  final String audioName;
+  final String time;
 }
 
 class ListAudio extends StatelessWidget {
+  ListAudio({
+    Key? key,
+  }) : super(key: key);
   final _audios = [
     Audio(
       audioName: 'Малышь коки',
@@ -35,9 +37,6 @@ class ListAudio extends StatelessWidget {
       time: '30 минут',
     ),
   ];
-  ListAudio({
-    Key? key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
