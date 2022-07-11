@@ -27,8 +27,8 @@ class _BuildTimer extends StatelessWidget {
 }
 
 class AudioRecorder extends StatefulWidget {
-  final void Function(String path) onStop;
   const AudioRecorder({required this.onStop});
+  final void Function(String path) onStop;
 
   @override
   _AudioRecorderState createState() => _AudioRecorderState();
@@ -36,9 +36,8 @@ class AudioRecorder extends StatefulWidget {
 
 class _AudioRecorderState extends State<AudioRecorder> {
   bool _isRecording = false;
-  bool _isPaused = false;
+  final bool _isPaused = false;
   int _recordDuration = 0;
-  double _incWidth = 0;
   Timer? _timer;
   Timer? _ampTimer;
   Timer? _timerAmplitude;
@@ -67,7 +66,6 @@ class _AudioRecorderState extends State<AudioRecorder> {
     _timerAmplitude = Timer.periodic(
       const Duration(milliseconds: 40),
       (_) async {
-        _incWidth++;
         _amplitude = await _audioRecorder.getAmplitude();
         _dcb = _amplitude!.current + 25;
         if (_dcb < 2) {
