@@ -59,7 +59,7 @@ class AudioStackWidget extends StatelessWidget {
           Expanded(
             child: Stack(
               children: const [
-                FirstComeAudioList(),
+                AudioList(),
               ],
             ),
           ),
@@ -69,8 +69,9 @@ class AudioStackWidget extends StatelessWidget {
   }
 }
 
-class FirstComeAudioList extends StatelessWidget {
-  const FirstComeAudioList({Key? key}) : super(key: key);
+class AudioList extends StatelessWidget {
+  const AudioList({Key? key}) : super(key: key);
+  final AudioRepositories repositories = AudioRepositories();
 
   @override
   Widget build(BuildContext context) {

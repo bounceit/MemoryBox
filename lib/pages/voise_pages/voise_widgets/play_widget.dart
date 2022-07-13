@@ -5,29 +5,54 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart' as ap;
 import 'package:provider/provider.dart';
 
+import '../../../recursec/app_colors.dart';
 import '../../../recursec/app_icons.dart';
+
+import '../../../repositories/audio_save_local.dart';
+import '../../../repositories/user_repositories.dart';
+import '../../../widgets/uncategorized/slider.dart';
 import '../model_voise_page.dart';
 
 class AudioPlayerWidget extends StatefulWidget {
   const AudioPlayerWidget({
     Key? key,
     required this.source,
+    required this.onDelete,
   }) : super(key: key);
   final ap.AudioSource source;
+  final VoidCallback onDelete;
 
   @override
   State<AudioPlayerWidget> createState() => _AudioPlayerState();
 }
 
 class _AudioPlayerState extends State<AudioPlayerWidget> {
+  final UserRepositories _rep = UserRepositories();
+  static const double _controlSize = 56;
+  static const double _deleteBtnSize = 24;
   bool _isPlay = false;
   bool _isPaused = false;
   Timer? _timer;
   int _recordDuration = 0;
   final _audioPlayer = ap.AudioPlayer();
+  String _saveRecord = 'Аудиофайл';
+  late StreamSubscription<ap.PlayerState> _playerStateChangedSubscription;
+  late StreamSubscription<Duration?> _durationChangedSubscription;
+  late StreamSubscription<Duration> _positionChangedSubscription;
 
   @override
   void initState() {
+    _playerStateChangedSubscription =
+        _audioPlayer.playerStateStream.listen((state) async {
+      if (state.processingState == ap.ProcessingState.completed) {
+        await stop();
+      }
+      setState(() {});
+    });
+    _positionChangedSubscription =
+        _audioPlayer.positionStream.listen((position) => setState(() {}));
+    _durationChangedSubscription =
+        _audioPlayer.durationStream.listen((duration) => setState(() {}));
     _init();
 
     super.initState();
@@ -35,6 +60,15 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
 
   Future<void> _init() async {
     await _audioPlayer.setAudioSource(widget.source);
+  }
+
+  void saveRecordLocal() {
+    LocalSaveAudioFIle().saveAudioStorageDirectory(
+      context,
+      Provider.of<ModelRP>(context, listen: false).getData,
+      _saveRecord,
+    );
+    _audioPlayer.stop().then((value) => widget.onDelete());
   }
 
   Widget _icon() {
@@ -61,7 +95,7 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
         ),
         const SizedBox(width: 35),
         TextButton(
-          onPressed: () {},
+          onPressed: saveRecordLocal,
           child: const Text(
             'Сохранить',
             style: bodyTextStyle,
@@ -168,23 +202,65 @@ class _AudioPlayerState extends State<AudioPlayerWidget> {
     return numberStr;
   }
 
+  Widget _buildSlider(double widgetWidth) {
+    final position = _audioPlayer.position;
+    final duration = _audioPlayer.duration;
+    bool isSetValue = false;
+    if (duration != null) {
+      isSetValue = position.inMilliseconds > 0;
+      isSetValue &= position.inMilliseconds < duration.inMilliseconds;
+    }
+    double width = widgetWidth - _controlSize - _deleteBtnSize;
+    width -= _deleteBtnSize;
+
+    return SizedBox(
+      width: width * 2,
+      child: SliderTheme(
+        data: SliderTheme.of(context).copyWith(
+          thumbShape: const RoundedAmebaThumbShape(
+            radius: 8,
+            color: AppColors.colorText,
+          ),
+          thumbColor: AppColors.colorText,
+          inactiveTrackColor: AppColors.colorText,
+          activeTrackColor: AppColors.colorText,
+        ),
+        child: Slider(
+          onChanged: (v) {
+            if (duration != null) {
+              final position = v * duration.inMilliseconds;
+              _audioPlayer.seek(Duration(milliseconds: position.round()));
+            }
+          },
+          value: isSetValue && duration != null
+              ? position.inMilliseconds / duration.inMilliseconds
+              : 0.0,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _icon(),
-        Consumer<ModelRP>(builder: (context, ModelRP modelRP, child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildText(),
-              Text(modelRP.getDuration),
-            ],
-          );
-        }),
-        _buildControl(),
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _icon(),
+          _buildSlider(constraints.maxWidth),
+          Consumer<ModelRP>(builder: (context, ModelRP modelRP, child) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildText(),
+                Text(modelRP.getDuration),
+              ],
+            );
+          }),
+          _buildControl(),
+          const SizedBox(height: 75),
+        ],
+      );
+    });
   }
 }
