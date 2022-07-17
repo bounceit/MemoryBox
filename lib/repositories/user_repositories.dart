@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 import 'package:uuid/uuid.dart';
 
 import '../models/user_model.dart';
@@ -28,10 +30,25 @@ class UserRepositories {
       .map((snapshot) =>
           snapshot.docs.map((doc) => UserModel.fromJson(doc.data())).toList());
 
+  // Basic filling of the database at the first event
+
   Future<void> firstAuthorization() async {
-    await FirebaseFirestore.instance.collection(user!.phoneNumber!).doc().set({
+    final DateTime now = DateTime.now();
+    final DateTime later = now.add(const Duration(days: 30));
+    final Timestamp laterTimestamp = Timestamp.fromDate(later);
+    await FirebaseFirestore.instance
+        .collection(user!.phoneNumber!)
+        .doc('user')
+        .set({
       'displayName': 'Имя',
       'phoneNumb': '+00(000)0000000',
+      'avatarUrl': '',
+      'onceAMonth': false,
+      'onceAYear': false,
+      'onlyMonth': false,
+      'subscription': true,
+      'totalSize': 0,
+      'totalTime': '00:00',
     });
   }
 }

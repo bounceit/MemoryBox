@@ -65,9 +65,11 @@ class _VoicePageState extends State<VoisePage> {
                     child: isShowPlayer
                         ? Padding(
                             padding: const EdgeInsets.all(16),
-                            child: AudioPlayerWidget(
+                            child: AudioPlayer(
                               source: audioSource!,
-                              onDelete: () {},
+                              onDelete: () {
+                                setState(() => isShowPlayer = false);
+                              },
                             ),
                           )
                         : AudioRecorder(onStop: (path) {

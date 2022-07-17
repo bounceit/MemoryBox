@@ -31,3 +31,5 @@ build/app/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin
 build/app/intermediates/flutter/debug/flutter_build.d
 build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin
 .gitignore
+build/app/intermediates/flutter/debug/flutter_build.d
+.gitignore

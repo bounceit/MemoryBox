@@ -71,7 +71,6 @@ class AudioStackWidget extends StatelessWidget {
 
 class AudioList extends StatelessWidget {
   const AudioList({Key? key}) : super(key: key);
-  final AudioRepositories repositories = AudioRepositories();
 
   @override
   Widget build(BuildContext context) {

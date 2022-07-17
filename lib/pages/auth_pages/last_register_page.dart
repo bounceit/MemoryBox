@@ -10,15 +10,16 @@ import '../main_pages/main_of_main.dart';
 class LastPageRegister extends StatefulWidget {
   LastPageRegister({Key? key}) : super(key: key);
   static const routeName = '/last_register_page';
-  final UserRepositories rep = UserRepositories();
 
   @override
   State<LastPageRegister> createState() => _LastPageRegisterState();
 }
 
 class _LastPageRegisterState extends State<LastPageRegister> {
+  final UserRepositories rep = UserRepositories();
   @override
   void initState() {
+    rep.firstAuthorization();
     _setInitialData();
     super.initState();
   }
