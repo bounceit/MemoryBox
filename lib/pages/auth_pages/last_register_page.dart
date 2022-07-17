@@ -19,6 +19,7 @@ class _LastPageRegisterState extends State<LastPageRegister> {
   final UserRepositories rep = UserRepositories();
   @override
   void initState() {
+    rep.readUser();
     rep.firstAuthorization();
     _setInitialData();
     super.initState();

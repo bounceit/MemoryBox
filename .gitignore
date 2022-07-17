@@ -34,3 +34,6 @@ build/app/intermediates/flutter/debug/flutter_assets/kernel_blob.bin
 .gitignore
 build/app/intermediates/flutter/debug/flutter_build.d
 .gitignore
+*.jar
+build/app/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar
+*.jar
