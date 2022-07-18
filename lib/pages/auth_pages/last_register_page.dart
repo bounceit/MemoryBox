@@ -8,7 +8,7 @@ import '../../widgets/uncategorized/main_register_clip_path.dart';
 import '../main_pages/main_of_main.dart';
 
 class LastPageRegister extends StatefulWidget {
-  LastPageRegister({Key? key}) : super(key: key);
+  const LastPageRegister({Key? key}) : super(key: key);
   static const routeName = '/last_register_page';
 
   @override

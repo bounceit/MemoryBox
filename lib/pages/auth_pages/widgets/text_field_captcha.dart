@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFieldCaptcha extends StatelessWidget {
   const TextFieldCaptcha({Key? key, this.controller}) : super(key: key);
-  final controller;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {

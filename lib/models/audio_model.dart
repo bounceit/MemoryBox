@@ -1,18 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AudioModel {
-  String? id;
-  String? audioName;
-  String? audioUrl;
-  String? duration;
-  bool? done;
-  bool? playPause;
-  String? dateTime;
-  Timestamp? dateTimeDelete;
-  List? searchName;
-  List? collections;
-  int? size;
-
   AudioModel(
       {this.id,
       this.audioName,
@@ -41,6 +29,17 @@ class AudioModel {
       size: json['size'],
     );
   }
+  String? id;
+  String? audioName;
+  String? audioUrl;
+  String? duration;
+  bool? done;
+  bool? playPause;
+  String? dateTime;
+  Timestamp? dateTimeDelete;
+  List? searchName;
+  List? collections;
+  int? size;
 
   Map<String, dynamic> toJson() => {
         'id': id,
