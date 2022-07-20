@@ -66,7 +66,8 @@ class AudioRepositories {
     String id = uuid.v1();
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref('${user!.phoneNumber!}/userAudio/$id.mp3');
-    await ref.putFile(File(path));
+    await ref.putFile(File(path),
+        firebase_storage.SettableMetadata(contentType: 'audio/mp3'));
     final file = File(path);
     final statFile = await file.stat();
     final size = statFile.size;
