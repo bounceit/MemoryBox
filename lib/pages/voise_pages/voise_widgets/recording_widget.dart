@@ -255,7 +255,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
               ),
               _buildRecordStopControl(),
               const SizedBox(
-                height: 20.0,
+                height: 75.0,
               ),
             ],
           ),

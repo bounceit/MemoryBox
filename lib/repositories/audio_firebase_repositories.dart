@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
@@ -62,9 +63,9 @@ class AudioRepositories {
     String duration,
     Set searchName,
   ) async {
-    var id = uuid.v1();
+    String id = uuid.v1();
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref('${user!.phoneNumber!}/userAudio/$id.m4a');
+        .ref('${user!.phoneNumber!}/userAudio/$id.mp3');
     await ref.putFile(File(path));
     final file = File(path);
     final statFile = await file.stat();
@@ -165,7 +166,7 @@ class AudioRepositories {
     final filePath = directory.path + '/$name.mp3';
     try {
       await firebase_storage.FirebaseStorage.instance
-          .ref('${user!.phoneNumber!}/userAudio/$idAudio.m4a')
+          .ref('${user!.phoneNumber!}/userAudio/$idAudio.mp3')
           .writeToFile(File(filePath));
     } on FirebaseException catch (e) {
       if (kDebugMode) {
