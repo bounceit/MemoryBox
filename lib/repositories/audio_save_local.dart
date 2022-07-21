@@ -18,7 +18,7 @@ class LocalSaveAudioFIle {
       if (Platform.isIOS) {
         directory = await pathProvider.getApplicationDocumentsDirectory();
       } else {
-        directory = Directory('/storage/emulated/0/Download');
+        directory = Directory('/storage/Download');
         if (!await directory.exists()) {
           directory = await pathProvider.getExternalStorageDirectory();
         }

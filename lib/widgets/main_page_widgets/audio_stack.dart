@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../models/audio_model.dart';
 import '../../recursec/app_colors.dart';
+import '../../repositories/audio_firebase_repositories.dart';
+import '../../repositories/user_repositories.dart';
+import '../player_widgets/player_mini.dart';
 
 class AudioStackWidget extends StatelessWidget {
   const AudioStackWidget({
@@ -57,11 +61,7 @@ class AudioStackWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Stack(
-              children: const [
-                AudioList(),
-              ],
-            ),
+            child: AudioListWidget(),
           ),
         ],
       ),
@@ -69,31 +69,70 @@ class AudioStackWidget extends StatelessWidget {
   }
 }
 
-class AudioList extends StatelessWidget {
-  const AudioList({Key? key}) : super(key: key);
+class AudioListWidget extends StatelessWidget {
+  AudioListWidget({Key? key}) : super(key: key);
+  final AudioRepositories repositories = AudioRepositories();
+
+  Widget buildAudio(AudioModel audio) => PlayerMini(
+        duration: '${audio.duration}',
+        url: '${audio.audioUrl}',
+        name: '${audio.audioName}',
+        done: audio.done!,
+        id: '${audio.id}',
+        collection: audio.collections!,
+      );
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const SizedBox(height: 75),
-          Text(
-            'Как только ты запишешь \n аудио, она появится здесь.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'TTNorms',
-              fontSize: 20.0,
-              color: AppColors.colorText.withOpacity(0.5),
-            ),
-          ),
-          const SizedBox(height: 50),
-          Icon(
-            Icons.arrow_downward,
-            size: 50,
-            color: AppColors.colorText.withOpacity(0.5),
-          ),
-        ],
+    return SizedBox(
+      child: StreamBuilder<List<AudioModel>>(
+        stream: repositories.readAudioSort('all'),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 50.0,
+                horizontal: 40.0,
+              ),
+              child: Text(
+                'Как только ты запишешь аудио, она появится здесь.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: AppColors.colorText50,
+                ),
+              ),
+            );
+          }
+          if (snapshot.hasData) {
+            final audio = snapshot.data!;
+            if (audio.map(buildAudio).toList().isEmpty) {
+              UserRepositories().firstAuthorization();
+              return const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 50.0,
+                  horizontal: 40.0,
+                ),
+                child: Text(
+                  'Как только ты запишешь аудио, она появится здесь.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: AppColors.colorText50,
+                  ),
+                ),
+              );
+            }
+
+            return ListView(
+              children: audio.map(buildAudio).toList(),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
