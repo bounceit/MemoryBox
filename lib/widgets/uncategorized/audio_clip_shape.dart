@@ -1,12 +1,12 @@
-import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 import '../../custom_shape.dart';
+import '../../recursec/app_colors.dart';
 
-class MainClipPath extends StatelessWidget {
-  const MainClipPath({
-    Key? key,
-  }) : super(key: key);
+class AudioShape extends StatelessWidget {
+  const AudioShape({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class MainClipPath extends StatelessWidget {
         ClipPath(
           clipper: Customshape(),
           child: Container(
-            height: 275,
+            height: 175,
             // width: double.infinity,
-            color: AppColors.violet,
+            color: AppColors.audioAppBar,
           ),
         ),
       ],

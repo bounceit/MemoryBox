@@ -21,4 +21,5 @@ class AppColors {
   static const Color blue200 = Color(0xD9678BD2);
   static const Color blue300 = Color(0xFF968EE3);
   static const Color green100 = Color(0xD971A59F);
+  static const Color audioAppBar = Color(0xD95E77CE);
 }

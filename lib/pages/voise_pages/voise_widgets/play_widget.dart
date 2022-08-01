@@ -22,6 +22,8 @@ import '../../../widgets/uncategorized/slider.dart';
 import '../model_voise_page.dart';
 
 class AudioPlayer extends StatefulWidget {
+  static const routeName = '/play_page';
+
   /// Path from where to play recorded audio
   final ap.AudioSource source;
 
@@ -109,7 +111,12 @@ class _AudioPlayerState extends State<AudioPlayer> {
         .get()
         .then((querySnapshot) {
       for (var result in querySnapshot.docs) {
-        _rep.user == null ? saveRecordLocal() : saveRecordsFirebase();
+        final bool subscription = result.data()['subscription'] ?? true;
+        _rep.user == null
+            ? saveRecordLocal()
+            : subscription
+                ? saveRecordsFirebase()
+                : saveRecordLocal();
       }
     });
   }
@@ -242,7 +249,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
       return _buildTimer();
     }
 
-    return Text('00:00');
+    return const Text('00:00');
   }
 
   Widget _buildTimer() {
@@ -279,7 +286,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
         Padding(
           padding: const EdgeInsets.only(left: 35.0),
           child: TextButton(
-            onPressed: () => logicSave(),
+            onPressed: () => saveRecordsFirebase(),
             child: const Text(
               'Сохранить',
               style: bodyTextStyle,
@@ -293,7 +300,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
   String _formatNumber(int number) {
     String numberStr = number.toString();
     if (number < 10) {
-      numberStr = '0' + numberStr;
+      numberStr = '0$numberStr';
     }
 
     return numberStr;
@@ -301,90 +308,86 @@ class _AudioPlayerState extends State<AudioPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _icon(),
+          const SizedBox(
+            height: 75.0,
+          ),
+          SizedBox(
+            width: 200.0,
+            child: TextField(
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Аудиофайл',
+                hintStyle:
+                    TextStyle(fontSize: 24.0, color: AppColors.colorText),
+              ),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 24.0),
+              onChanged: (value) {
+                _saveRecord = value;
+                final data = value.toLowerCase();
+                searchName.add(data);
+                if (data != searchName.last) {
+                  searchName.remove(searchName.last);
+                }
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 100.0,
+          ),
+          _buildSlider(double.infinity),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildText(),
+                Text(
+                    '${Provider.of<ModelRP>(context, listen: false).getDuration}'),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 150.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _icon(),
-              const SizedBox(
-                height: 75.0,
-              ),
-              SizedBox(
-                width: 200.0,
-                child: TextField(
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Аудиофайл',
-                    hintStyle:
-                        TextStyle(fontSize: 24.0, color: AppColors.colorText),
-                  ),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 24.0),
-                  onChanged: (value) {
-                    _saveRecord = value;
-                    final data = value.toLowerCase();
-                    searchName.add(data);
-                    if (data != searchName.last) {
-                      searchName.remove(searchName.last);
-                    }
-                  },
+              IconButton(
+                onPressed: () async {
+                  await _audioPlayer.seek(
+                    Duration(seconds: _audioPlayer.position.inSeconds - 15),
+                  );
+                  _recordDuration - 15;
+                },
+                icon: const Icon(
+                  Icons.replay_10,
                 ),
               ),
-              const SizedBox(
-                height: 100.0,
-              ),
-              _buildSlider(constraints.maxWidth),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildText(),
-                    Text(
-                        '${Provider.of<ModelRP>(context, listen: false).getDuration}'),
-                  ],
+              _buildControl(),
+              IconButton(
+                onPressed: () async {
+                  await _audioPlayer.seek(
+                    Duration(seconds: _audioPlayer.position.inSeconds + 15),
+                  );
+                  _recordDuration + 15;
+                },
+                icon: const Icon(
+                  Icons.forward_10,
                 ),
-              ),
-              const SizedBox(
-                height: 70.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      await _audioPlayer.seek(
-                        Duration(seconds: _audioPlayer.position.inSeconds - 15),
-                      );
-                      _recordDuration - 15;
-                    },
-                    icon: const Icon(
-                      Icons.replay_10,
-                    ),
-                  ),
-                  _buildControl(),
-                  IconButton(
-                    onPressed: () async {
-                      await _audioPlayer.seek(
-                        Duration(seconds: _audioPlayer.position.inSeconds + 15),
-                      );
-                      _recordDuration + 15;
-                    },
-                    icon: const Icon(
-                      Icons.forward_10,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 45.0,
               ),
             ],
           ),
-        );
-      },
+          const SizedBox(
+            height: 150.0,
+          ),
+        ],
+      ),
     );
   }
 }

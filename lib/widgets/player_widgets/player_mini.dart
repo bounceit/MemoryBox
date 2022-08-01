@@ -190,17 +190,9 @@ class PlayerMiniState extends State<PlayerMini> {
             child: SizedBox(width: 55, height: 55, child: icon),
             onTap: () {
               if (player.playerState.playing) {
-                // AudioRepositories().playPause(
-                //   widget.id,
-                //   false,
-                // );
                 pause();
                 setState(() {});
               } else {
-                // AudioRepositories().playPause(
-                //   widget.id,
-                //   true,
-                // );
                 setState(() {});
                 play();
               }
