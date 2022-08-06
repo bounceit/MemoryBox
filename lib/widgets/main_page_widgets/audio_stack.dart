@@ -95,7 +95,7 @@ class AudioListWidget extends StatelessWidget {
                 horizontal: 40.0,
               ),
               child: Text(
-                'Как только ты запишешь аудио, она появится здесь.',
+                'Как только ты запишешь аудио, она появится здесь',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,
@@ -114,7 +114,7 @@ class AudioListWidget extends StatelessWidget {
                   horizontal: 40.0,
                 ),
                 child: Text(
-                  'Как только ты запишешь аудио, она появится здесь.',
+                  'Как только ты запишешь аудио, она появится здесь!.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,

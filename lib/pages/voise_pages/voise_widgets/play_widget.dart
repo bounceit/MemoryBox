@@ -106,19 +106,16 @@ class _AudioPlayerState extends State<AudioPlayer> {
   }
 
   Future<void> logicSave() async {
-    await FirebaseFirestore.instance
-        .collection(_rep.user!.phoneNumber!)
-        .get()
-        .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
-        final bool subscription = result.data()['subscription'] ?? true;
-        _rep.user == null
-            ? saveRecordLocal()
-            : subscription
-                ? saveRecordsFirebase()
-                : saveRecordLocal();
-      }
-    });
+    if (_rep.user == null) {
+      saveRecordLocal();
+    } else {
+      await FirebaseFirestore.instance
+          .collection(_rep.user!.phoneNumber!)
+          .get()
+          .then((querySnapshot) {
+        saveRecordsFirebase();
+      });
+    }
   }
 
   void saveRecordLocal() {
@@ -286,7 +283,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
         Padding(
           padding: const EdgeInsets.only(left: 35.0),
           child: TextButton(
-            onPressed: () => saveRecordsFirebase(),
+            onPressed: () => logicSave(),
             child: const Text(
               'Сохранить',
               style: bodyTextStyle,

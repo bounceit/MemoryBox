@@ -38,7 +38,7 @@ class LocalSaveAudioFIle {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         '$name.mp3',
-        style: const TextStyle(color: AppColors.colorText),
+        style: const TextStyle(color: AppColors.audioAppBar),
       ),
       backgroundColor: Colors.white,
     ));

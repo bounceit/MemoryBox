@@ -19,7 +19,7 @@ class AudioShape extends StatelessWidget {
         ClipPath(
           clipper: Customshape(),
           child: Container(
-            height: 175,
+            height: 155,
             // width: double.infinity,
             color: AppColors.audioAppBar,
           ),
