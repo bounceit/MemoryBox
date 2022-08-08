@@ -12,18 +12,18 @@ import '../../widgets/uncategorized/main_clip_path.dart';
 class SellectionsPage extends StatefulWidget {
   SellectionsPage({Key? key}) : super(key: key);
   static const routeName = '/selection_page';
-  final UserRepositories repositories = UserRepositories();
-
-  Widget buildCollections(UserModel model) => _QualityTotalTime(
-        quality: model.totalQuality ?? 0,
-        totalTime: model.totalTime ?? '00:00',
-      );
 
   @override
   State<SellectionsPage> createState() => _SellectionsPage();
 }
 
 class _SellectionsPage extends State<SellectionsPage> {
+  final UserRepositories repositories = UserRepositories();
+
+  Widget buildCollections(UserModel model) => _QualityTotalTime(
+        quality: model.totalQuality ?? 0,
+        totalTime: model.totalTime ?? '00:00',
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,37 +69,47 @@ class _SellectionsPage extends State<SellectionsPage> {
                 ],
               ),
               Padding(
-          padding: const EdgeInsets.only(
-            top: 30.0,
-            left: 10.0,
-            right: 10.0,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              StreamBuilder<List<UserModel>>(
-                stream: repositories.readUser(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text('Error');
-                  }
-                  if (snapshot.hasData) {
-                    final collections = snapshot.data!;
-                    if (collections.map(buildCollections).toList().isNotEmpty) {
-                      return Container(
-                        child: collections.map(buildCollections).toList().last,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
+                padding: const EdgeInsets.only(
+                  top: 30.0,
+                  left: 10.0,
+                  right: 10.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StreamBuilder<List<UserModel>>(
+                      stream: repositories.readUser(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text('Error');
+                        }
+                        if (snapshot.hasData) {
+                          final collections = snapshot.data!;
+                          if (collections
+                              .map(buildCollections)
+                              .toList()
+                              .isNotEmpty) {
+                            return Container(
+                              child: collections
+                                  .map(buildCollections)
+                                  .toList()
+                                  .last,
+                            );
+                          } else {
+                            return Container();
+                          }
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
+                    ListPlayer(),
+                  ],
+                ),
               ),
-              ListPlayer(),
             ],
           ),
         ],
@@ -137,7 +147,7 @@ class ListPlayer extends StatelessWidget {
               if (snapshot.hasData) {
                 final audio = snapshot.data!;
                 return ListView(
-                  padding: const EdgeInsets.only(top: 127, bottom: 190),
+                  padding: const EdgeInsets.only(top: 67, bottom: 190),
                   children: audio.map(buildAudio).toList(),
                 );
               } else {
@@ -164,15 +174,15 @@ class _QualityTotalTime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           '$quality аудио',
-          style: twoTitleTextStyle,
+          style: threeTitleTextStyle,
         ),
         Text(
           '$totalTime часов',
-          style: twoTitleTextStyle,
+          style: threeTitleTextStyle,
         ),
       ],
     );

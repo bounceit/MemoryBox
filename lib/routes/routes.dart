@@ -28,7 +28,7 @@ class AppRouter {
         break;
 
       case SellectionsPage.routeName:
-        builder = (_) => const SellectionsPage();
+        builder = (_) => SellectionsPage();
         break;
 
       // /first_page.dart
