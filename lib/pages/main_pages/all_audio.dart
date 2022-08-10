@@ -1,5 +1,6 @@
 import 'package:audio_fairy_tales/utils/constants.dart';
 import 'package:flutter/material.dart';
+import '../../animations/all_audio_player_anim/all_audio_player.dart';
 import '../../models/audio_model.dart';
 import '../../models/user_model.dart';
 import '../../recursec/app_colors.dart';
@@ -50,67 +51,61 @@ class _SellectionsPage extends State<SellectionsPage> {
         ),
         elevation: 0.0,
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
+      body: Stack(
         children: [
-          Stack(
+          ListPlayer(),
+          const AudioShape(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const AudioShape(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Все в одном месте',
-                    style: twoTitleTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 30.0,
-                  left: 10.0,
-                  right: 10.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    StreamBuilder<List<UserModel>>(
-                      stream: repositories.readUser(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text('Error');
-                        }
-                        if (snapshot.hasData) {
-                          final collections = snapshot.data!;
-                          if (collections
-                              .map(buildCollections)
-                              .toList()
-                              .isNotEmpty) {
-                            return Container(
-                              child: collections
-                                  .map(buildCollections)
-                                  .toList()
-                                  .last,
-                            );
-                          } else {
-                            return Container();
-                          }
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                    ),
-                    ListPlayer(),
-                  ],
+              Text(
+                'Все в одном месте',
+                style: twoTitleTextStyle.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w100,
                 ),
               ),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 30.0,
+              left: 10.0,
+              right: 10.0,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                StreamBuilder<List<UserModel>>(
+                  stream: repositories.readUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Error');
+                    }
+                    if (snapshot.hasData) {
+                      final collections = snapshot.data!;
+                      if (collections
+                          .map(buildCollections)
+                          .toList()
+                          .isNotEmpty) {
+                        return Container(
+                          child:
+                              collections.map(buildCollections).toList().last,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
+                const AudioRecordingsPagePlayer(),
+              ],
+            ),
           ),
         ],
       ),
@@ -137,7 +132,7 @@ class ListPlayer extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: screenHeight * 0.88,
+          height: screenHeight * 0.81,
           child: StreamBuilder<List<AudioModel>>(
             stream: repositories.readAudioSort('all'),
             builder: (context, snapshot) {
@@ -147,7 +142,7 @@ class ListPlayer extends StatelessWidget {
               if (snapshot.hasData) {
                 final audio = snapshot.data!;
                 return ListView(
-                  padding: const EdgeInsets.only(top: 67, bottom: 190),
+                  padding: const EdgeInsets.only(top: 127, bottom: 190),
                   children: audio.map(buildAudio).toList(),
                 );
               } else {
