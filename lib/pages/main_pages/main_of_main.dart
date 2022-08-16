@@ -1,5 +1,5 @@
 import 'package:audio_fairy_tales/pages/main_pages/home_page.dart';
-import 'package:audio_fairy_tales/pages/main_pages/profile.dart';
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile.dart';
 import 'package:audio_fairy_tales/pages/voise_pages/voice_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +51,7 @@ class Main extends StatelessWidget {
 
         break;
       case 4:
-        globalKey(ProfilePage.routeName);
+        globalKey(Profile.routeName);
         break;
 
       default:
