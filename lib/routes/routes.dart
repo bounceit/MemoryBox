@@ -8,7 +8,7 @@ import '../pages/main_pages/all_audio.dart';
 import '../pages/main_pages/collections.dart';
 import '../pages/main_pages/home_page.dart';
 import '../pages/main_pages/main_of_main.dart';
-import '../pages/main_pages/profile.dart';
+import '../pages/main_pages/profile_pages/profile.dart';
 import '../pages/uncategorized/splash_screen.dart';
 import '../pages/voise_pages/voice_page.dart';
 
@@ -16,6 +16,7 @@ class AppRouter {
   const AppRouter._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    final Object? arguments = settings.arguments;
     WidgetBuilder builder;
 
     switch (settings.name) {
@@ -28,12 +29,12 @@ class AppRouter {
         break;
 
       case SellectionsPage.routeName:
-        builder = (_) => SellectionsPage();
+        builder = (_) => SellectionsPage.create();
         break;
 
       // /first_page.dart
-      case ProfilePage.routeName:
-        builder = (_) => const ProfilePage();
+      case Profile.routeName:
+        builder = (_) => Profile.create();
         break;
 
       // /first_wight_page.dart
