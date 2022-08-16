@@ -1,6 +1,8 @@
 import 'package:audio_fairy_tales/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../animations/all_audio_player_anim/all_audio_player.dart';
+import '../../animations/all_audio_player_anim/player_all_audio_model.dart';
 import '../../models/audio_model.dart';
 import '../../models/user_model.dart';
 import '../../recursec/app_colors.dart';
@@ -13,6 +15,12 @@ import '../../widgets/uncategorized/main_clip_path.dart';
 class SellectionsPage extends StatefulWidget {
   SellectionsPage({Key? key}) : super(key: key);
   static const routeName = '/selection_page';
+  static Widget create() {
+    return ChangeNotifierProvider<AudioRecordingsPagePlayerModel>(
+      create: (BuildContext context) => AudioRecordingsPagePlayerModel(),
+      child: SellectionsPage(),
+    );
+  }
 
   @override
   State<SellectionsPage> createState() => _SellectionsPage();
