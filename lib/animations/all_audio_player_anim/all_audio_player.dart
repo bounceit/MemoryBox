@@ -62,7 +62,7 @@ class _AudioRecordingsPagePlayerState extends State<AudioRecordingsPagePlayer>
         }
 
         _timerAmplitude =
-            Timer.periodic(const Duration(milliseconds: 1), (_) async {
+            Timer.periodic(const Duration(milliseconds: 5),(_) {
           context
               .read<AudioRecordingsPagePlayerModel>()
               .setAnim(animation.value);
