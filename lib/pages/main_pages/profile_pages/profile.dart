@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/name_and_number.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_model.dart';
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/progress_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +73,8 @@ class _VoicePageState extends State<ProfilePage> {
           children: [
             Stack(
               alignment: AlignmentDirectional.topCenter,
-              children: const [
+              // fit: StackFit.passthrough,
+              children: [
                 MainClipPath(),
                 Text(
                   'Твоя частичка',
@@ -80,13 +83,12 @@ class _VoicePageState extends State<ProfilePage> {
                 PhotoProfileProfile(),
               ],
             ),
-            // _rep.user == null
-            //     ? _LinksNotAuthorization(
-            //         screenWidth: screenWidth,
-            //       )
-            //     : _Links(
-            //         screenWidth: screenWidth,
-            //       ),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Links(),
+              ],
+            )
           ],
         ),
       ),
@@ -128,107 +130,106 @@ class PhotoProfileProfile extends StatelessWidget {
     );
   }
 }
-// class _Links extends StatelessWidget {
-//   _Links({Key? key, required this.screenWidth}) : super(key: key);
-//   final UserRepositories repositoriesUser = UserRepositories();
-//   final _auth = FirebaseAuth.instance;
-//   final double screenWidth;
-//   Widget buildUser(UserModel model) => CustomProgressIndicator(
-//         size: model.totalSize ?? 0,
-//       );
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       children: [
-//         NameAndNumber(screenWidth: screenWidth * 0.75),
-//         TextLink(
-//           onPressed: () async {
-//             final userName =
-//                 Provider.of<DataModel>(context, listen: false).getName ?? '';
-//             final userImage =
-//                 Provider.of<DataModel>(context, listen: false).getUserImage ??
-//                     '';
-//             final userNumber =
-//                 Provider.of<DataModel>(context, listen: false).getNumber ?? '';
-//             List result = await Navigator.push(context,
-//                 MaterialPageRoute(builder: (context) {
-//               return ProfileEdit(
-//                 userName: userName,
-//                 userImage: userImage,
-//                 userNumber: userNumber,
-//               );
-//             }));
-//             if (result.isNotEmpty) {
-//               context.read<DataModel>().userName(result[0]);
-//               context.read<DataModel>().userNumber(result[1]);
-//               context.read<DataModel>().userImage(result[2]);
+class Links extends StatelessWidget {
+  Links({
+    Key? key,
+  }) : super(key: key);
+  final UserRepositories repositoriesUser = UserRepositories();
+  final _auth = FirebaseAuth.instance;
 
-//               print(result);
-//             }
-//           },
-//           text: 'Редактировать',
-//         ),
-//         const SizedBox(
-//           height: 40.0,
-//         ),
-//         TextLink(
-//           onPressed: () {
-//             Provider.of<Navigation>(context, listen: false).setCurrentIndex = 7;
-//           },
-//           underline: false,
-//           text: 'Подписка',
-//         ),
-//         const SizedBox(
-//           height: 15.0,
-//         ),
-//         StreamBuilder<List<UserModel>>(
-//           stream: repositoriesUser.readUser(),
-//           builder: (context, snapshot) {
-//             if (snapshot.hasError) {
-//               return const CustomProgressIndicator(
-//                 size: 150,
-//               );
-//             }
-//             if (snapshot.hasData) {
-//               final user = snapshot.data!;
-//               if (user.map(buildUser).toList().isNotEmpty) {
-//                 return Container(
-//                   child: user.map(buildUser).toList().single,
-//                 );
-//               } else {
-//                 return const CustomProgressIndicator(
-//                   size: 150,
-//                 );
-//               }
-//             } else {
-//               return const Center(
-//                 child: CircularProgressIndicator(),
-//               );
-//             }
-//           },
-//         ),
-//         const SizedBox(
-//           height: 15.0,
-//         ),
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               TextLink(
-//                 text: 'Вийти из приложения',
-//                 onPressed: () async {
-//                   await _auth.signOut();
-//                   exit(0);
-//                 },
-//               ),
+  Widget buildUser(UserModel model) => CustomProgressIndicator(
+        size: model.totalSize ?? 0,
+      );
 
-//             ],
-//           ),
-//         )
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const NameAndNumber(),
+        TextLink(
+          onPressed: () async {
+            final userName =
+                Provider.of<DataModel>(context, listen: false).getName ?? '';
+            final userImage =
+                Provider.of<DataModel>(context, listen: false).getUserImage ??
+                    '';
+            final userNumber =
+                Provider.of<DataModel>(context, listen: false).getNumber ?? '';
+            List result = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) {
+              return Container();
+            }));
+            if (result.isNotEmpty) {
+              context.read<DataModel>().userName(result[0]);
+              context.read<DataModel>().userNumber(result[1]);
+              context.read<DataModel>().userImage(result[2]);
+
+              print(result);
+            }
+          },
+          text: 'Редактировать',
+        ),
+        const SizedBox(
+          height: 40.0,
+        ),
+        TextLink(
+          onPressed: () {
+            Provider.of<Navigation>(context, listen: false).setCurrentIndex = 7;
+          },
+          underline: false,
+          text: 'Подписка',
+        ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        StreamBuilder<List<UserModel>>(
+          stream: repositoriesUser.readUser(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const CustomProgressIndicator(
+                size: 150,
+              );
+            }
+            if (snapshot.hasData) {
+              final user = snapshot.data!;
+              if (user.map(buildUser).toList().isNotEmpty) {
+                return Container(
+                  child: user.map(buildUser).toList().single,
+                );
+              } else {
+                return const CustomProgressIndicator(
+                  size: 150,
+                );
+              }
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextLink(
+                text: 'Вийти из приложения',
+                onPressed: () async {
+                  await _auth.signOut();
+                  exit(0);
+                },
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
