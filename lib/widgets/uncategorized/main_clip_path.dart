@@ -14,7 +14,7 @@ class MainClipPath extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: screenHeight - 175,
+          height: screenHeight - 575,
         ),
         ClipPath(
           clipper: Customshape(),
