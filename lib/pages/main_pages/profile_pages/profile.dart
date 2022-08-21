@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/appbar_profile.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/name_and_number.dart';
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/photo_profile.dart';
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_edit/profile_edit_page.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_model.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/progress_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,76 +22,56 @@ class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
   static const routeName = '/profile';
   final DataModel model = DataModel();
-  static Widget create() {
-    return ChangeNotifierProvider(
-      create: (_) => DataModel(),
-      child: const ProfilePage(),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DataModel>(
       create: (BuildContext context) => DataModel(),
-      child: const ProfilePage(),
+      child: ProfileCreate(),
     );
   }
 }
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfileCreate extends StatelessWidget {
+  ProfileCreate({Key? key}) : super(key: key);
+  final UserRepositories _rep = UserRepositories();
 
-  @override
-  State<ProfilePage> createState() => _VoicePageState();
-}
-
-class _VoicePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 40,
         backgroundColor: AppColors.violet,
         leading: IconButton(
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
-          icon: const Icon(
-            Icons.menu,
-          ),
-          color: AppColors.white100,
-          iconSize: 30,
+          icon: const Icon(Icons.menu),
         ),
         elevation: 0.0,
         centerTitle: true,
         title: const Text(
           'Профиль',
-          style: twoTitleTextStyle,
+          style: oneTitleTextStyle,
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Stack(
-              alignment: AlignmentDirectional.topCenter,
-              // fit: StackFit.passthrough,
-              children: [
+              children: const [
                 MainClipPath(),
-                Text(
-                  'Твоя частичка',
-                  style: threeTitleTextStyle,
-                ),
                 PhotoProfileProfile(),
               ],
             ),
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Links(),
-              ],
-            )
+            _rep.user == null
+                ? _LinksNotAuthorization(
+                    screenWidth: screenWidth,
+                  )
+                : _Links(
+                    screenWidth: screenWidth,
+                  ),
           ],
         ),
       ),
@@ -96,48 +79,11 @@ class _VoicePageState extends State<ProfilePage> {
   }
 }
 
-class PhotoProfileProfile extends StatelessWidget {
-  const PhotoProfileProfile({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String? image = context.watch<DataModel>().getUserImage!;
-    return Padding(
-      padding: const EdgeInsets.only(top: 35.0),
-      child: Align(
-        alignment: Alignment.center,
-        child: Stack(
-          children: [
-            SizedBox(
-                width: 200.0,
-                height: 200.0,
-                child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20.0),
-                    ),
-                    child: image == 'assets/images/profile_avatar.png'
-                        ? Image.asset(
-                            image,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            context.watch<DataModel>().getUserImage!,
-                            fit: BoxFit.cover,
-                          ))),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Links extends StatelessWidget {
-  Links({
-    Key? key,
-  }) : super(key: key);
+class _Links extends StatelessWidget {
+  _Links({Key? key, required this.screenWidth}) : super(key: key);
   final UserRepositories repositoriesUser = UserRepositories();
   final _auth = FirebaseAuth.instance;
-
+  final double screenWidth;
   Widget buildUser(UserModel model) => CustomProgressIndicator(
         size: model.totalSize ?? 0,
       );
@@ -145,8 +91,7 @@ class Links extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const NameAndNumber(),
         TextLink(
@@ -160,7 +105,11 @@ class Links extends StatelessWidget {
                 Provider.of<DataModel>(context, listen: false).getNumber ?? '';
             List result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-              return Container();
+              return ProfileEdit(
+                userName: userName,
+                userImage: userImage,
+                userNumber: userNumber,
+              );
             }));
             if (result.isNotEmpty) {
               context.read<DataModel>().userName(result[0]);
@@ -226,6 +175,65 @@ class Links extends StatelessWidget {
                   exit(0);
                 },
               ),
+              // DeleteAccount(),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _LinksNotAuthorization extends StatelessWidget {
+  _LinksNotAuthorization({Key? key, required this.screenWidth})
+      : super(key: key);
+  final _auth = FirebaseAuth.instance;
+  final double screenWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const NameAndNumber(),
+        TextLink(
+          onPressed: () {
+            Navigator.pushNamed(context, ProfileEdit.routeName);
+          },
+          text: 'Редактировать',
+        ),
+        const SizedBox(
+          height: 40.0,
+        ),
+        TextLink(
+          onPressed: () {
+            Provider.of<Navigation>(context, listen: false).setCurrentIndex = 7;
+          },
+          underline: false,
+          text: 'Подписка',
+        ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        const CustomProgressIndicator(
+          size: 150,
+        ),
+        const SizedBox(
+          height: 15.0,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextLink(
+                text: 'Вийти из приложения',
+                onPressed: () async {
+                  await _auth.signOut();
+                  exit(0);
+                },
+              ),
+              // DeleteAccount(),
             ],
           ),
         )
