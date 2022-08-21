@@ -8,5 +8,5 @@ class AudioRecordingsPagePlayerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getAnim => _anim;
+  double? get getAnim => _anim;
 }
