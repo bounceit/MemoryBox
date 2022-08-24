@@ -52,6 +52,7 @@ dependencies:
   date_format: ^2.0.6
   share_plus: ^4.0.10
   shared_preferences: ^2.0.15
+  image_picker: ^0.8.5+3
   # cloud_firestore: ^3.1.18
   # cloud_firestore: ^3.1.18
 
