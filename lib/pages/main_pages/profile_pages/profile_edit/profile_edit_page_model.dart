@@ -25,7 +25,6 @@ class ProfileEditPageModel extends ChangeNotifier {
   }
 
   get getSingleImage => _singleImage;
-
   Future<void> onTapPhoto(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     XFile? _image = await ImagePick().singleImagePick();
