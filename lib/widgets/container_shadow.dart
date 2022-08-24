@@ -44,7 +44,7 @@ class ContainerShadow extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              child: SizedBox(
+              child: Container(
                 width: width,
                 height: height,
                 child: image,
