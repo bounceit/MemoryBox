@@ -34,7 +34,7 @@ class AppRouter {
 
       // /first_page.dart
       case Profile.routeName:
-        builder = (_) => Profile.create();
+        builder = (_) => Profile();
         break;
 
       // /first_wight_page.dart
