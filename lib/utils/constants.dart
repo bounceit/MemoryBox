@@ -67,6 +67,7 @@ const bodyOverlineTextStyle = TextStyle(
   decoration: TextDecoration.underline,
 );
 const linkColorText = TextStyle(
+  fontFamily: 'TTNorms',
   fontSize: 16,
   fontWeight: FontWeight.w400,
   color: AppColors.colorTextLink,
