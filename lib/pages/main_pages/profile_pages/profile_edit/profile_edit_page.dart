@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../repositories/user_repositories.dart';
+import '../../../../widgets/uncategorized/main_clip_path.dart';
 import '../../../../widgets/uncategorized/text_input.dart';
 
 class ProfileEditArguments {
@@ -63,7 +64,8 @@ class ProfileEditCreate extends StatelessWidget {
             children: [
               Expanded(
                 child: Stack(
-                  children: const [
+                  children: [
+                    MainClipPath(),
                     PhotoProfileEdit(),
                   ],
                 ),
