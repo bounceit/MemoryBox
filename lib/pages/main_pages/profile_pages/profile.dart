@@ -40,6 +40,7 @@ class ProfileCreate extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: AppColors.white100,
       appBar: AppBar(
         backgroundColor: AppColors.violet,
         leading: IconButton(
@@ -57,7 +58,7 @@ class ProfileCreate extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Stack(
               children: const [
@@ -122,7 +123,7 @@ class _Links extends StatelessWidget {
           text: 'Редактировать',
         ),
         const SizedBox(
-          height: 40.0,
+          height: 70.0,
         ),
         TextLink(
           onPressed: () {
@@ -161,7 +162,7 @@ class _Links extends StatelessWidget {
           },
         ),
         const SizedBox(
-          height: 15.0,
+          height: 50.0,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
