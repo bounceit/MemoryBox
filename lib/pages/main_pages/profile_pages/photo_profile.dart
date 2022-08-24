@@ -8,7 +8,7 @@ class PhotoProfileProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? _image = context.watch<DataModel>().getUserImage!;
+    String? image = context.watch<DataModel>().getUserImage!;
     return Column(
       children: [
         Text(
@@ -28,9 +28,9 @@ class PhotoProfileProfile extends StatelessWidget {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20.0),
                         ),
-                        child: _image == 'assets/images/profile_avatar.png'
+                        child: image == 'assets/images/profile_avatar.png'
                             ? Image.asset(
-                                _image,
+                                image,
                                 fit: BoxFit.cover,
                               )
                             : Image.network(
