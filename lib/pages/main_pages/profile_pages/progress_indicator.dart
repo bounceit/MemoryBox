@@ -24,7 +24,7 @@ class CustomProgressIndicator extends StatelessWidget {
               Radius.circular(50.0),
             ),
             child: LinearProgressIndicator(
-              value: (size! / 1048576.toDouble()) / 500,
+              value: (300) / 500,
               valueColor: const AlwaysStoppedAnimation<Color>(
                 AppColors.yellow100,
               ),
@@ -32,7 +32,8 @@ class CustomProgressIndicator extends StatelessWidget {
             ),
           ),
         ),
-        Text('${(size! / 1048576.toDouble()).toStringAsFixed(2)}/500 мб')
+        Text('300.00/500.00 мб')
+        // Text('${(size! / 1048576.toDouble()).toStringAsFixed(2)}/500 мб')
       ],
     );
   }
