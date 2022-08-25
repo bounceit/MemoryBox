@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 import 'package:permission_handler/permission_handler.dart';
@@ -23,10 +24,12 @@ class LocalSaveAudioFIle {
           directory = await pathProvider.getExternalStorageDirectory();
         }
       }
-    } catch (err, stack) {
-      print("Cannot get download folder path");
+    } catch (err) {
+      if (kDebugMode) {
+        print('Cannot get download folder path');
+      }
     }
-    final fliePath = directory!.path + '/$name.mp3';
+    final fliePath = '${directory!.path}/$name.mp3';
     var file = File(fliePath);
     var fileTemp = File(newPath);
     var isExist = await file.exists();

@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
@@ -71,8 +70,8 @@ class AudioRepositories {
     final file = File(path);
     final statFile = await file.stat();
     final size = statFile.size;
-    final _todayDate = DateTime.now();
-    final _todayDate2 = Timestamp.now();
+    final todayDate = DateTime.now();
+    final todayDate2 = Timestamp.now();
     final model = AudioModel(
       collections: ['all'],
       id: id,
@@ -80,8 +79,8 @@ class AudioRepositories {
       audioUrl: await ref.getDownloadURL(),
       duration: duration,
       dateTime: formatDate(
-          _todayDate, [dd, '.', mm, '.', yy, HH, ':', nn, ':', ss, z]),
-      dateTimeDelete: _todayDate2,
+          todayDate, [dd, '.', mm, '.', yy, HH, ':', nn, ':', ss, z]),
+      dateTimeDelete: todayDate2,
       done: false,
       playPause: false,
       searchName: searchName.toList(),
@@ -164,7 +163,7 @@ class AudioRepositories {
 
   Future<void> downloadAudio(String idAudio, String name) async {
     Directory directory = await getTemporaryDirectory();
-    final filePath = directory.path + '/$name.mp3';
+    final filePath = '${directory.path}/$name.mp3';
     try {
       await firebase_storage.FirebaseStorage.instance
           .ref('${user!.phoneNumber!}/userAudio/$idAudio.mp3')

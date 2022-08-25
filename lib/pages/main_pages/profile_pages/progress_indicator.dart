@@ -19,20 +19,20 @@ class CustomProgressIndicator extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 5.0),
           width: screenWidth * 0.75,
           height: 30.0,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
+          child: const ClipRRect(
+            borderRadius: BorderRadius.all(
               Radius.circular(50.0),
             ),
             child: LinearProgressIndicator(
               value: (300) / 500,
-              valueColor: const AlwaysStoppedAnimation<Color>(
+              valueColor: AlwaysStoppedAnimation<Color>(
                 AppColors.yellow100,
               ),
               backgroundColor: Colors.white,
             ),
           ),
         ),
-        Text('300.00/500.00 мб')
+        const Text('300.00/500.00 мб')
         // Text('${(size! / 1048576.toDouble()).toStringAsFixed(2)}/500 мб')
       ],
     );

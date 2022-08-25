@@ -31,10 +31,10 @@ class AudioRecorder extends StatefulWidget {
   final void Function(String path) onStop;
 
   @override
-  _AudioRecorderState createState() => _AudioRecorderState();
+  AudioRecorderState createState() => AudioRecorderState();
 }
 
-class _AudioRecorderState extends State<AudioRecorder> {
+class AudioRecorderState extends State<AudioRecorder> {
   bool _isRecording = false;
   final bool _isPaused = false;
   int _recordDuration = 0;

@@ -22,6 +22,11 @@ import '../../../widgets/uncategorized/slider.dart';
 import '../model_voise_page.dart';
 
 class AudioPlayer extends StatefulWidget {
+  const AudioPlayer({
+    Key? key,
+    required this.source,
+    required this.onDelete,
+  }) : super(key: key);
   static const routeName = '/play_page';
 
   /// Path from where to play recorded audio
@@ -31,16 +36,11 @@ class AudioPlayer extends StatefulWidget {
   /// Setting this to null hides the delete button
   final VoidCallback onDelete;
 
-  AudioPlayer({
-    required this.source,
-    required this.onDelete,
-  });
-
   @override
-  _AudioPlayerState createState() => _AudioPlayerState();
+  AudioPlayerState createState() => AudioPlayerState();
 }
 
-class _AudioPlayerState extends State<AudioPlayer> {
+class AudioPlayerState extends State<AudioPlayer> {
   final UserRepositories _rep = UserRepositories();
   static const double _controlSize = 56;
   static const double _deleteBtnSize = 24;
@@ -75,7 +75,6 @@ class _AudioPlayerState extends State<AudioPlayer> {
   }
 
   Future<void> _init() async {
-    bool _isPlay = false;
     await _audioPlayer.setAudioSource(widget.source);
   }
 
@@ -91,7 +90,7 @@ class _AudioPlayerState extends State<AudioPlayer> {
 
   Future<void> shareAudio(BuildContext context) async {
     Directory directory = await getTemporaryDirectory();
-    final filePath = directory.path + '/$_saveRecord.mp3';
+    final filePath = '${directory.path}/$_saveRecord.mp3';
     var file = File(filePath);
     var fileTemp = File(Provider.of<ModelRP>(context, listen: false).getData);
     var isExist = await file.exists();
