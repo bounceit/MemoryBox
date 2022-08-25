@@ -67,8 +67,7 @@ class PlayerMiniState extends State<PlayerMini> {
     super.dispose();
   }
 
-  void _init() async {
-    bool _isPlay = false;
+  Future<void> _init() async {
     await player.setUrl(widget.url);
     await player.setLoopMode(ap.LoopMode.one);
   }
@@ -141,7 +140,7 @@ class PlayerMiniState extends State<PlayerMini> {
   String _formatNumber(int number) {
     String numberStr = number.toString();
     if (number < 10) {
-      numberStr = '0' + numberStr;
+      numberStr = '0$numberStr';
     }
 
     return numberStr;
@@ -329,7 +328,6 @@ class PlayerMiniState extends State<PlayerMini> {
                             ],
                           ),
                         ),
-                        Expanded(child: const SizedBox())
                       ],
                     )),
             ),
