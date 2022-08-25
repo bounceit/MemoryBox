@@ -59,7 +59,7 @@ class AppRouter {
         break;
 
       case LastPageRegister.routeName:
-        builder = (_) => LastPageRegister();
+        builder = (_) => const LastPageRegister();
         break;
 
       case InitializerWidget.routeName:
