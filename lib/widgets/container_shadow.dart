@@ -43,8 +43,8 @@ class ContainerShadow extends StatelessWidget {
         child: Stack(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              child: Container(
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+              child: SizedBox(
                 width: width,
                 height: height,
                 child: image,
