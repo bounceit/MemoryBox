@@ -2,14 +2,14 @@ import 'package:audio_fairy_tales/recursec/app_icons.dart';
 import 'package:flutter/material.dart';
 
 class IconCamera extends StatelessWidget {
-  IconCamera(
+  const IconCamera(
       {Key? key,
       required this.onTap,
       required this.color,
       required this.colorBorder,
       required this.position})
       : super(key: key);
-  final onTap;
+  final void Function()? onTap;
   final Color color;
   final Color colorBorder;
   final double position;
