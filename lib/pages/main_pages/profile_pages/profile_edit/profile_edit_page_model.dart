@@ -18,21 +18,21 @@ class ProfileEditPageModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getNumber => _number;
+  String? get getNumber => _number;
   void setNumber(String number) {
     _number = number;
     notifyListeners();
   }
 
-  get getSingleImage => _singleImage;
+  String? get getSingleImage => _singleImage;
   Future<void> onTapPhoto(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    XFile? _image = await ImagePick().singleImagePick();
-    if (_image != null && _image.path.isNotEmpty) {
-      _singleImage = await UserRepositories().uploadImage(_image);
+    XFile? image = await ImagePick().singleImagePick();
+    if (image != null && image.path.isNotEmpty) {
+      _singleImage = await UserRepositories().uploadImage(image);
       context.read<DataModel>().userImage(_singleImage!);
       await prefs.setString(
-          'image', await UserRepositories().uploadImage(_image));
+          'image', await UserRepositories().uploadImage(image));
       notifyListeners();
     }
   }

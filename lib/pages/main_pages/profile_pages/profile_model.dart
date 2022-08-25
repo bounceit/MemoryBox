@@ -2,13 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataModel with ChangeNotifier {
-  String? _name;
-  String? _number;
-  String? _image = 'assets/images/profile_avatar.png';
-
   DataModel() {
     init();
   }
+  String? _name;
+  String? _number;
+  String? _image = 'assets/images/profile_avatar.png';
   Future<void> init() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     _name = sharedPreferences.getString('name_key') ?? 'Имя';

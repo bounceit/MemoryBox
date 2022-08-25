@@ -64,7 +64,7 @@ class ProfileEditCreate extends StatelessWidget {
             children: [
               Expanded(
                 child: Stack(
-                  children: [
+                  children: const [
                     MainClipPath(),
                     PhotoProfileEdit(),
                   ],

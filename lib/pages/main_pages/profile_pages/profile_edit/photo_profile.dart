@@ -26,13 +26,13 @@ class PhotoProfileEdit extends StatelessWidget {
                     Radius.circular(20.0),
                   ),
                 ),
-                child: singleImage != null && singleImage!.isNotEmpty
+                child: singleImage != null && singleImage.isNotEmpty
                     ? ClipRRect(
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20.0),
                         ),
                         child: Image.network(
-                          singleImage!,
+                          singleImage,
                           fit: BoxFit.cover,
                         ))
                     : ClipRRect(
