@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:audio_fairy_tales/pages/main_pages/profile_pages/appbar_profile.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/name_and_number.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/photo_profile.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_edit/profile_edit_page.dart';
@@ -17,6 +15,7 @@ import '../../../repositories/user_repositories.dart';
 import '../../../utils/constants.dart';
 import '../../../widgets/uncategorized/main_clip_path.dart';
 import '../../../widgets/uncategorized/text_link.dart';
+import 'delete_profile.dart';
 
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
@@ -116,8 +115,6 @@ class _Links extends StatelessWidget {
               context.read<DataModel>().userName(result[0]);
               context.read<DataModel>().userNumber(result[1]);
               context.read<DataModel>().userImage(result[2]);
-
-              print(result);
             }
           },
           text: 'Редактировать',
@@ -176,7 +173,7 @@ class _Links extends StatelessWidget {
                   exit(0);
                 },
               ),
-              // DeleteAccount(),
+              DeleteAccount(),
             ],
           ),
         )

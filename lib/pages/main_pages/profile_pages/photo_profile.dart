@@ -1,5 +1,6 @@
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_model.dart';
 import 'package:audio_fairy_tales/utils/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +9,10 @@ class PhotoProfileProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? image = context.watch<DataModel>().getUserImage!;
+    String? _image = context.watch<DataModel>().getUserImage!;
     return Column(
       children: [
-        Text(
+        const Text(
           'Твоя частичка',
           style: threeTitleTextStyle,
         ),
@@ -28,15 +29,10 @@ class PhotoProfileProfile extends StatelessWidget {
                         borderRadius: const BorderRadius.all(
                           Radius.circular(20.0),
                         ),
-                        child: image == 'assets/images/profile_avatar.png'
-                            ? Image.asset(
-                                image,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.network(
-                                context.watch<DataModel>().getUserImage!,
-                                fit: BoxFit.cover,
-                              ))),
+                        child: Image.asset(
+                          _image,
+                          fit: BoxFit.cover,
+                        ))),
               ],
             ),
           ),

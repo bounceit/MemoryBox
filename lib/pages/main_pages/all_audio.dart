@@ -10,15 +10,14 @@ import '../../repositories/audio_firebase_repositories.dart';
 import '../../repositories/user_repositories.dart';
 import '../../widgets/player_widgets/player_mini.dart';
 import '../../widgets/uncategorized/audio_clip_shape.dart';
-import '../../widgets/uncategorized/main_clip_path.dart';
 
 class SellectionsPage extends StatefulWidget {
-  SellectionsPage({Key? key}) : super(key: key);
+  const SellectionsPage({Key? key}) : super(key: key);
   static const routeName = '/selection_page';
   static Widget create() {
     return ChangeNotifierProvider<AudioRecordingsPagePlayerModel>(
       create: (BuildContext context) => AudioRecordingsPagePlayerModel(),
-      child: SellectionsPage(),
+      child: const SellectionsPage(),
     );
   }
 

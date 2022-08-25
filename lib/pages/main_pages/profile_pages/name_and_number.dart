@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../recursec/app_colors.dart';
 import '../../../utils/constants.dart';
-import '../../../widgets/container_shadow.dart';
 
 class NameAndNumber extends StatelessWidget {
   const NameAndNumber({

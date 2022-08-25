@@ -3,6 +3,7 @@ import 'package:audio_fairy_tales/pages/auth_pages/widgets/text_field_captcha.da
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import '../../widgets/buttons/register_button.dart';
 import '../../widgets/register_pages_widgets/register_box_widget.dart';
@@ -54,6 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
       setState(() {
         isShowLoading = false;
       });
+      // ignore: deprecated_member_use
       _scaffoldKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(e.message!),
@@ -86,6 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   setState(() {
                     isShowLoading = false;
                   });
+                  // ignore: deprecated_member_use
                   _scaffoldKey.currentState!.showSnackBar(
                     SnackBar(
                       content: Text(verificationFailed.message!),

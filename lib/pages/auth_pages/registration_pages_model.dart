@@ -32,7 +32,7 @@ class RegistrationPageModel extends ChangeNotifier {
             context, LastPageRegister.routeName, (route) => false);
       }
       notifyListeners();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       _showLoading = false;
       notifyListeners();
     }
