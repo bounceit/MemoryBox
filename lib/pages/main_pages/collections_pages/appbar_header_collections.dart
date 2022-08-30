@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../custom_shape.dart';
 import '../../../utils/constants.dart';
-import 'collections_edit.dart';
+import 'collections_edit_pages/collections_edit.dart';
 
 class AppbarHeaderCollection extends StatelessWidget {
   const AppbarHeaderCollection({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class AppbarHeaderCollection extends StatelessWidget {
                 'Подборки',
                 style: twoTitleTextStyle,
               ),
-              PopupMenuCollectionPage(),
+              const PopupMenuCollectionPage(),
             ],
           ),
         ),
