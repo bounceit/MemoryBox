@@ -1,4 +1,5 @@
 import 'package:audio_fairy_tales/pages/auth_pages/registration_pages_model.dart';
+import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_model.dart';
 import 'package:audio_fairy_tales/pages/uncategorized/splash_screen.dart';
 import 'package:audio_fairy_tales/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,8 +23,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<RegistrationPageModel>(
-      create: (BuildContext context) => RegistrationPageModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<DataModel>(
+          create: (BuildContext context) => DataModel(),
+        ),
+        ChangeNotifierProvider<RegistrationPageModel>(
+          create: (BuildContext context) => RegistrationPageModel(),
+        ),
+      ],
       child: const MaterialApp(
         initialRoute: SplashScreen.routeName,
         onGenerateRoute: AppRouter.generateRoute,
