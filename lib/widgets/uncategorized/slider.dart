@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RoundedAmebaThumbShape extends SliderComponentShape {
+  const RoundedAmebaThumbShape({required this.radius, required this.color});
   final double radius;
   final Color color;
-
-  const RoundedAmebaThumbShape({required this.radius, required this.color});
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
