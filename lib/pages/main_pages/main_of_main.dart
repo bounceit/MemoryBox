@@ -9,7 +9,7 @@ import '../../routes/routes.dart';
 import '../../widgets/navigation/bottom_navigation_bar.dart';
 import '../../widgets/navigation/driwer_bar.dart';
 import 'all_audio.dart';
-import 'collections.dart';
+import 'collections_pages/collections.dart';
 
 class Main extends StatelessWidget {
   const Main({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class Main extends StatelessWidget {
 
         break;
       case 1:
-        globalKey(CollectionsPage.routeName);
+        globalKey(Collections.routeName);
 
         break;
       case 2:
