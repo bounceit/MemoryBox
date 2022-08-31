@@ -50,8 +50,8 @@ class PhotoProfileEdit extends StatelessWidget {
           padding: const EdgeInsets.only(top: 110.0),
           child: IconCamera(
             colorBorder: Colors.white,
-            onTap: () =>
-                Provider.of<ProfileEditPageModel>(context, listen: false)
+            onTap: () async =>
+                await Provider.of<ProfileEditPageModel>(context, listen: false)
                     .onTapPhoto(context),
             color: AppColors.black50,
             position: 0.0,
