@@ -5,7 +5,7 @@ import '../pages/auth_pages/main_register_page.dart';
 import '../pages/auth_pages/register_page.dart';
 import '../pages/auth_pages/widgets/initial_widget.dart';
 import '../pages/main_pages/all_audio.dart';
-import '../pages/main_pages/collections.dart';
+import '../pages/main_pages/collections_pages/collections.dart';
 import '../pages/main_pages/home_page.dart';
 import '../pages/main_pages/main_of_main.dart';
 import '../pages/main_pages/profile_pages/profile.dart';
@@ -20,8 +20,8 @@ class AppRouter {
     WidgetBuilder builder;
 
     switch (settings.name) {
-      case CollectionsPage.routeName:
-        builder = (_) => const CollectionsPage();
+      case Collections.routeName:
+        builder = (_) => Collections.create();
         break;
 
       case MainPageWidget.routeName:
@@ -32,7 +32,6 @@ class AppRouter {
         builder = (_) => SellectionsPage.create();
         break;
 
-      // /first_page.dart
       case Profile.routeName:
         builder = (_) => Profile();
         break;
