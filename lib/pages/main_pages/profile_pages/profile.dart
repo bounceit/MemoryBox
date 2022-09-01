@@ -24,10 +24,7 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<DataModel>(
-      create: (BuildContext context) => DataModel(),
-      child: ProfileCreate(),
-    );
+    return ProfileCreate();
   }
 }
 
