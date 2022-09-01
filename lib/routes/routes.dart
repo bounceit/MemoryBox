@@ -1,12 +1,14 @@
 import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
+import 'package:audio_fairy_tales/pages/drawer_pages/support_page/support_page.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/auth_pages/main_register_page.dart';
 import '../pages/auth_pages/register_page.dart';
 import '../pages/auth_pages/widgets/initial_widget.dart';
+import '../pages/drawer_pages/audio_delete_pages/audio_delete_page.dart';
 import '../pages/main_pages/all_audio.dart';
 import '../pages/main_pages/collections_pages/collections.dart';
-import '../pages/main_pages/home_page.dart';
+import '../pages/home_pages/home_page.dart';
 import '../pages/main_pages/main_of_main.dart';
 import '../pages/main_pages/profile_pages/profile.dart';
 import '../pages/uncategorized/splash_screen.dart';
@@ -24,8 +26,8 @@ class AppRouter {
         builder = (_) => Collections.create();
         break;
 
-      case MainPageWidget.routeName:
-        builder = (_) => const MainPageWidget();
+      case HomePage.routeName:
+        builder = (_) => const HomePage();
         break;
 
       case SellectionsPage.routeName:
@@ -63,6 +65,14 @@ class AppRouter {
 
       case InitializerWidget.routeName:
         builder = (_) => InitializerWidget();
+        break;
+
+      case DeletePage.routeName:
+        builder = (_) => DeletePage.create();
+        break;
+
+      case SupportMessagePage.routeName:
+        builder = (_) => SupportMessagePage();
         break;
 
       default:
