@@ -130,4 +130,16 @@ class UserRepositories {
       'totalTime': '$hour:$minutes',
     });
   }
+
+  Future<void> supportQuestions(String questions) async {
+    final Timestamp now = Timestamp.now();
+    FirebaseFirestore.instance
+        .collection('SupportQuestions')
+        .doc(uuid.v1())
+        .set({
+      'phoneNumber': user!.phoneNumber!,
+      'message': questions,
+      'dateTime': now,
+    });
+  }
 }
