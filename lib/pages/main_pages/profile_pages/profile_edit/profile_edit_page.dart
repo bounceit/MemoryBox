@@ -51,7 +51,7 @@ class ProfileEditCreate extends StatelessWidget {
   final String userName;
   final String userNumber;
   final String userImage;
-
+  void _saveChanges() {}
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -77,6 +77,7 @@ class ProfileEditCreate extends StatelessWidget {
                     const _TextFieldName(),
                     const _TextFieldNumber(),
                     _SaveButton(
+                      onTap: _saveChanges,
                       userName: userName,
                       userImage: userImage,
                       userNumber: userNumber,
@@ -144,13 +145,14 @@ class _SaveButton extends StatelessWidget {
     required this.userName,
     required this.userNumber,
     required this.userImage,
+    required this.onTap,
   }) : super(key: key);
   final PreferencesDataUser _preferencesDataUser = PreferencesDataUser();
   final UserRepositories _repositories = UserRepositories();
   final String userName;
   final String userNumber;
   final String userImage;
-
+  final VoidCallback onTap;
   Future<void> saveUser(BuildContext context) async {
     final String image =
         Provider.of<ProfileEditPageModel>(context, listen: false)
