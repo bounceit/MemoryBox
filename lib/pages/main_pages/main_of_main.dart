@@ -1,4 +1,5 @@
-import 'package:audio_fairy_tales/pages/main_pages/home_page.dart';
+import 'package:audio_fairy_tales/pages/drawer_pages/support_page/support_page.dart';
+import 'package:audio_fairy_tales/pages/home_pages/home_page.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile.dart';
 import 'package:audio_fairy_tales/pages/voise_pages/voice_page.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import '../../models/view_model.dart';
 import '../../routes/routes.dart';
 import '../../widgets/navigation/bottom_navigation_bar.dart';
 import '../../widgets/navigation/driwer_bar.dart';
+import '../drawer_pages/audio_delete_pages/audio_delete_page.dart';
 import 'all_audio.dart';
 import 'collections_pages/collections.dart';
 
@@ -35,7 +37,7 @@ class Main extends StatelessWidget {
 
     switch (currentIndex) {
       case 0:
-        globalKey(MainPageWidget.routeName);
+        globalKey(HomePage.routeName);
 
         break;
       case 1:
@@ -54,8 +56,18 @@ class Main extends StatelessWidget {
         globalKey(Profile.routeName);
         break;
 
+      case 5:
+        globalKey(DeletePage.routeName);
+
+        break;
+
+      case 8:
+        globalKey(SupportMessagePage.routeName);
+
+        break;
+
       default:
-        globalKey(MainPageWidget.routeName);
+        globalKey(HomePage.routeName);
         break;
     }
 
@@ -67,7 +79,7 @@ class Main extends StatelessWidget {
         drawer: const DrawerMenu(),
         extendBody: true,
         body: Navigator(
-          initialRoute: MainPageWidget.routeName,
+          initialRoute: HomePage.routeName,
           key: _globalKey,
           onGenerateRoute: AppRouter.generateRoute,
         ),
