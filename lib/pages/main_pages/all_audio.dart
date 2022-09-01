@@ -8,6 +8,7 @@ import '../../models/user_model.dart';
 import '../../recursec/app_colors.dart';
 import '../../repositories/audio_firebase_repositories.dart';
 import '../../repositories/user_repositories.dart';
+import '../../widgets/main_page_widgets/popup_home_menu.dart';
 import '../../widgets/player_widgets/player_mini.dart';
 import '../../widgets/uncategorized/audio_clip_shape.dart';
 
@@ -131,6 +132,17 @@ class ListPlayer extends StatelessWidget {
         done: audio.done!,
         id: '${audio.id}',
         collection: audio.collections ?? [],
+        popupMenu: PopupMenuHomePage(
+          url: '${audio.audioUrl}',
+          duration: '${audio.duration}',
+          name: '${audio.audioName}',
+          image: '',
+          done: audio.done!,
+          searchName: audio.searchName!,
+          dateTime: audio.dateTime!,
+          idAudio: '${audio.id}',
+          collection: audio.collections!,
+        ),
       );
 
   @override
