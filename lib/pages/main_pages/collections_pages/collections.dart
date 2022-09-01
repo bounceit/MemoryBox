@@ -2,6 +2,7 @@ import 'package:audio_fairy_tales/pages/main_pages/collections_pages/appbar_head
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'collections_model.dart';
+import 'list_collections.dart';
 
 class Collections extends StatefulWidget {
   const Collections({Key? key}) : super(key: key);
@@ -37,8 +38,9 @@ class _VoicePageState extends State<Collections> {
       // ),
       body: SafeArea(
         child: Stack(
-          children: const [
-            AppbarHeaderCollection(),
+          children: [
+            const AppbarHeaderCollection(),
+            ListCollections(),
           ],
         ),
       ),
