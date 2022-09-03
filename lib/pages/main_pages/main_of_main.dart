@@ -1,3 +1,5 @@
+import 'package:audio_fairy_tales/pages/drawer_pages/search_page/search_page.dart';
+import 'package:audio_fairy_tales/pages/drawer_pages/subscriptions_page/subscription_page.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/support_page/support_page.dart';
 import 'package:audio_fairy_tales/pages/home_pages/home_page.dart';
 import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile.dart';
@@ -58,6 +60,15 @@ class Main extends StatelessWidget {
 
       case 5:
         globalKey(DeletePage.routeName);
+
+        break;
+      case 6:
+        globalKey(SearchPage.routeName);
+
+        break;
+
+      case 7:
+        globalKey(SubscriptionPage.routeName);
 
         break;
 
