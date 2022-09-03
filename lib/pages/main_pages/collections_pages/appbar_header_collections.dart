@@ -54,7 +54,7 @@ class AppbarHeaderCollection extends StatelessWidget {
                 'Подборки',
                 style: twoTitleTextStyle,
               ),
-              const PopupMenuCollectionPage(),
+              PopupMenuCollectionPage(),
             ],
           ),
         ),
