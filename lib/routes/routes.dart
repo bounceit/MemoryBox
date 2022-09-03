@@ -1,4 +1,6 @@
 import 'package:audio_fairy_tales/pages/auth_pages/last_register_page.dart';
+import 'package:audio_fairy_tales/pages/drawer_pages/search_page/search_page.dart';
+import 'package:audio_fairy_tales/pages/drawer_pages/subscriptions_page/subscription_page.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/support_page/support_page.dart';
 import 'package:flutter/material.dart';
 
@@ -59,6 +61,10 @@ class AppRouter {
         builder = (_) => SplashScreen();
         break;
 
+      case SubscriptionPage.routeName:
+        builder = (_) => const SubscriptionPage();
+        break;
+
       case LastPageRegister.routeName:
         builder = (_) => const LastPageRegister();
         break;
@@ -73,6 +79,10 @@ class AppRouter {
 
       case SupportMessagePage.routeName:
         builder = (_) => SupportMessagePage();
+        break;
+
+      case SearchPage.routeName:
+        builder = (_) => SearchPage();
         break;
 
       default:
