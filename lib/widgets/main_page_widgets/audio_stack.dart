@@ -1,3 +1,4 @@
+import 'package:audio_fairy_tales/widgets/main_page_widgets/popup_home_menu.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/audio_model.dart';
@@ -80,6 +81,17 @@ class AudioListWidget extends StatelessWidget {
         done: audio.done!,
         id: '${audio.id}',
         collection: audio.collections!,
+        popupMenu: PopupMenuHomePage(
+          url: '${audio.audioUrl}',
+          duration: '${audio.duration}',
+          name: '${audio.audioName}',
+          image: '',
+          done: audio.done!,
+          searchName: audio.searchName!,
+          dateTime: audio.dateTime!,
+          idAudio: '${audio.id}',
+          collection: audio.collections!,
+        ),
       );
 
   @override
