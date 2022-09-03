@@ -21,21 +21,6 @@ class _VoicePageState extends State<Collections> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   toolbarHeight: 40,
-      //   backgroundColor: AppColors.violet,
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Scaffold.of(context).openDrawer();
-      //     },
-      //     icon: const Icon(
-      //       Icons.menu,
-      //     ),
-      //     color: AppColors.white100,
-      //     iconSize: 30,
-      //   ),
-      //   elevation: 0.0,
-      // ),
       body: SafeArea(
         child: Stack(
           children: [
