@@ -94,7 +94,7 @@ class DrawerMenu extends StatelessWidget {
                           icon: Image.asset(
                             AppIcons.recDelete,
                           ),
-                          title: 'Недавно удальонные'),
+                          title: 'Недавно удаленные'),
                       const SizedBox(
                         height: 30,
                       ),
