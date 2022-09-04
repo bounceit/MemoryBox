@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart' as ap;
+import 'package:just_audio/just_audio.dart';
 import '../../recursec/app_icons.dart';
 import '../uncategorized/slider.dart';
 
@@ -12,6 +13,7 @@ class PlayerMini extends StatefulWidget {
     required this.url,
     required this.name,
     required this.duration,
+    required this.popupMenu,
     required this.done,
     required this.id,
     required this.collection,
@@ -20,6 +22,7 @@ class PlayerMini extends StatefulWidget {
   final String url;
   final String name;
   final String duration;
+  final Widget popupMenu;
   final bool done;
   final bool? playPause;
   final String id;
@@ -67,9 +70,10 @@ class PlayerMiniState extends State<PlayerMini> {
     super.dispose();
   }
 
-  Future<void> _init() async {
+  void _init() async {
+    bool _isPlay = false;
     await player.setUrl(widget.url);
-    await player.setLoopMode(ap.LoopMode.one);
+    await player.setLoopMode(LoopMode.one);
   }
 
   Future<void> play() {
@@ -140,7 +144,7 @@ class PlayerMiniState extends State<PlayerMini> {
   String _formatNumber(int number) {
     String numberStr = number.toString();
     if (number < 10) {
-      numberStr = '0$numberStr';
+      numberStr = '0' + numberStr;
     }
 
     return numberStr;
@@ -189,9 +193,17 @@ class PlayerMiniState extends State<PlayerMini> {
             child: SizedBox(width: 55, height: 55, child: icon),
             onTap: () {
               if (player.playerState.playing) {
+                // AudioRepositories().playPause(
+                //   widget.id,
+                //   false,
+                // );
                 pause();
                 setState(() {});
               } else {
+                // AudioRepositories().playPause(
+                //   widget.id,
+                //   true,
+                // );
                 setState(() {});
                 play();
               }
@@ -328,9 +340,14 @@ class PlayerMiniState extends State<PlayerMini> {
                             ],
                           ),
                         ),
+                        Expanded(child: const SizedBox())
                       ],
                     )),
             ),
+            Flexible(
+              flex: 3,
+              child: widget.popupMenu,
+            )
           ],
         ),
       ),
