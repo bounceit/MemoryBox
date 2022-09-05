@@ -4,11 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/view_model.dart';
-import '../../repositories/audio_firebase_repositories.dart';
 import '../../repositories/user_repositories.dart';
 import '../../widgets/main_page_widgets/audio_stack.dart';
-import '../../widgets/main_page_widgets/main_selections.dart';
-import '../../widgets/uncategorized/main_clip_path.dart';
 import '../main_pages/collections_pages/collections_repository.dart';
 
 class HomePage extends StatefulWidget {
