@@ -5,7 +5,7 @@ class CollectionsAddAudioModel extends ChangeNotifier {
   String? _searchAddAudio;
   bool? _done;
 
-  get getDone => _done;
+  bool? get getDone => _done;
   void setDone(bool done) {
     _done = done;
     notifyListeners();
@@ -18,7 +18,7 @@ class CollectionsAddAudioModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  get getSearchAddAudio => _searchAddAudio;
+  String? get getSearchAddAudio => _searchAddAudio;
 
   void setSearchAddAudio(String searchAddAudio) {
     _searchAddAudio = searchAddAudio;
