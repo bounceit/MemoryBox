@@ -36,7 +36,7 @@ class UserRepositories {
   Future<void> firstAuthorization() async {
     final DateTime now = DateTime.now();
     final DateTime later = now.add(const Duration(days: 30));
-    final Timestamp laterTimestamp = Timestamp.fromDate(later);
+    // final Timestamp laterTimestamp = Timestamp.fromDate(later);
     await FirebaseFirestore.instance
         .collection(user!.phoneNumber!)
         .doc('user')
