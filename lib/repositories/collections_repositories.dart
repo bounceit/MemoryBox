@@ -40,14 +40,14 @@ class CollectionsRepositories {
   Future<void> addCollections(String titleCollections,
       String subTitleCollections, String avatarCollections, id) async {
     // var id = uuid.v1();
-    final _todayDate = DateTime.now();
+    final todayDate = DateTime.now();
     final model = CollectionsModel(
       id: id,
       qualityCollections: 0,
       titleCollections: titleCollections,
       subTitleCollections: subTitleCollections,
       avatarCollections: avatarCollections,
-      dateTime: formatDate(_todayDate, [
+      dateTime: formatDate(todayDate, [
         dd,
         '.',
         mm,
@@ -120,7 +120,7 @@ class CollectionsRepositories {
     String fromTheCollection,
     String inTheCollection,
   ) async {
-    final _todayDate2 = Timestamp.now();
+    final todayDate2 = Timestamp.now();
     await FirebaseFirestore.instance
         .collection(user!.phoneNumber!)
         .doc('id')
@@ -144,7 +144,7 @@ class CollectionsRepositories {
           .collection(inTheCollection)
           .doc(idCollection)
           .update({
-        'dateTimeDelete': _todayDate2,
+        'dateTimeDelete': todayDate2,
         'done': false,
       });
     });
@@ -180,7 +180,7 @@ class CollectionsRepositories {
     String formatNumber(int number) {
       String numberStr = number.toString();
       if (number < 10) {
-        numberStr = '0' + numberStr;
+        numberStr = '0$numberStr';
       }
       return numberStr;
     }
@@ -233,21 +233,21 @@ class CollectionsRepositories {
     String formatNumber(int number) {
       String numberStr = number.toString();
       if (number < 10) {
-        numberStr = '0' + numberStr;
+        numberStr = '0$numberStr';
       }
       return numberStr;
     }
 
     final String hour = formatNumber(sum ~/ 60);
     final String minutes = formatNumber(sum % 60);
-    final _todayDate = DateTime.now();
+    final todayDate = DateTime.now();
     final model = CollectionsModel(
       id: idCollection,
       qualityCollections: quality.length,
       titleCollections: nameCollection,
       subTitleCollections: subTitleCollections,
       avatarCollections: avatarCollections,
-      dateTime: formatDate(_todayDate, [
+      dateTime: formatDate(todayDate, [
         dd,
         '.',
         mm,
