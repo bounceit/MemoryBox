@@ -2,7 +2,7 @@ import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit_pages/collections_edit_model.dart';
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit_pages/widgets/button_add_audio.dart';
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit_pages/widgets/photo_container.dart';
-import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit_pages/widgets/subTitle_collections_edit.dart';
+import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit_pages/widgets/subtitle_collections_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
