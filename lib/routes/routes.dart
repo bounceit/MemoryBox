@@ -8,9 +8,9 @@ import '../pages/auth_pages/main_register_page.dart';
 import '../pages/auth_pages/register_page.dart';
 import '../pages/auth_pages/widgets/initial_widget.dart';
 import '../pages/drawer_pages/audio_delete_pages/audio_delete_page.dart';
+import '../pages/home_pages/home_page.dart';
 import '../pages/main_pages/all_audio.dart';
 import '../pages/main_pages/collections_pages/collections.dart';
-import '../pages/home_pages/home_page.dart';
 import '../pages/main_pages/main_of_main.dart';
 import '../pages/main_pages/profile_pages/profile.dart';
 import '../pages/uncategorized/splash_screen.dart';
@@ -82,7 +82,7 @@ class AppRouter {
         break;
 
       case SearchPage.routeName:
-        builder = (_) => SearchPage();
+        builder = (_) => const SearchPage();
         break;
 
       default:
