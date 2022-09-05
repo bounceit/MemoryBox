@@ -72,14 +72,6 @@ class AlertDialogApp {
                   await repositoriesCollection.deleteCollection(
                       idAudio, fromCollection);
                 },
-                child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                  child: Text(
-                    'Да',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(AppColors.colorAppbar),
@@ -92,6 +84,14 @@ class AlertDialogApp {
                     ),
                   ),
                 ),
+                child: const Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                  child: Text(
+                    'Да',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -100,14 +100,6 @@ class AlertDialogApp {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                  child: Text(
-                    'Нет',
-                    style: TextStyle(color: AppColors.colorText),
-                  ),
-                ),
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(AppColors.white100),
@@ -118,6 +110,14 @@ class AlertDialogApp {
                         color: AppColors.blue300,
                       ),
                     ),
+                  ),
+                ),
+                child: const Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                  child: Text(
+                    'Нет',
+                    style: TextStyle(color: AppColors.colorText),
                   ),
                 ),
               ),
