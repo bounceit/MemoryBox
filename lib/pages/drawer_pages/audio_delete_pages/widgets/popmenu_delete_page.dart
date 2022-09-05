@@ -55,7 +55,7 @@ class PopupMenuDeletePage extends StatelessWidget {
     await _getIdCollection(context);
     for (var item in IterableZip([_idAudioList, _sizeList])) {
       final idAudio = item[0];
-      final sizeTemp = item[1];
+      // final sizeTemp = item[1];
       // final size = sizeTemp as int;
       await _rep.deleteCollectionApp('$idAudio', 'DeleteCollections');
       // await repositoriesUser.updateSizeRepositories(-size);
