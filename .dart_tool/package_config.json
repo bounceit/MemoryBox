@@ -134,6 +134,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "file_picker",
+      "rootUri": "file:///C:/Users/Flutter/Downloads/flutter_windows_3.0.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/file_picker-4.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "firebase_auth",
       "rootUri": "file:///C:/Users/Flutter/Downloads/flutter_windows_3.0.4-stable/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.3.20",
       "packageUri": "lib/",
@@ -770,7 +776,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-08-24T13:47:43.792937Z",
+  "generated": "2022-09-05T10:35:23.479493Z",
   "generator": "pub",
   "generatorVersion": "2.17.5"
 }
