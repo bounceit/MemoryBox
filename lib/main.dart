@@ -1,6 +1,7 @@
+import 'package:audio_fairy_tales/pages/auth_pages/main_register_page.dart';
 import 'package:audio_fairy_tales/pages/auth_pages/registration_pages_model.dart';
-import 'package:audio_fairy_tales/pages/main_pages/profile_pages/profile_model.dart';
 import 'package:audio_fairy_tales/pages/uncategorized/splash_screen.dart';
+import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,18 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  );
   await Firebase.initializeApp();
-  runApp(Phoenix(child: const MyApp()));
+  runApp(
+    Phoenix(
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,19 +30,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<DataModel>(
-          create: (BuildContext context) => DataModel(),
+    return MaterialApp(
+      title: 'MemoryBox',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.colorAppbar,
         ),
-        ChangeNotifierProvider<RegistrationPageModel>(
-          create: (BuildContext context) => RegistrationPageModel(),
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(
+            color: AppColors.colorText,
+            fontFamily: 'TTNorms',
+            fontWeight: FontWeight.normal,
+          ),
         ),
-      ],
-      child: const MaterialApp(
-        initialRoute: SplashScreen.routeName,
-        onGenerateRoute: AppRouter.generateRoute,
       ),
+      initialRoute: MainRegisterPage.routeName,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }
