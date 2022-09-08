@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:audio_fairy_tales/pages/drawer_pages/search_page/search_page_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/audio_model.dart';
@@ -11,111 +12,75 @@ import '../../../../widgets/buttons/alert_dialog.dart';
 import '../../../../widgets/buttons/popup_menu_item.dart';
 import '../../../../widgets/player_widgets/player_mini.dart';
 import '../../../save_pages/save_page.dart';
+import '../bloc/search_bloc.dart';
 
 class ListPlayersSearchPage extends StatelessWidget {
-  ListPlayersSearchPage({Key? key}) : super(key: key);
-  final AudioRepositories _rep = AudioRepositories();
-  Stream<List<AudioModel>> audio(BuildContext context) => FirebaseFirestore
-      .instance
-      .collection(_rep.user!.phoneNumber!)
-      .doc('id')
-      .collection('Collections')
-      .where('searchName',
-          arrayContains: context.watch<SearchPageModel>().getSearchData)
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => AudioModel.fromJson(doc.data())).toList());
-
-  Widget buildAudio(AudioModel audio) => PlayerMini(
-        duration: '${audio.duration}',
-        url: '${audio.audioUrl}',
-        name: '${audio.audioName}',
-        done: audio.done!,
-        id: '${audio.id}',
-        collection: audio.collections ?? [],
-        popupMenu: _PopupMenuAudioSearchPage(
-          url: '${audio.audioUrl}',
-          duration: '${audio.duration}',
-          name: '${audio.audioName}',
-          image: '',
-          searchName: audio.searchName ?? [],
-          dateTime: audio.dateTime!,
-          collection: audio.collections ?? [],
-          idAudio: audio.id!,
-          done: audio.done ?? false,
-        ),
-      );
+  const ListPlayersSearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<SearchPageModel>().getSearchData;
     final double screenHeight = MediaQuery.of(context).size.height;
-    if (state == '') {
-      return Column(
-        children: [
-          SizedBox(
-            height: screenHeight * 0.95,
-            child: StreamBuilder<List<AudioModel>>(
-              stream: _rep.readAudioSort('all'),
-              builder: (
-                context,
-                snapshot,
-              ) {
-                if (snapshot.hasError) {
-                  return const Text('Ошибка');
-                }
-                if (snapshot.hasData) {
-                  final audio = snapshot.data!;
-                  return ListView(
-                    padding: const EdgeInsets.only(top: 165, bottom: 110),
-                    children: audio.map(buildAudio).toList(),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
+    return Column(
+      children: [
+        SizedBox(
+          height: screenHeight - (kBottomNavigationBarHeight + 88.0),
+          child: BlocBuilder<SearchPageBloc, SearchPageState>(
+            builder: (context, state) {
+              if (state.status == SearchPageStatus.initial) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state.status == SearchPageStatus.success) {
+                return ListView.builder(
+                  padding: const EdgeInsets.only(
+                    top: 165.0,
+                    bottom: 0.0,
+                  ),
+                  itemCount: state.list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final audio = state.list[index];
+                    return PlayerMini(
+                      duration: '${audio.duration}',
+                      url: '${audio.audioUrl}',
+                      name: '${audio.audioName}',
+                      done: audio.done!,
+                      id: '${audio.id}',
+                      collection: audio.collections ?? [],
+                      popupMenu: _PopupMenuAudioSearchPage(
+                        url: '${audio.audioUrl}',
+                        duration: '${audio.duration}',
+                        name: '${audio.audioName}',
+                        image: '',
+                        searchName: audio.searchName ?? [],
+                        dateTime: audio.dateTime!,
+                        collection: audio.collections ?? [],
+                        idAudio: audio.id!,
+                        done: audio.done ?? false,
+                      ),
+                    );
+                  },
+                );
+              }
+              if (state.status == SearchPageStatus.failed) {
+                return const Center(
+                  child: Text('Ой: сталася помилка!'),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          SizedBox(
-            height: screenHeight * 0.95,
-            child: StreamBuilder<List<AudioModel>>(
-              stream: audio(context),
-              builder: (
-                context,
-                snapshot,
-              ) {
-                if (snapshot.hasError) {
-                  return const Text('Ошибка');
-                }
-                if (snapshot.hasData) {
-                  final audio = snapshot.data!;
-                  return ListView(
-                    padding: const EdgeInsets.only(top: 165, bottom: 110),
-                    children: audio.map(buildAudio).toList(),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
   }
 }
 
 class _PopupMenuAudioSearchPage extends StatelessWidget {
-  _PopupMenuAudioSearchPage({
+  const _PopupMenuAudioSearchPage({
     Key? key,
     required this.name,
     required this.url,
@@ -136,7 +101,6 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
   final List searchName;
   final String idAudio;
   final List collection;
-  final AudioRepositories _rep = AudioRepositories();
 
   void _rename(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
@@ -158,13 +122,12 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
 
   void _addInCollection(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
-      // context
-      //     .read<CollectionAddAudioInCollectionModel>()
-      //     .setCollectionAudio(collection);
-      // context.read<CollectionAddAudioInCollectionModel>().setIdAudio(idAudio);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return Container();
-      }));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return Container();
+        }),
+      );
     });
   }
 
@@ -174,10 +137,10 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
       icon: const Icon(
         Icons.more_horiz,
       ),
-      iconSize: 40,
+      iconSize: 40.0,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(15),
+          Radius.circular(15.0),
         ),
       ),
       itemBuilder: (context) => [
@@ -191,7 +154,7 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
         ),
         popupMenuItem(
           'Удалить ',
-          () => AlertDialogApp().alertDialog(
+          () => AlertDialogApp.instance.alertDialog(
             context,
             idAudio,
             'DeleteCollections',
@@ -200,7 +163,10 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
         ),
         popupMenuItem(
           'Поделиться',
-          () => _rep.downloadAudio(idAudio, name),
+          () => AudioRepositories.instance.downloadAudio(
+            idAudio,
+            name,
+          ),
         ),
       ],
     );
