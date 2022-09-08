@@ -43,7 +43,7 @@ class SubscriptionPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SubscriptionAuthorisation()
+                // SubscriptionAuthorisation()
               ],
             ),
           ],
