@@ -8,10 +8,8 @@ class IconDoneDelete extends StatefulWidget {
     Key? key,
     required this.id,
     required this.done,
-    // required this.collection,
   }) : super(key: key);
   final String? id;
-  // final List collection;
   final bool? done;
 
   @override
@@ -19,13 +17,12 @@ class IconDoneDelete extends StatefulWidget {
 }
 
 class _IconDoneDeleteState extends State<IconDoneDelete> {
-  final AudioRepositories _rep = AudioRepositories();
   bool _done = false;
 
   Future<void> _onTapDone() async {
     _done = !_done;
     if (_done) {
-      _rep.doneAudioItem(
+      AudioRepositories.instance.doneAudioItem(
         widget.id!,
         true,
         'DeleteCollections',
@@ -33,7 +30,7 @@ class _IconDoneDeleteState extends State<IconDoneDelete> {
       setState(() {});
     }
     if (!_done) {
-      _rep.doneAudioItem(
+      AudioRepositories.instance.doneAudioItem(
         widget.id!,
         false,
         'DeleteCollections',
@@ -51,10 +48,12 @@ class _IconDoneDeleteState extends State<IconDoneDelete> {
           GestureDetector(
             onTap: () => _onTapDone(),
             child: Container(
-              width: 35,
-              height: 35,
+              width: 35.0,
+              height: 35.0,
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.colorText),
+                border: Border.all(
+                  color: AppColors.colorText,
+                ),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
