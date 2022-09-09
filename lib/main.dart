@@ -1,13 +1,11 @@
-import 'package:audio_fairy_tales/pages/auth_pages/main_register_page.dart';
-import 'package:audio_fairy_tales/pages/auth_pages/registration_pages_model.dart';
-import 'package:audio_fairy_tales/pages/uncategorized/splash_screen.dart';
+import 'package:audio_fairy_tales/pages/auth_pages/first_wight_page.dart';
+
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/routes/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: MainRegisterPage.routeName,
+      initialRoute: FirstWightPage.routeName,
       onGenerateRoute: AppRouter.generateRoute,
     );
   }
