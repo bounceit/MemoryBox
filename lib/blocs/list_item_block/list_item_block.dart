@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../repositories/audio_firebase_repositories.dart';
 
@@ -9,7 +9,6 @@ part 'list_item_event.dart';
 part 'list_item_state.dart';
 
 class ListItemBloc extends Bloc<ListItemEvent, ListItemState> {
-  StreamSubscription? _audioSubscription;
   ListItemBloc()
       : super(
           const ListItemState(),
@@ -58,6 +57,7 @@ class ListItemBloc extends Bloc<ListItemEvent, ListItemState> {
       }
     });
   }
+  StreamSubscription? _audioSubscription;
 
   @override
   Future<void> close() {
