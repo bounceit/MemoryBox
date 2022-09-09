@@ -1,14 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShatModel {
-  String? message;
-  String? phoneNumber;
-  Timestamp? dateTime;
-  ShatModel({
-    this.message,
-    this.phoneNumber,
-    this.dateTime,
-  });
   factory ShatModel.fromJson(
     Map<String, dynamic> json,
   ) {
@@ -18,6 +10,14 @@ class ShatModel {
       dateTime: json['dateTime'],
     );
   }
+  ShatModel({
+    this.message,
+    this.phoneNumber,
+    this.dateTime,
+  });
+  String? message;
+  String? phoneNumber;
+  Timestamp? dateTime;
 
   Map<String, dynamic> toJson() => {
         'message': message,
