@@ -1,15 +1,11 @@
-import 'package:audio_fairy_tales/pages/drawer_pages/audio_delete_pages/audio_delete_model.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/audio_delete_pages/widgets/appbar_delete_page.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/audio_delete_pages/widgets/list_delete_audio.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/audio_delete_pages/widgets/popmenu_delete_page.dart';
-import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../blocs/bloc_navigations/navigation_bloc.dart';
 import '../../../blocs/list_item_block/list_item_block.dart';
-import '../../../repositories/user_repositories.dart';
 import '../../../utils/constants.dart';
 import 'bloc/delete_audio_cubbit.dart';
 
@@ -67,9 +63,9 @@ class DeletePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Stack(
-                children: [
-                  const ListPlayersDeletePage(),
-                  const AppbarHeaderDeletePage(),
+                children: const [
+                  ListPlayersDeletePage(),
+                  AppbarHeaderDeletePage(),
                 ],
               ),
             ],
