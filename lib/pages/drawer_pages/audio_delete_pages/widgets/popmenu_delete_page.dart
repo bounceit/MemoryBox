@@ -1,15 +1,15 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
+
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart' show IterableZip;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../repositories/auth_repository.dart';
 import '../../../../repositories/collections_repositories.dart';
 import '../../../../repositories/user_repositories.dart';
 import '../../../../widgets/buttons/popup_menu_item.dart';
-import '../audio_delete_model.dart';
 import '../bloc/delete_audio_cubbit.dart';
 
 class PopupMenuDeletePage extends StatelessWidget {
