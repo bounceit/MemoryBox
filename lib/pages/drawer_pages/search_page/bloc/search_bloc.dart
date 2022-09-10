@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:audio_fairy_tales/repositories/audio_firebase_repositories.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
-  StreamSubscription? _audioSubscription;
   SearchPageBloc()
       : super(
           const SearchPageState(),
@@ -71,6 +70,7 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
       );
     });
   }
+  StreamSubscription? _audioSubscription;
   @override
   Future<void> close() {
     _audioSubscription?.cancel();
