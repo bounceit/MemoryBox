@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DeletePageModel extends ChangeNotifier {
   bool _itemDone = false;
 
-  get getItemDone => _itemDone;
+  bool get getItemDone => _itemDone;
 
   void stateCollections() {
     if (_itemDone) {
