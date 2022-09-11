@@ -1,14 +1,4 @@
-import 'package:audio_fairy_tales/models/user_model.dart';
-import 'package:audio_fairy_tales/recursec/app_colors.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_format/date_format.dart';
-import 'package:flutter/material.dart';
 
-import '../../../../recursec/app_icons.dart';
-import '../../../../repositories/user_repositories.dart';
-import '../../../../utils/constants.dart';
-import '../../../../widgets/buttons/button_continue.dart';
-import '../../../../widgets/container_shadow.dart';
 
 // class SubscriptionAuthorisation extends StatelessWidget {
 //   SubscriptionAuthorisation({Key? key}) : super(key: key);
