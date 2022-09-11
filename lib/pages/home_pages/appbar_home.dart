@@ -1,14 +1,18 @@
 import 'package:audio_fairy_tales/custom_shape.dart';
-import 'package:audio_fairy_tales/models/collections_model.dart';
+import 'package:audio_fairy_tales/pages/home_pages/bloc/blue_bloc/blue_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../models/view_model.dart';
+import '../../blocs/bloc_navigations/navigation_bloc.dart';
+import '../../blocs/bloc_navigations/navigation_state.dart';
+import '../../widgets/navigation/navigate_to_page.dart';
 import '../../widgets/uncategorized/homepage_containers/blue_container.dart';
 import '../../widgets/uncategorized/homepage_containers/green_container.dart';
 import '../../widgets/uncategorized/homepage_containers/orange_container.dart';
-import '../main_pages/collections_pages/collections_repository.dart';
+import '../main_pages/collections_pages/collections/collections.dart';
+import 'bloc/green_bloc/green_bloc.dart';
+import 'bloc/orange_bloc/orange_bloc.dart';
 
 class AppbarHeaderHomePage extends StatelessWidget {
   const AppbarHeaderHomePage({Key? key}) : super(key: key);
@@ -32,7 +36,7 @@ class AppbarHeaderHomePage extends StatelessWidget {
             child: Container(
               color: AppColors.colorAppbar,
               width: double.infinity,
-              height: 250.0,
+              height: 200.0,
             ),
           ),
           _TitleAppbar(
@@ -56,44 +60,53 @@ class AppbarHeaderHomePage extends StatelessWidget {
 class _TitleAppbar extends StatelessWidget {
   const _TitleAppbar({Key? key, required this.screenWidth}) : super(key: key);
   final double screenWidth;
+
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 0.0,
-      child: SizedBox(
-        width: screenWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Подборки',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GestureDetector(
-                onTap: () {
-                  Provider.of<Navigation>(context, listen: false)
-                      .setCurrentIndex = 1;
-                },
-                child: const Text(
-                  'Открыть все',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.white,
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return Positioned(
+          top: 0.0,
+          child: SizedBox(
+            width: screenWidth,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                  ),
+                  child: Text(
+                    'Подборки',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                  ),
+                  child: GestureDetector(
+                    onTap: () => NavigateToPage.instance?.navigate(context,
+                        index: 1,
+                        currentIndex: state.currentIndex,
+                        route: Collections.routeName),
+                    child: const Text(
+                      'Открыть все',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -142,17 +155,21 @@ class _ContainerModel extends StatelessWidget {
       width: screenWidth / 2.3,
       height: height,
       decoration: const BoxDecoration(
-          color: AppColors.blue200,
-          borderRadius: BorderRadius.all(
-            Radius.circular(15.0),
-          )),
+        color: AppColors.blue200,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15.0),
+        ),
+      ),
       child: Stack(
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.all(
               Radius.circular(20.0),
             ),
-            child: imageInContainer(image, screenWidth),
+            child: imageInContainer(
+              image,
+              screenWidth,
+            ),
           ),
           ClipRRect(
             borderRadius: const BorderRadius.all(
@@ -162,7 +179,8 @@ class _ContainerModel extends StatelessWidget {
               width: screenWidth / 2.3,
               height: height,
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 5, bottom: 10),
+                padding:
+                    const EdgeInsets.only(left: 10.0, right: 5.0, bottom: 10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -217,19 +235,11 @@ class _ContainerModel extends StatelessWidget {
 }
 
 class _BlueListCollections extends StatelessWidget {
-  _BlueListCollections({Key? key, required this.screenWidth}) : super(key: key);
-  final CollectionsRepositories repositories = CollectionsRepositories();
+  const _BlueListCollections({
+    Key? key,
+    required this.screenWidth,
+  }) : super(key: key);
   final double screenWidth;
-
-  Widget buildCollections(CollectionsModel collections) => _ContainerModel(
-        image: '${collections.avatarCollections}',
-        title: '${collections.titleCollections}',
-        totalTime: '${collections.totalTime}',
-        quality: '${collections.qualityCollections}',
-        screenWidth: screenWidth,
-        height: 95.0,
-        boxFit: BoxFit.fitWidth,
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -241,19 +251,34 @@ class _BlueListCollections extends StatelessWidget {
           right: 16.0,
           top: 24.0,
         ),
-        child: StreamBuilder<List<CollectionsModel>>(
-          stream: repositories.readCollections(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
+        child: BlocBuilder<BlueListItemBloc, BlueListItemState>(
+          builder: (context, state) {
+            if (state.status == BlueListItemStatus.initial) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state.status == BlueListItemStatus.failed) {
               return BlueContainer(
                 screenWidth: screenWidth,
               );
             }
-            if (snapshot.hasData) {
-              final collections = snapshot.data!;
-              if (collections.map(buildCollections).toList().isNotEmpty) {
-                return Container(
-                  child: collections.map(buildCollections).toList().last,
+            if (state.status == BlueListItemStatus.emptyList) {
+              return BlueContainer(
+                screenWidth: screenWidth,
+              );
+            }
+            if (state.status == BlueListItemStatus.success) {
+              if (state.list.isNotEmpty) {
+                final collections = state.list.last;
+                return _ContainerModel(
+                  image: '${collections.avatarCollections}',
+                  title: '${collections.titleCollections}',
+                  totalTime: '${collections.totalTime}',
+                  quality: '${collections.qualityCollections}',
+                  screenWidth: screenWidth,
+                  height: 95.0,
+                  boxFit: BoxFit.fitWidth,
                 );
               } else {
                 return BlueContainer(
@@ -277,20 +302,11 @@ class _BlueListCollections extends StatelessWidget {
 }
 
 class _OrangeListCollections extends StatelessWidget {
-  _OrangeListCollections({Key? key, required this.screenWidth})
-      : super(key: key);
-  final CollectionsRepositories repositories = CollectionsRepositories();
+  const _OrangeListCollections({
+    Key? key,
+    required this.screenWidth,
+  }) : super(key: key);
   final double screenWidth;
-
-  Widget buildCollections(CollectionsModel collections) => _ContainerModel(
-        image: '${collections.avatarCollections}',
-        title: '${collections.titleCollections}',
-        totalTime: '${collections.totalTime}',
-        quality: '${collections.qualityCollections}',
-        screenWidth: screenWidth,
-        boxFit: BoxFit.fitWidth,
-        height: 95.0,
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -302,20 +318,34 @@ class _OrangeListCollections extends StatelessWidget {
           top: 16.0,
           right: 16.0,
         ),
-        child: StreamBuilder<List<CollectionsModel>>(
-          stream: repositories.readCollections(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
+        child: BlocBuilder<OrangeListItemBloc, OrangeListItemState>(
+          builder: (context, state) {
+            if (state.status == OrangeListItemStatus.initial) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state.status == OrangeListItemStatus.failed) {
               return OrangeContainer(
                 screenWidth: screenWidth,
               );
             }
-            if (snapshot.hasData) {
-              final collections = snapshot.data!;
-              if (collections.map(buildCollections).toList().length - 2 >= 0) {
-                return Container(
-                  child: collections.map(buildCollections).toList()[
-                      collections.map(buildCollections).toList().length - 2],
+            if (state.status == OrangeListItemStatus.emptyList) {
+              return OrangeContainer(
+                screenWidth: screenWidth,
+              );
+            }
+            if (state.status == OrangeListItemStatus.success) {
+              if (state.list.length - 2 >= 0) {
+                final collections = state.list[state.list.length - 2];
+                return _ContainerModel(
+                  image: '${collections.avatarCollections}',
+                  title: '${collections.titleCollections}',
+                  totalTime: '${collections.totalTime}',
+                  quality: '${collections.qualityCollections}',
+                  screenWidth: screenWidth,
+                  boxFit: BoxFit.fitWidth,
+                  height: 95.0,
                 );
               } else {
                 return OrangeContainer(
@@ -339,20 +369,9 @@ class _OrangeListCollections extends StatelessWidget {
 }
 
 class _GreenListCollections extends StatelessWidget {
-  _GreenListCollections({Key? key, required this.screenWidth})
+  const _GreenListCollections({Key? key, required this.screenWidth})
       : super(key: key);
-  final CollectionsRepositories repositories = CollectionsRepositories();
   final double screenWidth;
-
-  Widget buildCollections(CollectionsModel collections) => _ContainerModel(
-        image: '${collections.avatarCollections}',
-        title: '${collections.titleCollections}',
-        totalTime: '${collections.totalTime}',
-        quality: '${collections.qualityCollections}',
-        screenWidth: screenWidth,
-        boxFit: BoxFit.fitHeight,
-        height: 210.0,
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -364,20 +383,34 @@ class _GreenListCollections extends StatelessWidget {
           top: 16.0,
           right: 16.0,
         ),
-        child: StreamBuilder<List<CollectionsModel>>(
-          stream: repositories.readCollections(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
+        child: BlocBuilder<GreenListItemBloc, GreenListItemState>(
+          builder: (_, state) {
+            if (state.status == GreenListItemStatus.initial) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state.status == GreenListItemStatus.failed) {
               return GreenContainer(
                 screenWidth: screenWidth,
               );
             }
-            if (snapshot.hasData) {
-              final collections = snapshot.data!;
-              if (collections.map(buildCollections).toList().length - 3 >= 0) {
-                return Container(
-                  child: collections.map(buildCollections).toList()[
-                      collections.map(buildCollections).toList().length - 3],
+            if (state.status == GreenListItemStatus.emptyList) {
+              return GreenContainer(
+                screenWidth: screenWidth,
+              );
+            }
+            if (state.status == GreenListItemStatus.success) {
+              if (state.list.length - 3 >= 0) {
+                final collections = state.list[state.list.length - 3];
+                return _ContainerModel(
+                  image: '${collections.avatarCollections}',
+                  title: '${collections.titleCollections}',
+                  totalTime: '${collections.totalTime}',
+                  quality: '${collections.qualityCollections}',
+                  screenWidth: screenWidth,
+                  boxFit: BoxFit.fitHeight,
+                  height: 210.0,
                 );
               } else {
                 return GreenContainer(
