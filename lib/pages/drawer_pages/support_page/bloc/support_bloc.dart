@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../repositories/user_repositories.dart';
 
@@ -11,7 +11,6 @@ part 'support_state.dart';
 
 class SupportMessageBloc
     extends Bloc<SupportMessageEvent, SupportMessageState> {
-  StreamSubscription? _messageSubscription;
   SupportMessageBloc()
       : super(
           const SupportMessageState(),
@@ -51,6 +50,7 @@ class SupportMessageBloc
       );
     });
   }
+  StreamSubscription? _messageSubscription;
 
   @override
   Future<void> close() {
