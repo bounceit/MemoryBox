@@ -1,12 +1,8 @@
 import 'dart:async';
 
-import 'package:audio_fairy_tales/pages/drawer_pages/search_page/search_page_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import '../../../../models/audio_model.dart';
 import '../../../../repositories/audio_firebase_repositories.dart';
 import '../../../../widgets/buttons/alert_dialog.dart';
 import '../../../../widgets/buttons/popup_menu_item.dart';
@@ -126,6 +122,10 @@ class _PopupMenuAudioSearchPage extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (context) {
           return Container();
+          // CollectionAddAudioInCollection(
+          //   collectionAudio: collection,
+          //   idAudio: idAudio,
+          // );
         }),
       );
     });
