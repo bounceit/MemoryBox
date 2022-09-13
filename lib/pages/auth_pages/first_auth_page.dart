@@ -59,7 +59,7 @@ class _FirstAuthorizationPageState extends State<FirstAuthorizationPage> {
                       height: 80.0,
                       widget: Text(
                         'Мы рады тебя видеть',
-                        style: bodyTextStyle,
+                        style: twoBodyTextStyle,
                       ),
                       radius: 20.0,
                     ),
@@ -78,7 +78,7 @@ class _FirstAuthorizationPageState extends State<FirstAuthorizationPage> {
                       height: 75.0,
                       widget: Text(
                         'Взрослые иногда нуждаются в \n сказке даже больше, чем дети',
-                        style: bodyTextStyle,
+                        style: twoBodyTextStyle,
                       ),
                       radius: 20.0,
                     ),
