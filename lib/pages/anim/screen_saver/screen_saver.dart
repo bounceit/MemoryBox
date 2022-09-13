@@ -44,7 +44,7 @@ class ScreensaverState extends State<Screensaver>
     );
     animationColor = ColorTween(
       begin: Colors.white,
-      end: AppColors.green100,
+      end: AppColors.colorAppbar,
     ).animate(controller);
     animationColor2 = ColorTween(
       begin: const Color(0XFF8077E4),
