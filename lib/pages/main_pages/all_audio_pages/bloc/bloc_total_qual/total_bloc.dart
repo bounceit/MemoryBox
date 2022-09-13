@@ -12,13 +12,18 @@ class QualityTotalTimeBloc
       : super(
           const QualityTotalTimeState(),
         ) {
-    on<LoadQualityTotalTimeEvent>((event, emit) {
+    on<LoadQualityTotalTimeEvent>((
+      LoadQualityTotalTimeEvent event,
+      Emitter<QualityTotalTimeState> emit,
+    ) {
       try {
         _qualityTotalTimeSubscription?.cancel();
         _qualityTotalTimeSubscription =
             UserRepositories.instance.readUser().listen((qualityTotalTime) {
           add(
-            UpdateQualityTotalTimeEvent(qualityTotalTime: qualityTotalTime),
+            UpdateQualityTotalTimeEvent(
+              qualityTotalTime: qualityTotalTime,
+            ),
           );
         });
       } on Exception {
