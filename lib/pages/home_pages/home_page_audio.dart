@@ -39,7 +39,7 @@ class HomePageAudio extends StatelessWidget {
           children: const [
             Expanded(
               flex: 2,
-              child: _TitleAudioList(),
+              child: TitleAudioList(),
             ),
             Expanded(
               flex: 8,
@@ -129,8 +129,8 @@ class _AudioList extends StatelessWidget {
   }
 }
 
-class _TitleAudioList extends StatelessWidget {
-  const _TitleAudioList({Key? key}) : super(key: key);
+class TitleAudioList extends StatelessWidget {
+  const TitleAudioList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
