@@ -1,10 +1,10 @@
+import 'package:audio_fairy_tales/animations/all_audio_player_anim/all_audio_player.dart';
 import 'package:audio_fairy_tales/custom_shape.dart';
 import 'package:audio_fairy_tales/pages/main_pages/all_audio_pages/bloc/bloc_total_qual/total_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../animations/all_audio_player_anim/all_audio_player.dart';
 import '../../../../models/user_model.dart';
 import '../../../../utils/constants.dart';
 import '../bloc/bloc_total_qual/total_state.dart';
