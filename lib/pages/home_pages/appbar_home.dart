@@ -36,7 +36,7 @@ class AppbarHeaderHomePage extends StatelessWidget {
             child: Container(
               color: AppColors.colorAppbar,
               width: double.infinity,
-              height: 200.0,
+              height: 250.0,
             ),
           ),
           _TitleAppbar(
