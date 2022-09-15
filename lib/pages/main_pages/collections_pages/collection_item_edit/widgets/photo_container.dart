@@ -4,7 +4,7 @@ import 'package:audio_fairy_tales/widgets/buttons/icon_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../widgets/container_shadow.dart';
+import '../../../../../widgets/uncategorized/container_shadow.dart';
 
 class PhotoContainer extends StatelessWidget {
   const PhotoContainer({
@@ -38,7 +38,7 @@ class PhotoContainer extends StatelessWidget {
               width: screenWidth * 0.955,
               height: 200.0,
               widget: IconCamera(
-                color: AppColors.white,
+                color: Colors.transparent,
                 onTap: () =>
                     context.read<GetImageCollectionItemEditCubit>().getImage(),
                 colorBorder: AppColors.white100,
