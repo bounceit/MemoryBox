@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/list_item_block/list_item_block.dart';
 import '../../../utils/constants.dart';
 
+import '../../../widgets/player_widgets/player_collections.dart';
 import 'bloc/bloc_anim/anim_bloc.dart';
 import 'bloc/bloc_total_qual/total_bloc.dart';
 import 'bloc/bloc_total_qual/total_event.dart';
@@ -17,6 +18,8 @@ class SellectionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWight = MediaQuery.of(context).size.width;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AnimBloc>(
@@ -78,13 +81,12 @@ class SellectionsPage extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 5.0),
-                      child: Container(),
-                      // PlayerCollections(
-                      //   screenWight: screenWight,
-                      //   screenHeight: screenHeight,
-                      //   idCollection: 'all',
-                      //   animation: state.anim,
-                      // ),
+                      child: PlayerCollections(
+                        screenWight: screenWight,
+                        screenHeight: screenHeight,
+                        idCollection: 'all',
+                        animation: state.anim,
+                      ),
                     ),
                   );
                 },
