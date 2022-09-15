@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../recursec/app_icons.dart';
 import '../../utils/constants.dart';
-import '../../widgets/container_shadow.dart';
 import '../../widgets/uncategorized/app_bar_auth.dart';
-import '../main_pages/main_of_main.dart';
+import '../../widgets/uncategorized/container_shadow.dart';
+import '../main_of_main.dart';
 
 class FirstAuthorizationPage extends StatefulWidget {
   const FirstAuthorizationPage({Key? key}) : super(key: key);
