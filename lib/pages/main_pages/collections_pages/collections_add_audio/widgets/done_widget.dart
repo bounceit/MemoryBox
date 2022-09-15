@@ -93,7 +93,7 @@ class _DoneWidgetState extends State<DoneWidget> {
               child: Center(
                 child: Icon(
                   Icons.done,
-                  color: _done ? AppColors.colorText : AppColors.white,
+                  color: _done ? AppColors.colorText : AppColors.colorAppbar,
                 ),
               ),
             ),
