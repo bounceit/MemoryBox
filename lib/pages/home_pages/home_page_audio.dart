@@ -3,7 +3,6 @@ import 'package:audio_fairy_tales/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/bloc_navigations/navigation_bloc.dart';
 import '../../blocs/bloc_navigations/navigation_state.dart';
 import '../../blocs/list_item_block/list_item_block.dart';
 import '../../widgets/main_page_widgets/popup_home_menu.dart';
@@ -39,7 +38,7 @@ class HomePageAudio extends StatelessWidget {
           children: const [
             Expanded(
               flex: 2,
-              child: TitleAudioList(),
+              child: _TitleAudioList(),
             ),
             Expanded(
               flex: 8,
@@ -129,41 +128,41 @@ class _AudioList extends StatelessWidget {
   }
 }
 
-class TitleAudioList extends StatelessWidget {
-  const TitleAudioList({Key? key}) : super(key: key);
+class _TitleAudioList extends StatelessWidget {
+  const _TitleAudioList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigationBloc, NavigationState>(
-      builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Аудиозаписи',
-                style: TextStyle(
-                  fontSize: 24.0,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => NavigateToPage.instance?.navigate(context,
-                    index: 3,
-                    currentIndex: state.currentIndex,
-                    route: SellectionsPage.routeName),
-                child: const Text(
-                  'Открыть все',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                  ),
-                ),
-              )
-            ],
+    // return BlocBuilder<NavigationBloc, NavigationState>(
+    //   builder: (context, state) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Аудиозаписи',
+            style: TextStyle(
+              fontSize: 24.0,
+            ),
           ),
-        );
-      },
+          GestureDetector(
+            onTap: () => NavigateToPage.instance?.navigate(context,
+                index: 3,
+                currentIndex: const NavigationState().currentIndex,
+                route: SellectionsPage.routeName),
+            child: const Text(
+              'Открыть все',
+              style: TextStyle(
+                fontSize: 14.0,
+              ),
+            ),
+          )
+        ],
+      ),
     );
+    //   },
+    // );
   }
 }

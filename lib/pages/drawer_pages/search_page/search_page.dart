@@ -37,16 +37,18 @@ class SearchPage extends StatelessWidget {
               style: twoTitleTextStyle,
             ),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: const [
-                  ListPlayersSearchPage(),
-                  AppbarHeaderSearchPage(),
-                ],
-              ),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: const [
+                    ListPlayersSearchPage(),
+                    AppbarHeaderSearchPage(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

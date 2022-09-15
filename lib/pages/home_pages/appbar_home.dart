@@ -4,7 +4,6 @@ import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/bloc_navigations/navigation_bloc.dart';
 import '../../blocs/bloc_navigations/navigation_state.dart';
 import '../../widgets/navigation/navigate_to_page.dart';
 import '../../widgets/uncategorized/homepage_containers/blue_container.dart';
@@ -63,51 +62,51 @@ class _TitleAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigationBloc, NavigationState>(
-      builder: (context, state) {
-        return Positioned(
-          top: 0.0,
-          child: SizedBox(
-            width: screenWidth,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  child: Text(
-                    'Подборки',
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.white,
-                    ),
-                  ),
+    // return BlocBuilder<NavigationBloc, NavigationState>(
+    //   builder: (context, state) {
+    return Positioned(
+      top: 0.0,
+      child: SizedBox(
+        width: screenWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+              ),
+              child: Text(
+                'Подборки',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.white,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                  ),
-                  child: GestureDetector(
-                    onTap: () => NavigateToPage.instance?.navigate(context,
-                        index: 1,
-                        currentIndex: state.currentIndex,
-                        route: Collections.routeName),
-                    child: const Text(
-                      'Открыть все',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        );
-      },
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+              ),
+              child: GestureDetector(
+                onTap: () => NavigateToPage.instance?.navigate(context,
+                    index: 1,
+                    currentIndex: const NavigationState().currentIndex,
+                    route: Collections.routeName),
+                child: const Text(
+                  'Открыть все',
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
+    //   },
+    // );
   }
 }
 

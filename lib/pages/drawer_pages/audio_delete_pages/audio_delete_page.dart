@@ -4,7 +4,6 @@ import 'package:audio_fairy_tales/pages/drawer_pages/audio_delete_pages/widgets/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../blocs/bloc_navigations/navigation_bloc.dart';
 import '../../../blocs/list_item_block/list_item_block.dart';
 import '../../../utils/constants.dart';
 import 'bloc/delete_audio_cubbit.dart';
@@ -31,9 +30,9 @@ class DeletePage extends StatelessWidget {
         BlocProvider<DeleteItemDoneCubit>(
           create: (context) => DeleteItemDoneCubit(),
         ),
-        BlocProvider<NavigationBloc>(
-          create: (context) => NavigationBloc(),
-        ),
+        // BlocProvider<NavigationBloc>(
+        //   create: (context) => NavigationBloc(),
+        // ),
       ],
       child: WillPopScope(
         onWillPop: () async {
