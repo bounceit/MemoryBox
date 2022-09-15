@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../widgets/buttons/button_continue.dart';
-import '../../../../widgets/container_shadow.dart';
+import '../../../../widgets/uncategorized/container_shadow.dart';
 import '../../../../widgets/uncategorized/text_input.dart';
-import '../../../main_pages/main_of_main.dart';
+import '../../../main_of_main.dart';
 import '../../last_auth_page.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
