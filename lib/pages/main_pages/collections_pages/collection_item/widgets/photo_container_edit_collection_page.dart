@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../animations/collections_page/button_play_pause.dart';
 import '../../../../../utils/constants.dart';
-import '../../../../../widgets/container_shadow.dart';
+import '../../../../../widgets/uncategorized/container_shadow.dart';
 
 class PhotoContainer extends StatelessWidget {
   const PhotoContainer({
