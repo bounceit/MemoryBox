@@ -5,8 +5,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import '../../recursec/app_icons.dart';
 import '../../utils/constants.dart';
-import '../../widgets/container_shadow.dart';
 import '../../widgets/uncategorized/app_bar_auth.dart';
+import '../../widgets/uncategorized/container_shadow.dart';
 
 class LastAuthorizationPage extends StatefulWidget {
   const LastAuthorizationPage({Key? key}) : super(key: key);
