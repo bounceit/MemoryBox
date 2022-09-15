@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../widgets/buttons/icon_camera.dart';
-import '../../../../../widgets/container_shadow.dart';
+import '../../../../../widgets/uncategorized/container_shadow.dart';
 import '../blocs/cubit_image_edit/get_image_cubit.dart';
 
 class PhotoContainer extends StatefulWidget {
