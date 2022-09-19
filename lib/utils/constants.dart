@@ -109,3 +109,22 @@ String formatNumberTwo(int number) {
 
   return numberStr;
 }
+
+const kLinkColorText = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: AppColors.colorTextLink,
+);
+const kButtonbarTextStyle = TextStyle(
+  fontFamily: 'TTNorms',
+  fontSize: 10.0,
+  color: AppColors.colorText,
+);
+
+const kBorderContainer2 = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(20.0),
+    topRight: Radius.circular(20.0),
+  ),
+);
