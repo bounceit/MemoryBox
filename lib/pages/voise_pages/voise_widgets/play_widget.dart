@@ -1,25 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audio_fairy_tales/pages/voise_pages/bloc/record_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart' as ap;
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-
+import '../../../database/local_save_audio.dart';
 import '../../../recursec/app_icons.dart';
 import '../../../repositories/audio_firebase_repositories.dart';
-
-import '../../../repositories/audio_save_local.dart';
-
+import '../../../repositories/auth_repository.dart';
 import '../../../repositories/user_repositories.dart';
-
 import '../../../utils/constants.dart';
 import '../../../widgets/uncategorized/slider.dart';
-
-import '../model_voise_page.dart';
 
 class AudioPlayer extends StatefulWidget {
   const AudioPlayer({
@@ -27,13 +23,7 @@ class AudioPlayer extends StatefulWidget {
     required this.source,
     required this.onDelete,
   }) : super(key: key);
-  static const routeName = '/play_page';
-
-  /// Path from where to play recorded audio
   final ap.AudioSource source;
-
-  /// Callback when audio file should be removed
-  /// Setting this to null hides the delete button
   final VoidCallback onDelete;
 
   @override
@@ -41,7 +31,6 @@ class AudioPlayer extends StatefulWidget {
 }
 
 class AudioPlayerState extends State<AudioPlayer> {
-  final UserRepositories _rep = UserRepositories();
   static const double _controlSize = 56;
   static const double _deleteBtnSize = 24;
 
@@ -65,10 +54,12 @@ class AudioPlayerState extends State<AudioPlayer> {
       }
       setState(() {});
     });
-    _positionChangedSubscription =
-        _audioPlayer.positionStream.listen((position) => setState(() {}));
-    _durationChangedSubscription =
-        _audioPlayer.durationStream.listen((duration) => setState(() {}));
+    _positionChangedSubscription = _audioPlayer.positionStream.listen(
+      (position) => setState(() {}),
+    );
+    _durationChangedSubscription = _audioPlayer.durationStream.listen(
+      (duration) => setState(() {}),
+    );
     _init();
 
     super.initState();
@@ -88,11 +79,11 @@ class AudioPlayerState extends State<AudioPlayer> {
     super.dispose();
   }
 
-  Future<void> shareAudio(BuildContext context) async {
+  Future<void> shareAudio(BuildContext context, state) async {
     Directory directory = await getTemporaryDirectory();
     final filePath = '${directory.path}/$_saveRecord.mp3';
     var file = File(filePath);
-    var fileTemp = File(Provider.of<ModelRP>(context, listen: false).getData);
+    var fileTemp = File(state.path);
     var isExist = await file.exists();
     if (!isExist) {
       await file.create();
@@ -104,36 +95,48 @@ class AudioPlayerState extends State<AudioPlayer> {
     );
   }
 
-  Future<void> logicSave() async {
-    if (_rep.user == null) {
-      saveRecordLocal();
+  Future<void> logicSave(state) async {
+    if (AuthRepositories.instance.user == null) {
+      saveRecordLocal(state);
     } else {
       await FirebaseFirestore.instance
-          .collection(_rep.user!.phoneNumber!)
+          .collection(AuthRepositories.instance.user!.phoneNumber!)
           .get()
           .then((querySnapshot) {
-        saveRecordsFirebase();
+        for (var result in querySnapshot.docs) {
+          final bool subscription = result.data()['subscription'] ?? true;
+          AuthRepositories.instance.user == null
+              ? saveRecordLocal(state)
+              : subscription
+                  ? saveRecordsFirebase(state)
+                  : saveRecordLocal(state);
+        }
       });
     }
   }
 
-  void saveRecordLocal() {
-    LocalSaveAudioFIle().saveAudioStorageDirectory(
+  void saveRecordLocal(state) {
+    LocalSaveAudioFile.instance.saveAudioStorageDirectory(
       context,
-      Provider.of<ModelRP>(context, listen: false).getData,
+      state.path,
       _saveRecord,
     );
-    _audioPlayer.stop().then((value) => widget.onDelete());
+    _audioPlayer.stop().then(
+          (value) => widget.onDelete(),
+        );
   }
 
-  Future<void> saveRecordsFirebase() async {
-    _audioPlayer.stop().then((value) => widget.onDelete());
-    await AudioRepositories().addAudio(
-      Provider.of<ModelRP>(context, listen: false).getData,
+  Future<void> saveRecordsFirebase(state) async {
+    _audioPlayer.stop().then(
+          (value) => widget.onDelete(),
+        );
+    await AudioRepositories.instance.addAudio(
+      state.path,
       _saveRecord,
-      Provider.of<ModelRP>(context, listen: false).getDuration,
+      '${state.minutes}:${state.seconds}',
       searchName,
     );
+    await UserRepositories.instance.updateTotalTimeQuality();
   }
 
   Future<void> play() {
@@ -152,7 +155,11 @@ class AudioPlayerState extends State<AudioPlayer> {
     await _audioPlayer.stop();
     _timer?.cancel();
     setState(() => _recordDuration = 0);
-    return _audioPlayer.seek(const Duration(milliseconds: 0));
+    return _audioPlayer.seek(
+      const Duration(
+        milliseconds: 0,
+      ),
+    );
   }
 
   void _startTimer() {
@@ -175,9 +182,11 @@ class AudioPlayerState extends State<AudioPlayer> {
     } else {
       icon = Container(
         color: Colors.transparent,
-        child: Image.asset(
-          'assets/images/playR.png',
-          fit: BoxFit.fill,
+        child: Expanded(
+          child: Image.asset(
+            'assets/images/playR.png',
+            fit: BoxFit.fill,
+          ),
         ),
       );
     }
@@ -220,16 +229,23 @@ class AudioPlayerState extends State<AudioPlayer> {
       width: width * 2,
       child: SliderTheme(
         data: SliderTheme.of(context).copyWith(
-            thumbShape: const RoundedAmebaThumbShape(
-                radius: 8, color: AppColors.colorText),
-            thumbColor: AppColors.colorText,
-            inactiveTrackColor: AppColors.colorText,
-            activeTrackColor: AppColors.colorText),
+          thumbShape: const RoundedAmebaThumbShape(
+            radius: 8,
+            color: AppColors.colorText,
+          ),
+          thumbColor: AppColors.colorText,
+          inactiveTrackColor: AppColors.colorText,
+          activeTrackColor: AppColors.colorText,
+        ),
         child: Slider(
           onChanged: (v) {
             if (duration != null) {
               final position = v * duration.inMilliseconds;
-              _audioPlayer.seek(Duration(milliseconds: position.round()));
+              _audioPlayer.seek(
+                Duration(
+                  milliseconds: position.round(),
+                ),
+              );
             }
           },
           value: canSetValue && duration != null
@@ -245,18 +261,24 @@ class AudioPlayerState extends State<AudioPlayer> {
       return _buildTimer();
     }
 
-    return const Text('00:00');
+    return const Text(
+      '00:00',
+    );
   }
 
   Widget _buildTimer() {
-    final String minutes = _formatNumber(_recordDuration ~/ 60);
-    final String seconds = _formatNumber(_recordDuration % 60);
+    final String minutes = _formatNumber(
+      _recordDuration ~/ 60,
+    );
+    final String seconds = _formatNumber(
+      _recordDuration % 60,
+    );
     return Text(
       '$minutes : $seconds',
     );
   }
 
-  Widget _icon() {
+  Widget _icon(state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -264,28 +286,46 @@ class AudioPlayerState extends State<AudioPlayer> {
           child: Row(
             children: [
               IconButton(
-                onPressed: () => shareAudio(context),
-                icon: Image.asset(AppIcons.recUpload),
+                onPressed: () => shareAudio(
+                  context,
+                  state,
+                ),
+                icon: Image.asset(
+                  AppIcons.recUpload,
+                ),
               ),
               IconButton(
-                  onPressed: () => saveRecordLocal(),
-                  icon: Image.asset(AppIcons.recPaperDownload),
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0)),
+                onPressed: () => saveRecordLocal(state),
+                icon: Image.asset(
+                  AppIcons.recPaperDownload,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15.0,
+                ),
+              ),
               IconButton(
-                  onPressed: () =>
-                      _audioPlayer.stop().then((value) => widget.onDelete()),
-                  icon: Image.asset(AppIcons.recDelete),
-                  padding: const EdgeInsets.symmetric(horizontal: 15)),
+                onPressed: () => _audioPlayer.stop().then(
+                      (value) => widget.onDelete(),
+                    ),
+                icon: Image.asset(
+                  AppIcons.recDelete,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
+              ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 35.0),
+          padding: const EdgeInsets.only(
+            left: 35.0,
+          ),
           child: TextButton(
-            onPressed: () => logicSave(),
+            onPressed: () => logicSave(state),
             child: const Text(
               'Сохранить',
-              style: bodyTextStyle,
+              style: sevenTitleTextStyle,
             ),
           ),
         ),
@@ -304,86 +344,99 @@ class AudioPlayerState extends State<AudioPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _icon(),
-          const SizedBox(
-            height: 75.0,
-          ),
-          SizedBox(
-            width: 200.0,
-            child: TextField(
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Аудиофайл',
-                hintStyle:
-                    TextStyle(fontSize: 24.0, color: AppColors.colorText),
-              ),
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24.0),
-              onChanged: (value) {
-                _saveRecord = value;
-                final data = value.toLowerCase();
-                searchName.add(data);
-                if (data != searchName.last) {
-                  searchName.remove(searchName.last);
-                }
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 100.0,
-          ),
-          _buildSlider(double.infinity),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
+    return BlocBuilder<RecordingsPageBloc, RecordingsPageState>(
+      builder: (_, state) {
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildText(),
-                Text(
-                    '${Provider.of<ModelRP>(context, listen: false).getDuration}'),
+                _icon(state),
+                const SizedBox(
+                  height: 75.0,
+                ),
+                SizedBox(
+                  width: 200.0,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Аудиофайл',
+                      hintStyle: TextStyle(
+                        fontSize: 24.0,
+                        color: AppColors.colorText,
+                      ),
+                    ),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 24.0,
+                    ),
+                    onChanged: (value) {
+                      _saveRecord = value;
+                      final data = value.toLowerCase();
+                      searchName.add(data);
+                      if (data != searchName.last) {
+                        searchName.remove(searchName.last);
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 100.0,
+                ),
+                _buildSlider(constraints.maxWidth),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildText(),
+                      Text('${state.minutes}:${state.seconds}'),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 70.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        await _audioPlayer.seek(
+                          Duration(
+                              seconds: _audioPlayer.position.inSeconds - 15),
+                        );
+                        _recordDuration - 15;
+                      },
+                      icon: const Icon(
+                        Icons.replay_10,
+                      ),
+                    ),
+                    _buildControl(),
+                    IconButton(
+                      onPressed: () async {
+                        await _audioPlayer.seek(
+                          Duration(
+                              seconds: _audioPlayer.position.inSeconds + 15),
+                        );
+                        _recordDuration + 15;
+                      },
+                      icon: const Icon(
+                        Icons.forward_10,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20.0,
+                ),
               ],
-            ),
-          ),
-          const SizedBox(
-            height: 150.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                onPressed: () async {
-                  await _audioPlayer.seek(
-                    Duration(seconds: _audioPlayer.position.inSeconds - 15),
-                  );
-                  _recordDuration - 15;
-                },
-                icon: const Icon(
-                  Icons.replay_10,
-                ),
-              ),
-              _buildControl(),
-              IconButton(
-                onPressed: () async {
-                  await _audioPlayer.seek(
-                    Duration(seconds: _audioPlayer.position.inSeconds + 15),
-                  );
-                  _recordDuration + 15;
-                },
-                icon: const Icon(
-                  Icons.forward_10,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 150.0,
-          ),
-        ],
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }
