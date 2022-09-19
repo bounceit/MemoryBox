@@ -1,89 +1,97 @@
+import 'package:audio_fairy_tales/pages/voise_pages/bloc/record_bloc.dart';
 import 'package:audio_fairy_tales/pages/voise_pages/voise_widgets/play_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart' as ap;
-import 'package:provider/provider.dart';
 
-import '../../recursec/app_colors.dart';
 import '../../utils/constants.dart';
-import '../../widgets/uncategorized/main_clip_path.dart';
-import 'model_voise_page.dart';
+import '../../widgets/uncategorized/appbar_menu.dart';
 import 'voise_widgets/recording_widget.dart';
 
-class VoisePage extends StatefulWidget {
-  const VoisePage({Key? key}) : super(key: key);
-  static const routeName = '/voice_page';
-  static Widget create() {
-    return ChangeNotifierProvider<ModelRP>(
-      create: (BuildContext context) => ModelRP(),
-      child: const VoisePage(),
-    );
-  }
+class RecordPage extends StatefulWidget {
+  const RecordPage({Key? key}) : super(key: key);
+  static const routeName = '/record_page';
 
   @override
-  State<VoisePage> createState() => _VoicePageState();
+  RecordPageState createState() => RecordPageState();
 }
 
-class _VoicePageState extends State<VoisePage> {
-  bool isShowPlayer = false;
+class RecordPageState extends State<RecordPage> {
+  final bool shouldPop = false;
+  bool showPlayer = false;
   ap.AudioSource? audioSource;
   String? path;
 
   @override
   void initState() {
-    isShowPlayer = false;
+    showPlayer = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 40,
-        backgroundColor: AppColors.violet,
-        leading: IconButton(
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-          icon: const Icon(
-            Icons.menu,
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return BlocProvider<RecordingsPageBloc>(
+      create: (context) => RecordingsPageBloc(),
+      child: WillPopScope(
+        onWillPop: () async {
+          return shouldPop;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: const Icon(Icons.menu),
+            ),
+            elevation: 0.0,
           ),
-          color: AppColors.white100,
-          iconSize: 30,
-        ),
-        elevation: 0.0,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const MainClipPath(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 70, right: 5, left: 5),
-                  child: Container(
-                    decoration: boxDecoration,
-                    child: isShowPlayer
-                        ? Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: AudioPlayer(
-                              source: audioSource!,
-                              onDelete: () {
-                                setState(() => isShowPlayer = false);
-                              },
-                            ),
-                          )
-                        : AudioRecorder(onStop: (path) {
-                            setState(() {
-                              audioSource = ap.AudioSource.uri(Uri.parse(path));
-                              isShowPlayer = true;
-                            });
-                          }),
-                  ),
+                Stack(
+                  children: [
+                    const AppbarMenu(),
+                    Positioned(
+                      left: 5.0,
+                      top: 30.0,
+                      child: Container(
+                        height: screenHeight - 180.0,
+                        width: screenWidth * 0.97,
+                        decoration: borderContainer2,
+                        child: showPlayer
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 25,
+                                ),
+                                child: AudioPlayer(
+                                  source: audioSource!,
+                                  onDelete: () {
+                                    setState(() => showPlayer = false);
+                                  },
+                                ),
+                              )
+                            : AudioRecorder(
+                                onStop: (path) {
+                                  setState(() {
+                                    audioSource = ap.AudioSource.uri(
+                                      Uri.parse(path),
+                                    );
+                                    showPlayer = true;
+                                  });
+                                },
+                              ),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
