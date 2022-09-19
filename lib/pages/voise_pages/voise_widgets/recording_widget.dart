@@ -1,30 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
+import 'package:audio_fairy_tales/widgets/buttons/alert_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:record/record.dart';
 
 import '../../../recursec/app_colors.dart';
 import '../../../recursec/app_icons.dart';
 import '../../../utils/constants.dart';
-import '../model_voise_page.dart';
-
-class _BuildTimer extends StatelessWidget {
-  const _BuildTimer({Key? key, required this.recordDuration}) : super(key: key);
-  final int recordDuration;
-  @override
-  Widget build(BuildContext context) {
-    final String minutes = formatNumberTwo(recordDuration ~/ 60);
-    final String seconds = formatNumberTwo(recordDuration % 60);
-    Timer(const Duration(microseconds: 0), () {
-      context.read<ModelRP>().setDuration(minutes, seconds);
-    });
-    return Text(
-      '$minutes : $seconds',
-      style: const TextStyle(color: Colors.red),
-    );
-  }
-}
+import '../bloc/record_bloc.dart';
 
 class AudioRecorder extends StatefulWidget {
   const AudioRecorder({Key? key, required this.onStop}) : super(key: key);
@@ -50,6 +38,7 @@ class AudioRecorderState extends State<AudioRecorder> {
   @override
   void initState() {
     _isRecording = false;
+
     super.initState();
   }
 
@@ -66,14 +55,13 @@ class AudioRecorderState extends State<AudioRecorder> {
     _timerAmplitude = Timer.periodic(
       const Duration(milliseconds: 40),
       (_) async {
-        _amplitude = await _audioRecorder.getAmplitude();
-        _dcb = _amplitude!.current + 25;
+        _dcb = _amplitude!.current + 45;
         if (_dcb < 2) {
           _dcb = 2;
         }
 
         _listAmplitude.add(_dcb);
-        // setState(() {});
+        setState(() {});
       },
     );
   }
@@ -89,7 +77,11 @@ class AudioRecorderState extends State<AudioRecorder> {
       );
       color = Colors.red.withOpacity(0.1);
     } else {
-      icon = const Icon(Icons.mic, color: AppColors.white, size: 70);
+      icon = const Icon(
+        Icons.mic,
+        color: AppColors.white,
+        size: 70,
+      );
       color = AppColors.pinkRec;
     }
 
@@ -97,7 +89,11 @@ class AudioRecorderState extends State<AudioRecorder> {
       child: Material(
         color: color,
         child: InkWell(
-          child: SizedBox(width: 80, height: 80, child: icon),
+          child: SizedBox(
+            width: 80,
+            height: 80,
+            child: icon,
+          ),
           onTap: () {
             _isRecording ? _stop() : _start();
           },
@@ -121,14 +117,16 @@ class AudioRecorderState extends State<AudioRecorder> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AnimatedContainer(
-                duration: const Duration(milliseconds: 50),
+                duration: const Duration(
+                  milliseconds: 50,
+                ),
                 height: _listAmplitude[index] * 3,
-                width: 2,
+                width: 2.0,
                 color: Colors.black,
               ),
               SizedBox(
-                width: 2,
-                height: 6,
+                width: 2.0,
+                height: 6.0,
                 child: Container(
                   color: Colors.black,
                 ),
@@ -142,28 +140,69 @@ class AudioRecorderState extends State<AudioRecorder> {
 
   Widget _buildText() {
     if (_isRecording || _isPaused) {
-      return _BuildTimer(recordDuration: _recordDuration);
+      return _buildTimer();
     }
 
     return const Text('00:00');
   }
 
+  Widget _buildTimer() {
+    final String minutes = _formatNumber(
+      _recordDuration ~/ 60,
+    );
+    final String seconds = _formatNumber(
+      _recordDuration % 60,
+    );
+    context.read<RecordingsPageBloc>().add(
+          RecordingsPageEvent(
+            minutes: minutes,
+            seconds: seconds,
+          ),
+        );
+    return Text(
+      '$minutes : $seconds',
+      style: const TextStyle(
+        color: Colors.red,
+      ),
+    );
+  }
+
+  String _formatNumber(int number) {
+    String numberStr = number.toString();
+    if (number < 10) {
+      numberStr = '0$numberStr';
+    }
+
+    return numberStr;
+  }
+
   Future<void> _start() async {
     try {
-      if (await _audioRecorder.hasPermission()) {
-        await _audioRecorder.start();
+      var status = await Permission.microphone.shouldShowRequestRationale;
+      if (status == false) {
+        if (await _audioRecorder.hasPermission()) {
+          await _audioRecorder.start();
 
-        bool isRecording = await _audioRecorder.isRecording();
-        setState(() {
-          _isRecording = isRecording;
-          _recordDuration = 0;
-        });
+          bool isRecording = await _audioRecorder.isRecording();
+          setState(() {
+            _isRecording = isRecording;
+            _recordDuration = 0;
+          });
 
-        _startTimer();
-        _getAmplituder();
+          _startTimer();
+          _getAmplituder();
+        }
+      } else {
+        AlertDialogApp.instance.alertDialogPermission(
+          context,
+          'Разрешыть приложению записывать аудио?',
+          Icons.mic,
+        );
       }
     } catch (e) {
-      return;
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -174,7 +213,11 @@ class AudioRecorderState extends State<AudioRecorder> {
 
     widget.onStop(path);
     setState(() => _isRecording = false);
-    context.read<ModelRP>().changeString(path);
+    context.read<RecordingsPageBloc>().add(
+          RecordingsPageEvent(
+            path: path,
+          ),
+        );
   }
 
   void _startTimer() {
@@ -197,11 +240,6 @@ class AudioRecorderState extends State<AudioRecorder> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          child: Column(
-            children: const [],
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Align(
@@ -212,13 +250,13 @@ class AudioRecorderState extends State<AudioRecorder> {
               },
               child: const Text(
                 'Отмена',
-                style: bodyTextStyle,
+                style: threeTitleTextStyle,
               ),
             ),
           ),
         ),
         const SizedBox(
-          height: 50,
+          height: 50.0,
         ),
         const Text(
           'Запись',
@@ -228,7 +266,7 @@ class AudioRecorderState extends State<AudioRecorder> {
           child: Column(
             children: [
               const SizedBox(
-                height: 120,
+                height: 120.0,
               ),
               _amplitudRecords(),
               Row(
@@ -255,7 +293,7 @@ class AudioRecorderState extends State<AudioRecorder> {
               ),
               _buildRecordStopControl(),
               const SizedBox(
-                height: 75.0,
+                height: 20.0,
               ),
             ],
           ),
