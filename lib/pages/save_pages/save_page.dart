@@ -1,9 +1,13 @@
 import 'package:audio_fairy_tales/custom_shape.dart';
-import 'package:audio_fairy_tales/pages/save_pages/save_page_model.dart';
+import 'package:audio_fairy_tales/pages/save_pages/bloc/save_page_bloc.dart';
+import 'package:audio_fairy_tales/pages/save_pages/widgets/cansel_done_audio_name.dart';
+import 'package:audio_fairy_tales/pages/save_pages/widgets/rename_audio_save_page.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/utils/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../widgets/player_widgets/player_big.dart';
 
 class SavePageArguments {
   SavePageArguments(
@@ -52,46 +56,6 @@ class SavePage extends StatelessWidget {
   final List audioSearchName;
   final List audioCollection;
 
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SavePageModel>(
-        create: (BuildContext context) => SavePageModel(),
-        child: SavePageCreate(
-          audioName: audioName,
-          audioDuration: audioDuration,
-          audioSearchName: audioSearchName,
-          audioDone: audioDone,
-          audioImage: audioImage,
-          audioUrl: audioUrl,
-          idAudio: idAudio,
-          audioCollection: audioCollection,
-          audioTime: audioTime,
-        ));
-  }
-}
-
-class SavePageCreate extends StatelessWidget {
-  const SavePageCreate({
-    Key? key,
-    required this.idAudio,
-    required this.audioName,
-    required this.audioImage,
-    required this.audioUrl,
-    required this.audioDuration,
-    required this.audioDone,
-    required this.audioTime,
-    required this.audioSearchName,
-    required this.audioCollection,
-  }) : super(key: key);
-  final String idAudio;
-  final String audioName;
-  final String audioImage;
-  final String audioUrl;
-  final String audioDuration;
-  final bool audioDone;
-  final String audioTime;
-  final List audioSearchName;
-  final List audioCollection;
   Widget? photoCollections(double screenWidth, double screenHeight) {
     if (audioImage == '') {
       return SizedBox(
@@ -118,69 +82,71 @@ class SavePageCreate extends StatelessWidget {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: screenHeight * 0.905,
-                ),
-                ClipPath(
-                  clipper: Customshape(),
-                  child: Container(
-                    color: AppColors.colorAppbar,
-                    width: double.infinity,
-                    height: 250.0,
+    return BlocProvider<SavePageBloc>(
+      create: (context) => SavePageBloc(),
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: screenHeight * 0.905,
                   ),
-                ),
-                Positioned(
-                  left: 5.0,
-                  top: 40.0,
-                  child: Container(
-                    height: 900.0,
-                    width: screenWidth * 0.97,
-                    decoration: borderContainer2,
-                    child: Column(
-                      children: [
-                        Container(),
-                        // CancelDoneSavePage(
-                        //   audioUrl: audioUrl,
-                        //   audioDone: audioDone,
-                        //   audioCollection: audioCollection,
-                        //   idAudio: idAudio,
-                        //   audioName: audioName,
-                        //   audioDuration: audioDuration,
-                        //   audioTime: audioTime,
-                        //   audioSearchName: audioSearchName,
-                        // ),
-                        photoCollections(
-                          screenWidth,
-                          screenHeight,
-                        )!,
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        // RenameAudioSavePage(
-                        //   audioName: audioName,
-                        // ),
-                        const SizedBox(
-                          height: 30.0,
-                        ),
-                        // PlayerBig(
-                        //   url: audioUrl,
-                        //   duration: audioDuration,
-                        // )
-                      ],
+                  ClipPath(
+                    clipper: Customshape(),
+                    child: Container(
+                      color: AppColors.colorAppbar,
+                      width: double.infinity,
+                      height: 250.0,
                     ),
                   ),
-                )
-              ],
-            ),
-          ],
+                  Positioned(
+                    left: 5.0,
+                    top: 40.0,
+                    child: Container(
+                      height: 900.0,
+                      width: screenWidth * 0.97,
+                      decoration: kBorderContainer2,
+                      child: Column(
+                        children: [
+                          CancelDoneSavePage(
+                            audioUrl: audioUrl,
+                            audioDone: audioDone,
+                            audioCollection: audioCollection,
+                            idAudio: idAudio,
+                            audioName: audioName,
+                            audioDuration: audioDuration,
+                            audioTime: audioTime,
+                            audioSearchName: audioSearchName,
+                          ),
+                          photoCollections(
+                            screenWidth,
+                            screenHeight,
+                          )!,
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          RenameAudioSavePage(
+                            audioName: audioName,
+                          ),
+                          const SizedBox(
+                            height: 30.0,
+                          ),
+                          PlayerBig(
+                            url: audioUrl,
+                            duration: audioDuration,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
