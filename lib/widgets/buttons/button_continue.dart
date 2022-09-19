@@ -5,7 +5,7 @@ class ButtonContinue extends StatelessWidget {
   const ButtonContinue({Key? key, this.onPressed, required this.text})
       : super(key: key);
   final String text;
-  final onPressed;
+  final Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
