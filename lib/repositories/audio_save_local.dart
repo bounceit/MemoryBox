@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:path_provider/path_provider.dart' as pathprovider;
 import 'package:permission_handler/permission_handler.dart';
 
 import '../recursec/app_colors.dart';
@@ -17,11 +17,11 @@ class LocalSaveAudioFIle {
     }
     try {
       if (Platform.isIOS) {
-        directory = await pathProvider.getApplicationDocumentsDirectory();
+        directory = await pathprovider.getApplicationDocumentsDirectory();
       } else {
         directory = Directory('/storage/Download');
         if (!await directory.exists()) {
-          directory = await pathProvider.getExternalStorageDirectory();
+          directory = await pathprovider.getExternalStorageDirectory();
         }
       }
     } catch (err) {
@@ -38,6 +38,7 @@ class LocalSaveAudioFIle {
     }
     var rat = await fileTemp.readAsBytes();
     await file.writeAsBytes(rat);
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
         '$name.mp3',
