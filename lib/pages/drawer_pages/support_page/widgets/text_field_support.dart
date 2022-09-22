@@ -25,7 +25,7 @@ class TextFieldSupportMessagePage extends StatelessWidget {
             controller: messageTextController,
             onSubmitted: _onSubmitted,
             onChanged: (newMessage) {
-              var messageTrim = newMessage.trim();
+              String messageTrim = newMessage.trim();
               message = messageTrim;
             },
             decoration: InputDecoration(
