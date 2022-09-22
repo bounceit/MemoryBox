@@ -32,7 +32,8 @@ class PopupMenuDeletePage extends StatelessWidget {
         )
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idAudio = result.data()['id'];
         _idAudioList.add(idAudio);
         final int size = result.data()['size'];
@@ -50,7 +51,8 @@ class PopupMenuDeletePage extends StatelessWidget {
         .collection('DeleteCollections')
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idAudioAll = result.data()['id'];
         _idAudioListAll.add(idAudioAll);
         final int size = result.data()['size'];
@@ -61,7 +63,7 @@ class PopupMenuDeletePage extends StatelessWidget {
 
   Future<void> _delete(BuildContext context) async {
     await _getIdCollection(context);
-    for (var item in IterableZip(
+    for (List<Object> item in IterableZip(
       [
         _idAudioList,
         _sizeList,
@@ -82,7 +84,7 @@ class PopupMenuDeletePage extends StatelessWidget {
 
   Future<void> _reestablish(BuildContext context) async {
     await _getIdCollection(context);
-    for (var item in _idAudioList) {
+    for (String item in _idAudioList) {
       await CollectionsRepositories.instance.copyPastCollections(
         item,
         'DeleteCollections',
@@ -99,7 +101,7 @@ class PopupMenuDeletePage extends StatelessWidget {
 
   Future<void> _deleteAll(BuildContext context) async {
     await _getIdCollectionAll(context);
-    for (var item in IterableZip(
+    for (List<Object> item in IterableZip(
       [
         _idAudioListAll,
         _sizeListAll,
@@ -120,7 +122,7 @@ class PopupMenuDeletePage extends StatelessWidget {
 
   Future<void> _reestablishAll(BuildContext context) async {
     await _getIdCollectionAll(context);
-    for (var item in _idAudioListAll) {
+    for (String item in _idAudioListAll) {
       await CollectionsRepositories.instance.copyPastCollections(
         item,
         'DeleteCollections',
