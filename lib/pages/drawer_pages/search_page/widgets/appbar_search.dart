@@ -1,4 +1,4 @@
-import 'package:audio_fairy_tales/custom_shape.dart';
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/pages/drawer_pages/search_page/bloc/search_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +69,7 @@ class _SearchPanel extends StatelessWidget {
                   width: screenWidth * 0.65,
                   child: TextField(
                     onChanged: (searchTxt) {
-                      var text = searchTxt;
+                      String text = searchTxt;
                       context.read<SearchPageBloc>().add(
                             LoadSearchPageEvent(
                               sort: text.toLowerCase(),
