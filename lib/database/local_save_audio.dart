@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/widgets/buttons/alert_dialog.dart';
@@ -21,9 +22,9 @@ class LocalSaveAudioFile {
     String name,
   ) async {
     Directory? directory;
-    var status = await Permission.storage.shouldShowRequestRationale;
+    bool status = await Permission.storage.shouldShowRequestRationale;
     if (status == false) {
-      var status = await Permission.storage.status;
+      PermissionStatus status = await Permission.storage.status;
       if (!status.isGranted) {
         await Permission.storage.request();
       }
@@ -51,13 +52,13 @@ class LocalSaveAudioFile {
       }
     }
     final filePath = '${directory!.path}/$name.mp3';
-    var file = File(filePath);
-    var fileTemp = File(newPath);
-    var isExist = await file.exists();
+    File file = File(filePath);
+    File fileTemp = File(newPath);
+    bool isExist = await file.exists();
     if (!isExist) {
       await file.create();
     }
-    var rat = await fileTemp.readAsBytes();
+    Uint8List rat = await fileTemp.readAsBytes();
     await file.writeAsBytes(rat);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
