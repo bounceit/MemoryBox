@@ -26,7 +26,7 @@ class ListCollectionsAudioItemEdit extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'Как только ты додаш аудио, оно появится здесь.',
+                      'Как только ты добавишь аудио, оно появится здесь.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
