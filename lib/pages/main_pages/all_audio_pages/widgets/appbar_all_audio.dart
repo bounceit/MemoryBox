@@ -1,5 +1,5 @@
 import 'package:audio_fairy_tales/animations/all_audio_player_anim/all_audio_player.dart';
-import 'package:audio_fairy_tales/custom_shape.dart';
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/pages/main_pages/all_audio_pages/bloc/bloc_total_qual/total_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
