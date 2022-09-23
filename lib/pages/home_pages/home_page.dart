@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
           .get()
           .then(
         (querySnapshot) {
-          for (var result in querySnapshot.docs) {
+          for (QueryDocumentSnapshot<Map<String, dynamic>> result
+              in querySnapshot.docs) {
             final bool subscription = result.data()['subscription'] ?? true;
             if (subscription == false) {
               Timer(const Duration(seconds: 3), () {
