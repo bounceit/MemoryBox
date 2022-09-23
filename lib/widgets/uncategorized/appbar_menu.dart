@@ -1,12 +1,9 @@
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_shape.dart';
-
-class MainClipPath extends StatelessWidget {
-  const MainClipPath({
-    Key? key,
-  }) : super(key: key);
+class AppbarMenu extends StatelessWidget {
+  const AppbarMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +11,14 @@ class MainClipPath extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: screenHeight - 575,
+          height: screenHeight - 150.0,
         ),
         ClipPath(
           clipper: Customshape(),
           child: Container(
-            height: 275,
-            // width: double.infinity,
-            color: AppColors.violet,
+            color: AppColors.colorAppbar,
+            width: double.infinity,
+            height: 280.0,
           ),
         ),
       ],

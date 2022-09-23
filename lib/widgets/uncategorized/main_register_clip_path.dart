@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../custom_shape.dart';
+import 'custom_shape.dart';
 import '../register_pages_widgets/register_text_widget.dart';
 
 class RegisterClipPath extends StatelessWidget {

@@ -78,7 +78,7 @@ class CollectionsRepositories {
         .delete();
     try {
       firebase_storage.FirebaseStorage.instance
-          .ref('$phoneNumber/userAudio/$idCollection.m4a')
+          .ref('$phoneNumber/userAudio/$idCollection.mp3')
           .delete();
     } on Exception catch (e) {
       if (kDebugMode) {
@@ -126,7 +126,8 @@ class CollectionsRepositories {
         .where('id', isEqualTo: idCollection)
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         FirebaseFirestore.instance
             .collection(phoneNumber)
             .doc('id')
@@ -153,7 +154,7 @@ class CollectionsRepositories {
   Future<void> updateQualityAndTotalTime(String idCollection) async {
     final List quality = [];
     final List<int> duration = <int>[];
-    var sum = 0;
+    int sum = 0;
 
     await FirebaseFirestore.instance
         .collection(phoneNumber)
@@ -165,7 +166,8 @@ class CollectionsRepositories {
         )
         .get()
         .then((querySnapshot) {
-          for (var result in querySnapshot.docs) {
+          for (QueryDocumentSnapshot<Map<String, dynamic>> result
+              in querySnapshot.docs) {
             final String time = result.data()['duration'];
             final collection = result.data();
             quality.add(collection);
@@ -209,7 +211,7 @@ class CollectionsRepositories {
   ) async {
     final List quality = [];
     final List<int> duration = <int>[];
-    var sum = 0;
+    int sum = 0;
 
     await FirebaseFirestore.instance
         .collection(phoneNumber)
@@ -221,7 +223,8 @@ class CollectionsRepositories {
         )
         .get()
         .then((querySnapshot) {
-          for (var result in querySnapshot.docs) {
+          for (QueryDocumentSnapshot<Map<String, dynamic>> result
+              in querySnapshot.docs) {
             final String time = result.data()['duration'];
             final collection = result.data();
             quality.add(collection);

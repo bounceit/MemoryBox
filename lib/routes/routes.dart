@@ -21,6 +21,7 @@ import '../pages/main_pages/collections_pages/collections/collections.dart';
 import '../pages/main_pages/collections_pages/collections_add_audio/collections_add_audio.dart';
 import '../pages/main_pages/collections_pages/collections_edit.dart/collections_edit.dart';
 import '../pages/main_pages/profile_pages/profile_page/profile.dart';
+import '../pages/save_pages/save_page.dart';
 import '../pages/voise_pages/voice_page.dart';
 
 class AppRouter {
@@ -168,6 +169,20 @@ class AppRouter {
         builder = (_) => const SupportMessagePage();
         break;
 
+      case SavePage.routeName:
+        final SavePageArguments args = arguments as SavePageArguments;
+        builder = (_) => SavePage(
+              audioUrl: args.audioUrl,
+              audioDone: args.audioDone,
+              audioImage: args.audioImage,
+              audioDuration: args.audioDuration,
+              audioName: args.audioName,
+              audioSearchName: args.audioSearchName,
+              audioTime: args.audioTime,
+              idAudio: args.idAudio,
+              audioCollection: args.audioCollection,
+            );
+        break;
       case SearchPage.routeName:
         builder = (_) => const SearchPage();
         break;

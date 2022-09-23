@@ -50,7 +50,7 @@ class AudioRepositories {
     String duration,
     Set searchName,
   ) async {
-    var id = uuid.v1();
+    String id = uuid.v1();
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref('$phoneNumber/userAudio/$id.m4a');
     await ref.putFile(File(path));
@@ -207,7 +207,8 @@ class AudioRepositories {
           .collection('DeleteCollections')
           .get()
           .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> result
+            in querySnapshot.docs) {
           dateTimeDelete = result.data()['dateTimeDelete'];
           idAudio = result.data()['id'];
           size = result.data()['size'];

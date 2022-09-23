@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../pages/main_pages/collections_pages/add_audio_in_collection/add_audio_in_collection.dart';
 import '../../pages/save_pages/save_page.dart';
 import '../../repositories/audio_firebase_repositories.dart';
 import '../buttons/alert_dialog.dart';
 import '../buttons/popup_menu_item.dart';
 
 class PopupMenuHomePage extends StatelessWidget {
-  PopupMenuHomePage({
+  const PopupMenuHomePage({
     Key? key,
     required this.name,
     required this.url,
@@ -20,7 +21,6 @@ class PopupMenuHomePage extends StatelessWidget {
     required this.idAudio,
     required this.collection,
   }) : super(key: key);
-  final AudioRepositories _rep = AudioRepositories();
   final String name;
   final String url;
   final String duration;
@@ -33,35 +33,36 @@ class PopupMenuHomePage extends StatelessWidget {
 
   void _rename(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return SavePage(
-          audioUrl: url,
-          audioImage: image,
-          audioDone: done,
-          audioTime: dateTime,
-          audioSearchName: searchName,
-          audioCollection: collection,
-          idAudio: idAudio,
-          audioDuration: duration,
-          audioName: name,
-        );
-      }));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return SavePage(
+            audioUrl: url,
+            audioImage: image,
+            audioDone: done,
+            audioTime: dateTime,
+            audioSearchName: searchName,
+            audioCollection: collection,
+            idAudio: idAudio,
+            audioDuration: duration,
+            audioName: name,
+          );
+        }),
+      );
     });
   }
 
   void _addInCollections(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
-      // context
-      //     .read<CollectionAddAudioInCollectionModel>()
-      //     .setCollectionAudio(collection);
-      // context.read<CollectionAddAudioInCollectionModel>().setIdAudio(idAudio);
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return Container();
-        // return CollectionAddAudioInCollection(
-        //   collectionAudio: collection,
-        //   idAudio: idAudio,
-        // );
-      }));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return CollectionAddAudioInCollection(
+            collectionAudio: collection,
+            idAudio: idAudio,
+          );
+        }),
+      );
     });
   }
 
@@ -74,7 +75,7 @@ class PopupMenuHomePage extends StatelessWidget {
       iconSize: 40,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
-          Radius.circular(15),
+          Radius.circular(15.0),
         ),
       ),
       itemBuilder: (context) => [
@@ -88,14 +89,20 @@ class PopupMenuHomePage extends StatelessWidget {
         ),
         popupMenuItem(
           'Удалить ',
-          () => AlertDialogApp().alertDialog(
+          () => AlertDialogApp.instance.alertDialog(
             context,
             idAudio,
             'DeleteCollections',
             'Collections',
           ),
         ),
-        popupMenuItem('Поделиться', () => _rep.downloadAudio(idAudio, name)),
+        popupMenuItem(
+          'Поделиться',
+          () => AudioRepositories.instance.downloadAudio(
+            idAudio,
+            name,
+          ),
+        ),
       ],
     );
   }

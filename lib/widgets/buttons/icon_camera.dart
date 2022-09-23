@@ -1,3 +1,4 @@
+import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/recursec/app_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class IconCamera extends StatelessWidget {
               ),
               child: Image.asset(
                 AppIcons.camera,
-                color: colorBorder,
+                color: AppColors.colorAppbar,
               )),
         ),
         Padding(
@@ -41,7 +42,7 @@ class IconCamera extends StatelessWidget {
                 width: 100.0,
                 height: 100.0,
                 decoration: BoxDecoration(
-                  border: Border.all(color: colorBorder),
+                  border: Border.all(color: Colors.white),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(50.0),
                   ),

@@ -15,7 +15,7 @@ class UserRepositories {
   static final UserRepositories instance = UserRepositories._();
 
   final phoneNumber = AuthRepositories.instance.user?.phoneNumber;
-  var uuid = const Uuid();
+  Uuid uuid = const Uuid();
 
   //Stream list user
 
@@ -59,7 +59,7 @@ class UserRepositories {
   Future<void> updateTotalTimeQuality() async {
     final List quality = [];
     final List<int> duration = <int>[];
-    var sum = 0;
+    int sum = 0;
 
     await FirebaseFirestore.instance
         .collection(phoneNumber!)
@@ -71,7 +71,8 @@ class UserRepositories {
         )
         .get()
         .then((querySnapshot) {
-          for (var result in querySnapshot.docs) {
+          for (QueryDocumentSnapshot<Map<String, dynamic>> result
+              in querySnapshot.docs) {
             final String time = result.data()['duration'];
             final collection = result.data();
             quality.add(collection);
@@ -154,7 +155,8 @@ class UserRepositories {
           .collection(phoneNumber!)
           .get()
           .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> result
+            in querySnapshot.docs) {
           final Timestamp finishTimeSubscription =
               result.data()['finishTimeSubscription'] ?? now;
           final state = finishTimeSubscription.compareTo(now);
@@ -186,7 +188,8 @@ class UserRepositories {
           .collection(phoneNumber!)
           .get()
           .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> result
+            in querySnapshot.docs) {
           final int totalSize = result.data()['totalSize'] ?? 0;
           final int subscriptionLimit = result.data()['subscriptionLimit'] ?? 0;
           if (totalSize >= subscriptionLimit) {

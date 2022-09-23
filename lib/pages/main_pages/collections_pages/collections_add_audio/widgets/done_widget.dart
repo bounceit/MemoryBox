@@ -34,7 +34,8 @@ class _DoneWidgetState extends State<DoneWidget> {
         .where('titleCollections', isEqualTo: widget.titleCollections)
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         idCollection = result.data()['id'];
       }
     });

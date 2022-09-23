@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:audio_fairy_tales/pages/voise_pages/bloc/record_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
@@ -82,13 +83,13 @@ class AudioPlayerState extends State<AudioPlayer> {
   Future<void> shareAudio(BuildContext context, state) async {
     Directory directory = await getTemporaryDirectory();
     final filePath = '${directory.path}/$_saveRecord.mp3';
-    var file = File(filePath);
-    var fileTemp = File(state.path);
-    var isExist = await file.exists();
+    File file = File(filePath);
+    File fileTemp = File(state.path);
+    bool isExist = await file.exists();
     if (!isExist) {
       await file.create();
     }
-    var rat = await fileTemp.readAsBytes();
+    Uint8List rat = await fileTemp.readAsBytes();
     await file.writeAsBytes(rat);
     await Share.shareFiles(
       [filePath],
@@ -103,7 +104,8 @@ class AudioPlayerState extends State<AudioPlayer> {
           .collection(AuthRepositories.instance.user!.phoneNumber!)
           .get()
           .then((querySnapshot) {
-        for (var result in querySnapshot.docs) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> result
+            in querySnapshot.docs) {
           final bool subscription = result.data()['subscription'] ?? true;
           AuthRepositories.instance.user == null
               ? saveRecordLocal(state)

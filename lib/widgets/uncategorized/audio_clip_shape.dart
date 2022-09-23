@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../custom_shape.dart';
+import 'custom_shape.dart';
 import '../../recursec/app_colors.dart';
 
 class AudioShape extends StatelessWidget {

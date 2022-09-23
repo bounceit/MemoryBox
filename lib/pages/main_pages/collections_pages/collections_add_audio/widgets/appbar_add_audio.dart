@@ -1,4 +1,4 @@
-import 'package:audio_fairy_tales/custom_shape.dart';
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:audio_fairy_tales/recursec/app_icons.dart';
 import 'package:audio_fairy_tales/widgets/buttons/icon_back.dart';
@@ -108,7 +108,7 @@ class _SearchPanel extends StatelessWidget {
                   width: screenWidth * 0.65,
                   child: TextField(
                     onChanged: (searchTxt) {
-                      var text = searchTxt;
+                      String text = searchTxt;
                       context.read<CollectionAddAudioBloc>().add(
                             LoadCollectionAddAudioEvent(
                               sort: text.toLowerCase(),

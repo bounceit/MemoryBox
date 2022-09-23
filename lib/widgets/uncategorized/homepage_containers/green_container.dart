@@ -1,8 +1,11 @@
+import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections/collections.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../blocs/bloc_navigations/navigation_state.dart';
 import '../../../models/view_model.dart';
+import '../../navigation/navigate_to_page.dart';
 
 class GreenContainer extends StatelessWidget {
   const GreenContainer({Key? key, required this.screenWidth}) : super(key: key);
@@ -38,10 +41,10 @@ class GreenContainer extends StatelessWidget {
           ),
           const SizedBox(height: 40.0),
           TextButton(
-            onPressed: () {
-              Provider.of<Navigation>(context, listen: false).setCurrentIndex =
-                  1;
-            },
+            onPressed: () => NavigateToPage.instance?.navigate(context,
+                index: 2,
+                currentIndex: const NavigationState().currentIndex,
+                route: Collections.routeName),
             child: const Text(
               'Добавить',
               style: TextStyle(

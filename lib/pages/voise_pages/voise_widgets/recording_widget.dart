@@ -178,7 +178,7 @@ class AudioRecorderState extends State<AudioRecorder> {
 
   Future<void> _start() async {
     try {
-      var status = await Permission.microphone.shouldShowRequestRationale;
+      bool status = await Permission.microphone.shouldShowRequestRationale;
       if (status == false) {
         if (await _audioRecorder.hasPermission()) {
           await _audioRecorder.start();

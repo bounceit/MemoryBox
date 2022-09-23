@@ -1,4 +1,4 @@
-import 'package:audio_fairy_tales/custom_shape.dart';
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit.dart/blocs/collections_edit_bloc/edit_bloc.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
 import 'package:flutter/material.dart';

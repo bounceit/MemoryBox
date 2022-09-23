@@ -1,25 +1,49 @@
+import 'package:audio_fairy_tales/pages/main_pages/all_audio_pages/sellections_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../models/view_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/bloc_navigations/navigation_bloc.dart';
+import '../../blocs/bloc_navigations/navigation_event.dart';
+import '../../blocs/bloc_navigations/navigation_state.dart';
+import '../../pages/drawer_pages/audio_delete_pages/audio_delete_page.dart';
+import '../../pages/drawer_pages/search_page/search_page.dart';
+import '../../pages/drawer_pages/subscriptions_page/subscription_page.dart';
+import '../../pages/drawer_pages/support_page/support_page.dart';
+import '../../pages/home_pages/home_page.dart';
+import '../../pages/main_pages/collections_pages/collections/collections.dart';
+import '../../pages/main_pages/profile_pages/profile_page/profile.dart';
 import '../../recursec/app_colors.dart';
 import '../../recursec/app_icons.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
+  void _navigateToPage(
+    BuildContext context, {
+    required int index,
+    required int currentIndex,
+    required String route,
+  }) {
+    Navigator.pop(context);
+
+    if (index != currentIndex) {
+      context.read<NavigationBloc>().add(
+            NavigateMenu(
+              menuIndex: index,
+              route: route,
+            ),
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topRight: Radius.circular(20.0),
-        bottomRight: Radius.circular(20.0),
-      ),
-      child: Container(
-        color: AppColors.white100,
-        height: double.maxFinite,
-        child: Drawer(
-          child: Container(
-            color: AppColors.white100,
+    return BlocBuilder<NavigationBloc, NavigationState>(
+      builder: (context, state) {
+        return ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0),
+          ),
+          child: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -30,14 +54,18 @@ class DrawerMenu extends StatelessWidget {
                   child: Center(
                     child: Column(
                       children: const [
-                        SizedBox(height: 40.0),
+                        SizedBox(
+                          height: 40.0,
+                        ),
                         Text(
                           'Аудиосказки',
                           style: TextStyle(
                             fontSize: 24.0,
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        SizedBox(
+                          height: 20.0,
+                        ),
                         Text(
                           'Меню',
                           style: TextStyle(
@@ -55,265 +83,228 @@ class DrawerMenu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _DrawerItem(
+                      CustomTextButton(
+                        title: 'Главная',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 0
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: HomePage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 0,
-                          icon: Image.asset(
-                            AppIcons.tabbarHome,
-                            width: 20.0,
-                            height: 20.0,
-                          ),
-                          title: 'Главная'),
-                      _DrawerItem(
+                        ),
+                        image: AppIcons.tabbarHome,
+                        color: state.currentIndex == 0
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
+                      CustomTextButton(
+                        title: 'Профиль',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 4
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: Profile.routeName,
+                          currentIndex: state.currentIndex,
                           index: 4,
-                          icon: Image.asset(
-                            AppIcons.tabbarProfile,
-                          ),
-                          title: 'Профиль'),
-                      _DrawerItem(
+                        ),
+                        image: AppIcons.tabbarProfile,
+                        color: state.currentIndex == 4
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
+                      CustomTextButton(
+                        title: 'Подборки',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 1
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: Collections.routeName,
+                          currentIndex: state.currentIndex,
                           index: 1,
-                          icon: Image.asset(
-                            AppIcons.tabbarCategory,
-                          ),
-                          title: 'Подборки'),
-                      _DrawerItem(
+                        ),
+                        image: AppIcons.tabbarCategory,
+                        color: state.currentIndex == 1
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
+                      CustomTextButton(
+                        title: 'Все аудеофайлы',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 3
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: SellectionsPage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 3,
-                          icon: Image.asset(
-                            AppIcons.tabbarPaper,
-                          ),
-                          title: 'Все аудеофайлы'),
-                      _DrawerItem(
+                        ),
+                        image: AppIcons.tabbarPaper,
+                        color: state.currentIndex == 3
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
+                      CustomTextButton(
+                        title: 'Поиск',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 6
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: SearchPage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 6,
-                          icon: Image.asset(
-                            AppIcons.drawerSearch,
-                            width: 24.0,
-                            height: 24.0,
-                          ),
-                          title: 'Поиск'),
-                      _DrawerItem(
+                        ),
+                        image: AppIcons.drawerSearch,
+                        color: state.currentIndex == 6
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
+                      CustomTextButton(
+                        title: 'Недавно удалённые',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 5
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: DeletePage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 5,
-                          icon: Image.asset(
-                            AppIcons.recDelete,
-                          ),
-                          title: 'Недавно удаленные'),
-                      const SizedBox(
-                        height: 30,
+                        ),
+                        image: AppIcons.recDelete,
                       ),
-                      _DrawerItem(
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      CustomTextButton(
+                        title: 'Подписка',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 7
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: SubscriptionPage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 7,
-                          icon: Image.asset(
-                            AppIcons.drawerWallet,
-                            width: 24.0,
-                            height: 24.0,
-                          ),
-                          title: 'Подписка'),
-                      const SizedBox(
-                        height: 5.0,
+                        ),
+                        image: AppIcons.drawerWallet,
+                        color: state.currentIndex == 7
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
                       ),
-                      _DrawerItem(
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      CustomTextButton(
+                        title: 'Написать в \n поддержку',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: state.currentIndex == 8
+                              ? AppColors.colorText50
+                              : AppColors.colorText,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        onTap: () => _navigateToPage(
+                          context,
+                          route: SupportMessagePage.routeName,
+                          currentIndex: state.currentIndex,
                           index: 8,
-                          icon: Image.asset(
-                            AppIcons.drawerEdit,
-                            width: 24.0,
-                            height: 24.0,
-                          ),
-                          title: 'Написать в \n поддержку'),
+                        ),
+                        image: AppIcons.drawerEdit,
+                        color: state.currentIndex == 8
+                            ? AppColors.colorText50
+                            : AppColors.colorText,
+                      ),
                     ],
                   ),
                 )
               ],
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
-class _DrawerItem extends StatelessWidget {
-  const _DrawerItem({
+class CustomTextButton extends StatelessWidget {
+  const CustomTextButton({
     Key? key,
-    required this.index,
-    required this.icon,
     required this.title,
+    this.style,
+    required this.onTap,
+    required this.image,
+    this.color,
   }) : super(key: key);
-  final int index;
-  final Widget icon;
+
   final String title;
+  final String image;
+  final TextStyle? style;
+  final Color? color;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<Navigation>();
-
-    void _setIndex(int index) {
-      model.setCurrentIndex = index;
-    }
-
-    return TextButton.icon(
-      onPressed: () {
-        _setIndex(index);
-        Navigator.pop(context);
-      },
-      icon: icon,
-      label: Text(
-        title,
-        style: const TextStyle(
-          fontFamily: 'TTNorms',
-          fontSize: 18.0,
-          color: AppColors.colorText,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 5.0,
+          horizontal: 10.0,
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              height: 23.0,
+              width: 23.0,
+              child: Image.asset(
+                image,
+                fit: BoxFit.fill,
+                color: color,
+              ),
+            ),
+            const SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              title,
+              style: style,
+            ),
+          ],
         ),
       ),
     );
   }
 }
-// class DrawerMenu extends StatelessWidget {
-//   const DrawerMenu({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ClipRRect(
-//       borderRadius: const BorderRadius.only(
-//         topRight: Radius.circular(20.0),
-//         bottomRight: Radius.circular(20.0),
-//       ),
-//       child: Drawer(
-//         child: ListView(
-//           padding: EdgeInsets.zero,
-//           children: <Widget>[
-//             DrawerHeader(
-//               decoration: const BoxDecoration(
-//                 color: Colors.white,
-//               ),
-//               child: Center(
-//                 child: Column(
-//                   children: const [
-//                     SizedBox(
-//                       height: 40.0,
-//                     ),
-//                     Text(
-//                       'Аудиосказки',
-//                       style: TextStyle(
-//                         fontSize: 24.0,
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Text(
-//                       'Меню',
-//                       style: TextStyle(
-//                         fontSize: 24.0,
-//                         color: AppColors.colorText50,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   _DrawerItem(
-//                       index: 0,
-//                       icon: Image.asset(
-//                         AppIcons.tabbar_home,
-//                         width: 20.0,
-//                         height: 20.0,
-//                       ),
-//                       title: 'Главная'),
-//                   _DrawerItem(
-//                       index: 4,
-//                       icon: Image.asset(
-//                         AppIcons.tabbar_profile,
-//                       ),
-//                       title: 'Профиль'),
-//                   _DrawerItem(
-//                       index: 1,
-//                       icon: Image.asset(
-//                         AppIcons.tabbar_category,
-//                       ),
-//                       title: 'Подборки'),
-//                   _DrawerItem(
-//                       index: 3,
-//                       icon: Image.asset(
-//                         AppIcons.tabbar_paper,
-//                       ),
-//                       title: 'Все аудеофайлы'),
-//                   _DrawerItem(
-//                       index: 6,
-//                       icon: Image.asset(
-//                         AppIcons.drawer_search,
-//                         width: 24.0,
-//                         height: 24.0,
-//                       ),
-//                       title: 'Поиск'),
-//                   _DrawerItem(
-//                       index: 5,
-//                       icon: Image.asset(
-//                         AppIcons.rec_delete,
-//                       ),
-//                       title: 'Недавно удальонные'),
-//                   const SizedBox(
-//                     height: 30,
-//                   ),
-//                   _DrawerItem(
-//                       index: 7,
-//                       icon: Image.asset(
-//                         AppIcons.drawer_wallet,
-//                         width: 24.0,
-//                         height: 24.0,
-//                       ),
-//                       title: 'Подписка'),
-//                   const SizedBox(
-//                     height: 5.0,
-//                   ),
-//                   _DrawerItem(
-//                       index: 8,
-//                       icon: Image.asset(
-//                         AppIcons.drawer_edit,
-//                         width: 24.0,
-//                         height: 24.0,
-//                       ),
-//                       title: 'Написать в \n поддержку'),
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class _DrawerItem extends StatelessWidget {
-//   final int index;
-//   final Widget icon;
-//   final String title;
-
-//   const _DrawerItem({
-//     Key? key,
-//     required this.index,
-//     required this.icon,
-//     required this.title,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final model = context.watch<Navigation>();
-
-//     void _setIndex(int index) {
-//       model.setCurrentIndex = index;
-//     }
-
-//     return TextButton.icon(
-//       onPressed: () {
-//         _setIndex(index);
-//         Navigator.pop(context);
-//       },
-//       icon: icon,
-//       label: Text(title, style: draverTextStyle),
-//     );
-//   }
-// }
