@@ -48,7 +48,8 @@ class PopupMenuCollectionItemPage extends StatelessWidget {
         .where('collections', arrayContains: idCollection)
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idAudio = result.data()['id'];
         final String name = result.data()['audioName'];
         idAudioList.add(idAudio);
@@ -133,7 +134,7 @@ class PopupMenuCollectionItemPage extends StatelessWidget {
           () async {
             await _getIdAudio(context);
             List<String> listFilePath = [];
-            for (var item in IterableZip(
+            for (List<String> item in IterableZip(
               [
                 idAudioList,
                 nameList,
