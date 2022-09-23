@@ -37,7 +37,8 @@ class PopupMenuCollectionPage extends StatelessWidget {
         )
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idAudio = result.data()['id'];
         final String name = result.data()['audioName'];
         _idAudioList.add(idAudio);
@@ -56,7 +57,8 @@ class PopupMenuCollectionPage extends StatelessWidget {
         .where('doneCollection', isEqualTo: true)
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idCollections = result.data()['id'];
         _idCollectionsList.add(idCollections);
       }
@@ -65,7 +67,7 @@ class PopupMenuCollectionPage extends StatelessWidget {
 
   Future<void> _deleteCollections(BuildContext context) async {
     await _getIdCollection(context);
-    for (var item in _idCollectionsList) {
+    for (String item in _idCollectionsList) {
       await CollectionsRepositories.instance.deleteCollection(
         item,
         'CollectionsTale',
@@ -77,7 +79,7 @@ class PopupMenuCollectionPage extends StatelessWidget {
   Future<void> _shareCollections(BuildContext context) async {
     await _getIdAudio(context);
     List<String> listFilePath = [];
-    for (var item in IterableZip(
+    for (List<String> item in IterableZip(
       [_idAudioList, _nameList],
     )) {
       final idAudio = item[0];
