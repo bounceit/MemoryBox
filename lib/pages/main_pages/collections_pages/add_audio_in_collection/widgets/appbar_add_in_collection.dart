@@ -1,5 +1,5 @@
 import 'package:audio_fairy_tales/blocs/bloc_navigations/navigation_bloc.dart';
-import 'package:audio_fairy_tales/custom_shape.dart';
+import 'package:audio_fairy_tales/widgets/uncategorized/custom_shape.dart';
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections/collections.dart';
 import 'package:audio_fairy_tales/pages/main_pages/collections_pages/collections_edit.dart/collections_edit.dart';
 import 'package:audio_fairy_tales/recursec/app_colors.dart';
@@ -40,8 +40,8 @@ class AppbarHeaderCollectionAddAudioInCollection extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      var uuid = const Uuid();
-                      var id = uuid.v1();
+                      Uuid uuid = const Uuid();
+                      String id = uuid.v1();
                       CollectionsRepositories.instance.addCollections(
                         'Без названия',
                         '...',
