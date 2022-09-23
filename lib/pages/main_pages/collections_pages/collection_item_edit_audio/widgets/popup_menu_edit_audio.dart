@@ -38,7 +38,8 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
         .where('collections', arrayContains: idCollection)
         .get()
         .then((querySnapshot) {
-      for (var result in querySnapshot.docs) {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> result
+          in querySnapshot.docs) {
         final String idAudio = result.data()['id'];
         final String name = result.data()['audioName'];
         final List collections = result.data()['collections'];
@@ -51,7 +52,7 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
 
   Future<void> _deselect(BuildContext context) async {
     await _getIdAudio(context);
-    for (var item in IterableZip(
+    for (List<Object> item in IterableZip(
       [
         idAudioList,
         collectionsList,
@@ -72,7 +73,7 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
   Future<void> _share(BuildContext context) async {
     await _getIdAudio(context);
     List<String> listFilePath = [];
-    for (var item in IterableZip(
+    for (List<String> item in IterableZip(
       [
         idAudioList,
         nameList,
@@ -106,7 +107,7 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
 
   Future<void> _downloadAll(BuildContext context) async {
     await _getIdAudio(context);
-    for (var item in IterableZip(
+    for (List<String> item in IterableZip(
       [
         idAudioList,
         nameList,
@@ -116,7 +117,7 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
       final name = item[1];
 
       Directory? directory;
-      var status = await Permission.storage.status;
+      PermissionStatus status = await Permission.storage.status;
       if (!status.isGranted) {
         await Permission.storage.request();
       }
@@ -170,7 +171,7 @@ class PopupMenuCollectionItemEditAudioPage extends StatelessWidget {
 
   Future<void> _deleteAll(BuildContext context) async {
     await _getIdAudio(context);
-    for (var item in IterableZip(
+    for (List<Object> item in IterableZip(
       [
         idAudioList,
         collectionsList,
